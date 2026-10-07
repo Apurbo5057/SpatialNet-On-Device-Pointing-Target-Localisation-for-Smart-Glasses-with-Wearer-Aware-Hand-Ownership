@@ -1,0 +1,192 @@
+{
+  "source": "runs\\main_run\\outputs_spatialnet\\evaluation\\predictions\\test.csv",
+  "checkpoint": "runs/main_run/outputs_spatialnet/best_model.pth",
+  "input_size": 160,
+  "notes": "Boxes and fingertip are saved evaluation predictions. Original-resolution source images are shown in the same normalized square coordinate system. Direction omitted for clarity. No model execution by this script.",
+  "examples": [
+    {
+      "figure": "teaser",
+      "image": "img_0002020",
+      "title": "(a) Overlap: banana",
+      "split": "test",
+      "gap_bin": "on-object",
+      "target_iou_saved": 0.845515,
+      "target_iou_checked": 0.8455133686741614,
+      "hand_iou": 0.876981,
+      "saved_target_box": [
+        0.484763,
+        0.523984,
+        0.389457,
+        0.900763
+      ],
+      "ground_truth_target": [
+        0.4659375,
+        0.490625,
+        0.3865625,
+        0.9029166666666666
+      ],
+      "selection": "Deliberately selected successful example"
+    },
+    {
+      "figure": "teaser",
+      "image": "img_0011652",
+      "title": "(b) Near: truck",
+      "split": "test",
+      "gap_bin": "near",
+      "target_iou_saved": 0.968067,
+      "target_iou_checked": 0.9680661340605371,
+      "hand_iou": 0.811522,
+      "saved_target_box": [
+        0.499705,
+        0.266162,
+        0.596724,
+        0.420688
+      ],
+      "ground_truth_target": [
+        0.5054769021739131,
+        0.2643229166666667,
+        0.6013831521739131,
+        0.41510416666666666
+      ],
+      "selection": "Deliberately selected successful example"
+    },
+    {
+      "figure": "teaser",
+      "image": "img_0011638",
+      "title": "(c) Large gap: traffic light",
+      "split": "test",
+      "gap_bin": "far",
+      "target_iou_saved": 0.857204,
+      "target_iou_checked": 0.8572052249230717,
+      "hand_iou": 0.817991,
+      "saved_target_box": [
+        0.500287,
+        0.21395,
+        0.28301,
+        0.301203
+      ],
+      "ground_truth_target": [
+        0.49899048913043476,
+        0.2315104166666667,
+        0.2715027173913043,
+        0.3088541666666667
+      ],
+      "selection": "Deliberately selected successful example"
+    },
+    {
+      "figure": "teaser",
+      "image": "img_0016703",
+      "title": "(d) Small target: key",
+      "split": "test",
+      "gap_bin": "far",
+      "target_iou_saved": 0.852133,
+      "target_iou_checked": 0.8521332651715625,
+      "hand_iou": 0.929857,
+      "saved_target_box": [
+        0.602013,
+        0.419423,
+        0.135341,
+        0.196722
+      ],
+      "ground_truth_target": [
+        0.603515625,
+        0.41940749266623206,
+        0.12353515625,
+        0.18365359150912647
+      ],
+      "selection": "Deliberately selected successful example"
+    },
+    {
+      "figure": "qualitative",
+      "image": "img_0014779",
+      "title": "(a) Repeated tableware",
+      "split": "test",
+      "gap_bin": "near",
+      "target_iou_saved": 0.174975,
+      "target_iou_checked": 0.1749753168550489,
+      "hand_iou": 0.784366,
+      "saved_target_box": [
+        0.387841,
+        0.412259,
+        0.25047,
+        0.279417
+      ],
+      "ground_truth_target": [
+        0.25924608819345657,
+        0.4347077898594402,
+        0.16642958748221903,
+        0.18925085450509174
+      ],
+      "selection": "Deliberately selected complex failure; not all failures occur in complex scenes."
+    },
+    {
+      "figure": "qualitative",
+      "image": "img_0015166",
+      "title": "(b) Dense bookshelf",
+      "split": "test",
+      "gap_bin": "near",
+      "target_iou_saved": 0.102551,
+      "target_iou_checked": 0.10255161823254275,
+      "hand_iou": 0.613526,
+      "saved_target_box": [
+        0.341871,
+        0.50724,
+        0.05931,
+        0.227137
+      ],
+      "ground_truth_target": [
+        0.358345363451087,
+        0.6260986328125,
+        0.12770125679347827,
+        0.088134765625
+      ],
+      "selection": "Deliberately selected complex failure; not all failures occur in complex scenes."
+    },
+    {
+      "figure": "qualitative",
+      "image": "img_0015705",
+      "title": "(c) Cluttered garden",
+      "split": "test",
+      "gap_bin": "on-object",
+      "target_iou_saved": 0.128388,
+      "target_iou_checked": 0.12838817388112353,
+      "hand_iou": 0.682735,
+      "saved_target_box": [
+        0.397241,
+        0.561987,
+        0.276787,
+        0.288287
+      ],
+      "ground_truth_target": [
+        0.417395368332032,
+        0.6052631578947368,
+        0.09865708706029852,
+        0.10384068278805117
+      ],
+      "selection": "Deliberately selected complex failure; not all failures occur in complex scenes."
+    },
+    {
+      "figure": "qualitative",
+      "image": "img_0005618",
+      "title": "(d) Layered harbour scene",
+      "split": "test",
+      "gap_bin": "far",
+      "target_iou_saved": 0.0,
+      "target_iou_checked": 0.0,
+      "hand_iou": 0.928527,
+      "saved_target_box": [
+        0.319616,
+        0.683293,
+        0.466889,
+        0.424699
+      ],
+      "ground_truth_target": [
+        0.3734375,
+        0.24791666666666667,
+        0.515625,
+        0.24583333333333332
+      ],
+      "selection": "Deliberately selected complex failure; not all failures occur in complex scenes."
+    }
+  ]
+}

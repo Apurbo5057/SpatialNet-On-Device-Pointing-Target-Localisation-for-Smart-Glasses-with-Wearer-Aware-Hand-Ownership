@@ -1,0 +1,54 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\usepackage[margin=0.75in,columnsep=0.25in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage{graphicx,booktabs,amsmath,microtype,xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{enumitem}
+\usepackage{caption,balance,etoolbox}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\captionsetup{font=small,labelfont=bf,skip=5pt,hypcap=false}
+\setlist[itemize]{leftmargin=*,nosep,topsep=3pt}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\setlength{\textfloatsep}{11pt plus 2pt minus 2pt}
+\setlength{\floatsep}{9pt plus 2pt minus 2pt}
+\setlength{\intextsep}{9pt plus 2pt minus 2pt}
+\newcommand{\model}{SpatialNet}
+\newcommand{\pacc}[1]{P@#1}
+\newcommand{\tFive}[1]{\textcolor{red}{\textbf{T5---real multi-hand evaluation.} #1}}
+\newcommand{\R}{\mathbb{R}}
+\title{\vspace{-1.5em}\textbf{SpatialNet: Compact Pointing-Target Localisation\\for Smart Glasses with Wearer-Aware Hand Ownership}}
+\author{Anonymous submission}
+\date{}
+\begin{document}
+\raggedbottom
+\twocolumn[{
+\begin{minipage}{\textwidth}
+\centering
+{\LARGE\bfseries SpatialNet: Compact Pointing-Target Localisation\\for Smart Glasses with Wearer-Aware Hand Ownership\par}
+\vspace{8pt}
+{\normalsize Anonymous submission\par}
+\vspace{10pt}
+\includegraphics[width=\textwidth]{figures/teaser.pdf}
+\captionof{figure}{Selected successful predictions from the EgoPoint test split, illustrating overlap (a), a nearby target (b), a larger image-plane gap (c), and a small target (d). Green: predicted target; white dashed: annotated target; blue: predicted wearer hand; orange: predicted fingertip. Boxes, points and IoUs come from the saved 160-pixel model evaluation. Original source images are displayed in the model's normalised square coordinates. These deliberately selected successes illustrate capability, not average accuracy; difficult failures appear in Figure~\ref{fig:qualitative}.}
+\label{fig:teaser}
+\vspace{12pt}
+\end{minipage}
+}]
+\begin{abstract}
+Pointing tells an egocentric assistant which object a request such as \emph{what is that?} refers to. Recent pointing-grounding methods resolve this reference with large vision--language backbones, up to multimodal language models with billions of parameters. Models at that scale exceed the memory and energy budgets of smart glasses, a device class whose shipments are growing rapidly, so the spatial step of the interaction is typically delegated to the cloud. We ask how much pointing-target localisation a model small enough to run on the glasses can provide, and which mechanisms matter at that scale. We present SpatialNet, a 722K-parameter, image-only convolutional network that predicts the wearer's hand, fingertip, image-plane direction and target box in one forward pass. Instance-conditioned heads share one feature map, and distractor-hand augmentation teaches the model to keep the wearer's hand as the reference. On 2,604 target-positive EgoPoint test images, SpatialNet achieves 59.0$\pm$0.1\% target \pacc{0.5} over three training seeds, with 0.23 counted GFLOPs and 1.6\,MiB of FP16 weights; prototype glasses record 60--80\,ms inference. Under their own published protocols, general-purpose 7--8B multimodal models reach 44.5--63.6\% \pacc{0.5} zero-shot or after supervised fine-tuning, and the reinforcement-trained PointVG-R reaches 83.6\%; SpatialNet uses roughly $10^4$ times fewer parameters and no text or hand-box input. Ablations show that instance conditioning improves high-IoU precision, distractor training improves synthetic multi-hand robustness, and 320-pixel input raises \pacc{0.5} to 65.1\% at unchanged parameter count, whereas explicit ray conditioning does not help. Reliable hand localisation does not yet imply reliable target selection when fingertip and object are separated.
+\end{abstract}
+\input{sections/introduction}
+\input{sections/related}
+\input{sections/method}
+\input{sections/protocol}
+\input{sections/results}
+\input{sections/discussion}
+\let\savedbibitem\bibitem
+\def\bibitem[#1]#2{\ifstrequal{#2}{huang2016pointing}{\balance}{}\savedbibitem[#1]{#2}}
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+\end{document}
+

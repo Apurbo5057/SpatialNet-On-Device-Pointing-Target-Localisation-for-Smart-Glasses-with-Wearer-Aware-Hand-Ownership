@@ -1,0 +1,26 @@
+\section{Evaluation Protocol}\label{sec:protocol}
+Our experiments answer three questions: what localisation quality is available at this model size; which design choices and input resolutions change it; and what synthetic interference tests and prototype measurements establish about deployment.
+
+\subsection{Data and evaluation populations}
+We use the released EgoPoint-Ground images~\cite{egopoint}, referred to here as EgoPoint. The release contains 10,837 training, 1,546 validation and 3,072 test images, differing from the original paper's headline counts and nominal split ratio. We preserve the released split. Its images mix real captures and generated or composed content; per-image provenance is unavailable in the conversion, so we do not claim real-only accuracy.
+
+The deterministic conversion retains records with usable annotations, excludes positives lacking a required fingertip or hand box, and corrects three test records whose hand and object labels were swapped. The resulting training/validation/test counts are 10,669/1,524/3,029, with 9,134/1,313/2,604 target-positive images. The 425 remaining test images contain no wearer hand. The release has no annotated non-pointing-hand or pointing-without-target cases; performance of the corresponding conditional gates is therefore unestablished.
+
+Target localisation is scored on \emph{all 2,604 positive images}, including those rejected by the confidence cascade. Thus confidence cannot improve the reported box metrics by discarding difficult examples. We report mean intersection-over-union (mIoU) and \pacc{$\tau$}, the percentage with IoU at least $\tau$. This is per-image localisation success, not detection average precision. Hand metrics use their valid annotated population; hand-presence rejection uses all relevant positive or negative images.
+
+\paragraph{Image-plane separation.}
+Let $g$ be the normalised shortest Euclidean distance from annotated fingertip to target box. We distinguish \emph{overlap} ($g=0$, 1,796 images), \emph{near} ($0<g\leq0.08$, 599), and \emph{large-gap} ($g>0.08$, 209). The coordinate system is the square-resized input. These strata concern projected annotations: overlap does not prove touching, and large gap does not prove physical distance. Their imbalance motivates reporting both pooled and stratified results.
+
+\subsection{Comparisons and uncertainty}
+The reference is the full 160-pixel, seed-42 model, also used for prototype deployment. Two retrainings use seeds 1 and 2. All runs use the same validation-selection and early-stopping rule. Training ends at different epochs; the main checkpoint is from epoch 100, while the ablation checkpoints range from 54 to 120. Consequently, ablations measure changes under a common training recipe rather than at equal optimisation steps.
+
+Four ablations remove: (A1) hand pasting and distractor-negative weighting together; (A2) both ray and hand-axis consistency losses; (A3) the target's learned ray-coordinate branch; and (A4) instance inputs to direction/gates plus fingertip hand-offset conditioning and box prior. A4 retains local hand/target size regression and target ray conditioning. It is a bundled intervention, not a fully independent-head baseline. A3 and A4 have 708,999 and 709,191 parameters respectively.
+
+The 224- and 320-pixel experiments retain the full architecture and seed 42. The 160/224 runs use a 224-pixel converted dataset; the 320 run is regenerated from source images at 320 pixels. The latter is therefore an increase in available image detail as well as model input resolution, not an upsampled-input experiment. No 224/320 device timings are available.
+
+Paired image bootstrap intervals use 1,000 resamples of predictions matched by image identifier; reported 95\% percentile intervals describe test-image sampling for fixed checkpoints. They do not account for training randomness, and no multiplicity correction is applied to the exploratory comparisons. We show the three-seed full-model spread as context, not as a substitute for repeated ablation training. Published methods are listed separately because they use different inputs and incompletely specified evaluation populations.
+
+\subsection{Synthetic hand-interference test}
+A deterministic held-out transformation attempts to add one or two hands to each test image, drawing donor crops from the test split and leaving original positive labels unchanged. Successful placements occur in 2,377 of the 2,604 positive images and all 425 negatives. Evaluation uses the same transform seed across the 160-pixel ablations; donor images are never used to train these models. The target score for this condition covers all 2,604 positives, including unsuccessful placements.
+
+We emphasise target \pacc{0.5} and rejection of no-wearer-hand frames. A centre-nearness ownership metric can saturate because the synthetic hands occupy constrained positions. This test isolates sensitivity to the specified interference distribution; real camera geometry, occlusion and social hand placement remain the scope of T5.
