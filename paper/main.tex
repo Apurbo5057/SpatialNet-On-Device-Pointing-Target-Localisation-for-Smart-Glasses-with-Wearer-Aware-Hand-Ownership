@@ -1,16 +1,15 @@
-%% SpatialNet -- IMWUT submission draft.
+%% SpatialNet -- IMWUT submission.
 %% Build: pdflatex main && bibtex main && pdflatex main && pdflatex main   (see README.md)
-%% Red text marks values and statements that must be filled in or confirmed before submission.
+%% Red text marks the real-frame check (T5), still to be filled in.
 \documentclass[acmsmall,screen,review,anonymous]{acmart}
 \acmJournal{IMWUT}
 
 \usepackage{multirow}
 \usepackage{rotating}
 
-%% ---- Draft markers (delete together with every red item before submission) ----
+%% ---- Draft markers (only the T5 real-frame check uses them; delete with it) ----
 \newcommand{\tbd}[1]{\textcolor{red}{[#1]}}                 % text to write or confirm
 \newcommand{\xx}{\textcolor{red}{xx.x}}                      % numeric result to fill in
-\newcommand{\xxpm}{\textcolor{red}{xx.x$\,\pm\,$x.x}}        % mean $\pm$ std over seeds
 \newcommand{\phfig}[3]{\fcolorbox{red}{white}{\parbox[c][#2][c]{\dimexpr#1-2\fboxsep-2\fboxrule\relax}{\centering\color{red}\footnotesize #3}}}
 
 \newlength{\archh}   % height of the sideways architecture figure (set before the float)
@@ -39,12 +38,17 @@
 \begin{abstract}
 Pointing is the most direct way to ask smart glasses about something in view (``what is \emph{that}?''). Before any assistant can answer, the glasses must work out which object the wearer is pointing at, from their own camera and quickly. Current pointing-grounding models are transformers and multimodal LLMs with hundreds of millions to billions of parameters. They run on GPUs, the LLMs decode their answers token by token, and some models need a text prompt or the hand box as input. We ask how far a model that fits on the glasses can go.
 
-SpatialNet takes nothing but one 2D RGB frame: no text, no hand box, no depth, no external hand or pose model. In a single forward pass of a compact convolutional network without self-attention (0.72M parameters, 0.23 GFLOPs, 1.6\,MB in FP16), it outputs the wearer's hand, the fingertip, the pointing direction and the box of the pointed-at object. To make this possible at that size, its heads form a chain: each stage reads a shared feature map where the previous stage predicted, and the target search is conditioned on ray coordinates computed from the model's own fingertip and direction.
+SpatialNet takes nothing but one 2D RGB frame: no text, no hand box, no depth, no external hand or pose model. In a single forward pass of a compact convolutional network without self-attention (0.72M parameters, 0.23 GFLOPs, 1.6\,MB in FP16), it outputs the wearer's hand, the fingertip, the pointing direction and the box of the pointed-at object. To make this possible at that size, its heads form an instance-anchored chain: each stage reads a shared feature map where the previous stage predicted, so the hand, fingertip, direction and target stay on one hand.
 
-On the EgoPoint test split, SpatialNet finds the wearer's hand with a P@0.5 of 92.6\% (share of frames with IoU $\geq$ 0.5) and localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%). This is comparable to zero-shot 7--8B multimodal LLMs reported on the same split (44.5--49.8\% P@0.5) and below models of 226M--7B parameters trained on EgoPoint (63.6--93.9\%). It drops to 25.4\% for objects far from the fingertip. SpatialNet runs in \xx\,ms per frame on a smart-glasses developer unit. \tbd{Fill in the T2 latency.}
+On the EgoPoint test split, SpatialNet finds the wearer's hand with a P@0.5 of 92.6\% (share of frames with IoU $\geq$ 0.5) and localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%; 58.9--59.0\% across three training seeds). This is comparable to zero-shot 7--8B multimodal LLMs reported on the same split (44.5--49.8\% P@0.5) and below models of 226M--7B parameters trained on EgoPoint (63.6--93.9\%). It drops to 25.4\% for objects far from the fingertip. Ablations and a resolution study show what matters at this scale:
+\begin{itemize}
+\item the anchoring keeps boxes and direction precise (without it, P@0.7 drops by 2.8 points and the direction error rises by 3.4$^\circ$);
+\item input resolution is the largest lever (65.1\% at 320\,px with the same parameters);
+\item a learned prior from explicit ray geometry, which we also test, collapses into a fingertip-proximity prior on EgoPoint's touch-dominated data.
+\end{itemize}
+On an engineering unit of a pair of smart glasses, the 160\,px model runs in 60--80\,ms per frame, and running it continuously drains less battery than merely streaming frames to a phone.
 \end{abstract}
 
-%% CCS concepts: regenerate the XML at https://dl.acm.org/ccs and paste it here before submission.
 \ccsdesc[500]{Human-centered computing~Ubiquitous and mobile computing systems and tools}
 \ccsdesc[500]{Human-centered computing~Gestural input}
 \ccsdesc[300]{Computing methodologies~Object detection}
@@ -68,7 +72,6 @@ On the EgoPoint test split, SpatialNet finds the wearer's hand with a P@0.5 of 9
 \input{sections/05-data-protocol}
 \input{sections/06-implementation}
 \input{sections/07-results}
-\input{sections/08-user-study}
 \input{sections/09-discussion}
 \input{sections/10-ethics-conclusion}
 

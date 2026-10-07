@@ -23,12 +23,9 @@ Some benchmark tasks even give the model the ground-truth hand box~\cite{egopoin
 \end{itemize}
 It predicts the wearer's hand, the fingertip, the pointing direction and the box of the pointed-at object, with presence gates for each. All outputs come from one forward pass of a compact convolutional network with no self-attention and no token-by-token decoding: 0.72M parameters, 0.23 GFLOPs, 1.6\,MB in FP16. This makes it 300 times smaller than VistaRef and about 10{,}000 times smaller than the 7B multimodal LLMs.
 
-Two design choices let such a small network solve a task that others approach with large models:
-\begin{itemize}
-\item \emph{Instance-anchored heads.} The heads form a chain in which each one reads a shared feature map at the location the previous one predicted, so the fingertip, direction and target all belong to the same hand.
-\item \emph{Ray-conditioned target search.} The target heatmap is conditioned on six ray-coordinate maps, computed from the model's own fingertip and direction, through a zero-initialised branch. The ray acts as a learned prior that the network uses only as far as it helps.
-\end{itemize}
-In addition, training pastes unlabelled hands of other people into the frames and penalises responses to them, so the model learns to prefer the wearer's hand without labelled bystander hands.
+One design choice lets such a small network localise precisely: \emph{instance-anchored heads}. The heads form a chain in which each one reads a shared feature map at the location the previous one predicted, so the fingertip, direction and target all belong to the same hand.
+
+We also give the target head the geometry of the predicted ray, as six ray-coordinate maps entering through a zero-initialised branch. We then test whether a model this small makes use of it, rather than assuming so. Training additionally pastes unlabelled hands of other people into the frames and penalises responses to them, so the model learns to prefer the wearer's hand without labelled bystander hands.
 
 \paragraph{Evaluation.} We train and test on EgoPoint and report:
 \begin{itemize}
@@ -36,21 +33,38 @@ In addition, training pastes unlabelled hands of other people into the frames an
 \item comparisons with published results of state-of-the-art models and zero-shot multimodal LLMs on the same test split, and with simple fingertip-based references;
 \item ablations of each component;
 \item behaviour when other people's hands are in view (pasted and real);
-\item latency on a smart-glasses developer unit.
+\item latency, memory and battery drain on an engineering unit of a pair of smart glasses.
 \end{itemize}
 \paragraph{Results in brief.}
 \begin{itemize}
 \item SpatialNet finds the wearer's hand reliably (P@0.5 of 92.6\%, the share of test frames with IoU${\geq}0.5$) and the fingertip precisely (3.9\,px mean error at $160\times160$).
 \item It localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%). That is comparable to zero-shot 7--8B multimodal LLMs reported on the same test split (44.5--49.8\%), close to a 7B model fine-tuned on EgoPoint (63.6\%), and far below VistaRef (93.9\%) and PointVG-R (83.6\%).
-\item It drops to 25.4\% for far targets.
-\item It runs in \xx\,ms on the glasses. \tbd{T2 latency.}
+\item It drops to 25.4\% for far targets. Trained at higher input resolution, with no new parameters, the same model reaches 62.4\% at 224\,px (far: 35.9\%) and 65.1\% at 320\,px (Section~\ref{sec:resolution}).
+\item It runs in 60--80\,ms per frame on the glasses. Running it continuously costs less battery (9\% per minute on the test unit) than streaming frames to a phone at 0.5\,fps (16\%).
 \end{itemize}
 We present this as an operating point, with its limits measured, not as a replacement for large models.
 
 \paragraph{Contributions.}
 \begin{enumerate}
-\item \emph{An image-only, single-pass pointed-target localiser sized for smart glasses.} From one RGB frame, a 0.72M-parameter CNN without self-attention, external models or prompts outputs the hand, fingertip, direction and target box, and runs on a glasses developer unit (Sections~\ref{sec:method} and~\ref{sec:impl}).
-\item \emph{The design that makes this size workable.} Instance-anchored heads with a peak-windowed soft-argmax, and a zero-initialised, ray-conditioned prior on the target heatmap (Section~\ref{sec:heads}). Ablations quantify each part (Section~\ref{sec:ablations}).
-\item \emph{An evaluation that places accuracy next to cost.} It compares with published models that are 300 to 10{,}000 times larger, stratifies by fingertip--target distance, decomposes the errors, and measures latency on the glasses (Section~\ref{sec:results}). \tbd{Add the user study if T6 is done.}
+\item \emph{An image-only, single-pass pointed-target localiser that runs on smart glasses.}
+  \begin{itemize}
+  \item From one RGB frame, a 0.72M-parameter CNN without self-attention, external models or prompts outputs the hand, fingertip, direction and target box.
+  \item On a smart-glasses engineering unit it takes 60--80\,ms per frame, and running it continuously costs less battery than streaming frames off the device (Sections~\ref{sec:method}, \ref{sec:device} and~\ref{sec:ondevice}).
+  \end{itemize}
+\item \emph{Instance-anchored heads that keep a sub-million-parameter model precise.} Against a plain model of the same size, the anchoring improves:
+  \begin{itemize}
+  \item P@0.7, by 2.8 points;
+  \item the hand box, by 1.8 points of mIoU;
+  \item the direction, by 3.4$^\circ$;
+  \item small targets, by 11.3 points.
+  \end{itemize}
+  Each gain exceeds the variation between training seeds (Sections~\ref{sec:heads} and~\ref{sec:ablations}).
+\item \emph{An analysis of what limits pointing localisation at this scale.}
+  \begin{itemize}
+  \item Input resolution is the largest lever, at no parameter cost.
+  \item Distractor pasting makes the model robust to other hands at no cost on clean images.
+  \item A prior learned from explicit ray geometry collapses into a fingertip-proximity prior when most targets are touched. This explains why far targets stay hard, and indicates how future models should constrain the ray (Sections~\ref{sec:resolution}--\ref{sec:own}).
+  \end{itemize}
+\item \emph{An evaluation that places accuracy next to cost.} It compares with published models that are 300 to 10{,}000 times larger, stratifies by fingertip--target distance, and decomposes the errors (Section~\ref{sec:results}).
 \end{enumerate}
-A training recipe for preferring the wearer's hand, by pasting unlabelled distractor hands, is included and evaluated (Section~\ref{sec:ownership}). We treat it as secondary, because its evidence is so far synthetic.
+Distractor pasting is treated as a supporting result rather than a headline contribution. Its effect is clear (Section~\ref{sec:ablations}), but its test distractors are synthetic.

@@ -53,7 +53,7 @@ In the training labels, the fingertip lies inside the dilated box in 99.4\% of p
 
 \paragraph{Pointing direction.} An MLP ($256\to128\to2$, $\tanh$) maps $[\vH;\vP]$ to a vector. We L2-normalise it into the unit direction $\dir=(\cos\theta,\sin\theta)$ in image coordinates. The direction is supervised with the image-plane direction from the labelled fingertip to the labelled target centre (Section~\ref{sec:losses}). $\dir$ is therefore the direction \emph{to the target} as it appears in the image, not the 3D orientation of the finger.
 
-\paragraph{Pointed target: ray-conditioned search.} This head carries the main idea of the model. From $\tip$ and $\dir$, every cell $k$ receives six \emph{ray coordinates} (inset in Figure~\ref{fig:arch}):
+\paragraph{Pointed target.} The target head is given the geometry of the predicted ray explicitly. From $\tip$ and $\dir$, every cell $k$ receives six \emph{ray coordinates} (inset in Figure~\ref{fig:arch}):
 \begin{equation}
 \Delta_k=\alpha_t(\cell_k-\tip),\qquad
 t_k=\Delta_k\cdot\dir,\qquad
@@ -75,7 +75,7 @@ H^t = V^t(S) + G^t\big([S;\,R(\tip,\theta)]\big),
 \end{equation}
 where $R$ stacks the six maps, and $G^t$ (13K parameters) has the form of $G^p$ and also starts at zero. The soft-argmax applies a softmax to $\tau H^t$, so $\pi_k\propto\exp(\tau V^t_k)\exp(\tau G^t_k)$: the geometry term acts as a learned \emph{multiplicative prior} on the visual evidence. Because $G^t$ starts at zero, training begins with a purely visual head, and the network uses the ray only as far as it lowers the loss.
 
-We chose a learned prior over a hand-designed cone because the right shape depends on the situation. When the fingertip is on the object (about 70\% of EgoPoint targets, Section~\ref{sec:data}), the target centre can lie in any direction from the fingertip, even slightly behind it. For distant targets, a narrow band along the ray is informative. The target centre $\cT$ follows from Eq.~\eqref{eq:softargmax}. Its size comes from a $3\times3$ sample, as for the hand, giving $\bT=(\cT,w_t,h_t)$.
+We let the network learn the shape of the prior, instead of fixing a cone, because the right shape depends on the situation. When the fingertip is on the object (about 70\% of EgoPoint targets, Section~\ref{sec:data}), the target centre can lie in any direction from the fingertip, even slightly behind it. For distant targets, a narrow band along the ray is informative. Whether the network exploits this freedom is an empirical question; Section~\ref{sec:ablations} shows that on EgoPoint it learns a fingertip-proximity prior instead. The target centre $\cT$ follows from Eq.~\eqref{eq:softargmax}. Its size comes from a $3\times3$ sample, as for the hand, giving $\bT=(\cT,w_t,h_t)$.
 
 \begin{table}[t]
   \caption{Parameters per module. FLOPs are counted by PyTorch's \texttt{FlopCounterMode} (one multiply--accumulate = 2 FLOPs; bilinear sampling not counted) for one $160\times160$ frame. Sizes are serialised state dictionaries.}

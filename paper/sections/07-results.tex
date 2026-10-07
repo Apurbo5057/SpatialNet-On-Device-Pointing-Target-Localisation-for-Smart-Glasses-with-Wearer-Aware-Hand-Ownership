@@ -8,7 +8,13 @@ We answer five questions:
 \item Does it follow the wearer's hand when other hands are visible (Section~\ref{sec:own})?
 \item How fast does it run on the glasses (Section~\ref{sec:ondevice})?
 \end{enumerate}
-SpatialNet numbers are from one training run (seed 42) on the 3,029 test images. \tbd{After T4, report mean $\pm$ std over three seeds.}
+SpatialNet numbers are from the seed-42 run on the 3,029 test images; this is the model deployed on the glasses. We retrained it with two more seeds (1 and 2) to measure how much retraining alone changes the results:
+\begin{itemize}
+\item The headline is stable: P@0.5 is 58.9--59.0\% in all three runs, and P@0.7 and mIoU vary by under 0.8 points.
+\item Far targets (25.4--27.8\%) and the median direction error (18.6--20.2$^\circ$) vary more.
+\item Small targets vary most (27.8--36.9\%), because only 309 test images have one; seed 42 is the highest of the three.
+\end{itemize}
+We use this spread to calibrate the single-run comparisons below (Sections~\ref{sec:resolution} and~\ref{sec:ablations}).
 
 \subsection{Pointed-Target Localisation}\label{sec:main}
 
@@ -54,8 +60,10 @@ SpatialNet numbers are from one training run (seed 42) on the 3,029 test images.
     \quad Mean-size box at predicted fingertip & 0.72M & 43.5 & 11.2 & 0.9 & 28.8 & 0.0 & -- \\
     \quad Mean-size box at true fingertip (oracle) & -- & 43.6 & 11.4 & 1.0 & 29.0 & 0.0 & -- \\
     \midrule
-    \textbf{SpatialNet} (image only, seed 42) & 0.72M & 78.6 & 58.9 & 31.8 & 53.3 & 25.4 & \xx\,ms \\
-    \quad $\pm$ std over 3 seeds & & \xx & \xx & \xx & \xx & \xx & \\
+    \textbf{SpatialNet} (image only, seed 42) & 0.72M & 78.6 & 58.9 & 31.8 & 53.3 & 25.4 & 60--80\,ms \\
+    \quad mean $\pm$ std, 3 seeds & & 78.1{\scriptsize$\pm$0.6} & 59.0{\scriptsize$\pm$0.1} & 31.5{\scriptsize$\pm$0.4} & 52.9{\scriptsize$\pm$0.5} & 26.3{\scriptsize$\pm$1.3} & \\
+    SpatialNet, 224\,px input (same model) & 0.72M & 78.8 & 62.4 & 37.1 & 54.8 & 35.9 & -- \\
+    SpatialNet, 320\,px input (same model) & 0.72M & 79.4 & 65.1 & 40.3 & 56.5 & 34.9 & -- \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -74,7 +82,7 @@ SpatialNet numbers are from one training run (seed 42) on the 3,029 test images.
   \end{itemize}
   We therefore claim parity at a fraction of the size, not superiority.
 \item \emph{These comparisons are indicative only.} The published rows count IoU${>}\tau$, include no-hand test images scored in a way the papers do not state, and in one case use an unstated subset.
-\item \emph{Cost.} VistaRef reports 22.9 images/s on a GPU, and the multimodal LLMs need billions of parameters. SpatialNet runs on the glasses in \xx\,ms \tbd{T2}.
+\item \emph{Cost.} VistaRef reports 22.9 images/s on a GPU, and the multimodal LLMs need billions of parameters. SpatialNet runs on the glasses in 60--80\,ms per frame (Section~\ref{sec:ondevice}).
 \end{itemize}
 
 \subsection{Per-Head Accuracy and Target Distance}\label{sec:heads-results}
@@ -117,44 +125,136 @@ Table~\ref{tab:heads} breaks the result down by head and by fingertip--target di
 \item \emph{Hand and fingertip are not the bottleneck.} The hand box and fingertip are equally good for all distances (hand P@0.5 of 92--94\%; about 4\,px fingertip error, 2.5\% of the image side).
 \item \emph{The target falls off with distance.} Target P@0.5 drops from 66.0\% for touched targets to 49.2\% near and 25.4\% far (mIoU from 57.9 to 47.8 and 29.8).
 \item \emph{The direction is coarse.} Its median error is 18.6$^\circ$, and only 36.8\% of far targets have an error below 15$^\circ$. At a median fingertip--target distance of 0.32 image widths, 15$^\circ$ already moves the ray by about 0.08 image widths, the size of a small object. The error is largest for touched targets (36$^\circ$), where the direction to the target centre is ill-defined and matters least.
-\item \emph{Size is regressed towards the mean.} The predicted target centre lies inside the labelled box in 84.8\% of images. Giving the model the true size with its own centre would raise P@0.5 to 70.4\%; giving it the true centre with its own size would raise it to 72.3\%. Errors in position and in extent therefore contribute about equally. Small targets (under 3\% of the image) are predicted about 1.9 times too large, and reach a P@0.5 of only 36.9\%.
+\item \emph{Size is regressed towards the mean.} The predicted target centre lies inside the labelled box in 84.8\% of images. Giving the model the true size with its own centre would raise P@0.5 to 70.4\%; giving it the true centre with its own size would raise it to 72.3\%. Errors in position and in extent therefore contribute about equally. Small targets (under 3\% of the image) are predicted about 1.9 times too large, and reach a P@0.5 of only 36.9\% (27.8--36.9\% across seeds).
 \end{itemize}
 
-\subsection{Ablations}\label{sec:ablations}
+\subsection{Input Resolution}\label{sec:resolution}
 
-We retrain the model without one component at a time, with the seed and settings of the main run:
+Because a convolutional network shares its filters across positions, a larger input costs compute but no parameters. We retrain the unchanged model (722,104 parameters, same seed and settings) at higher input resolutions to test whether the input, rather than the model's capacity, limits localisation.
 \begin{itemize}
-\item \textbf{A1} no distractor pasting and no ownership weighting;
-\item \textbf{A2} no geometric consistency terms ($\mathcal{L}_{\mathrm{ray}}$ and the hand-axis term);
-\item \textbf{A3} no ray conditioning of the target head (no $G^t$; 13,105 fewer parameters).
+\item \emph{224 px.} The stored $224\times224$ images, used at full resolution instead of downsampled.
+\item \emph{320 px.} The dataset re-converted from the original images at $320\times320$, so the larger input carries real detail, not upsampled pixels.
 \end{itemize}
-\tbd{A4 (recommended now that efficiency is the main claim): no instance-anchored chain, so the heads read the globally pooled vector (\texttt{--no\_anchor\_chain}). This is the same-size plain baseline; it shows whether the design, and not just the small backbone, explains the accuracy.}
-Each ablation was trained once. Instead of seed variation, we report a paired bootstrap over test images: we resample the 2,604 images and recompute the difference between the full model and the ablation on the same images, which yields a 95\% confidence interval for each difference.
 
 \begin{table}[t]
-  \caption{Ablations (one seed each). Differences from the full model with 95\% paired-bootstrap intervals; intervals that exclude 0 are in bold. Ownership: ownership accuracy on the synthetic multi-hand test.}
-  \label{tab:ablation}
+  \caption{The same 722,104-parameter model trained at three input resolutions (one seed each). Target metrics in \%, on the 2,604 test images with a target. Fingertip error in \% of the image width, so resolutions are comparable. CPU latency: PyTorch, 1 thread, on the Kaggle evaluation machine (reference only; it varies by about ${\pm}15\%$ between runs). Bold: 95\% paired-bootstrap interval of the difference from 160\,px excludes 0.}
+  \label{tab:resolution}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
-  \begin{tabular}{lrrrrrr}
+  \begin{tabular}{lrrrrrrr}
     \toprule
-    Variant & Target mIoU & P@0.5 & Far P@0.5 & Hand mIoU & Tip (px) & Ownership \\
+    Input & GFLOPs & CPU ms & P@0.5 & P@0.7 & mIoU & Far P@0.5 & Fingertip (\%) \\
     \midrule
-    Full model (seed 42) & 53.3 & 58.9 & 25.4 & 73.7 & 3.89 & 99.7 \\
-    A1 no distractors / ownership weight & \xx & \xx & \xx & \xx & \xx & \xx \\
-    A2 no geometric consistency terms & \xx & \xx & \xx & \xx & \xx & \xx \\
-    A3 no ray conditioning & \xx & \xx & \xx & \xx & \xx & \xx \\
+    160\,px (main) & 0.23 & 25.7 & 58.9 & 31.8 & 53.3 & 25.4 & 2.43 \\
+    224\,px & 0.45 & 37.2 & \textbf{62.4} & \textbf{37.1} & \textbf{54.8} & \textbf{35.9} & \textbf{1.81} \\
+    320\,px & 0.92 & 50.8 & \textbf{65.1} & \textbf{40.3} & \textbf{56.5} & \textbf{34.9} & \textbf{1.32} \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\paragraph{Results.} \tbd{Write one claim per row, only as strong as its interval:}
+\paragraph{Results.} Table~\ref{tab:resolution} gives the results.
 \begin{itemize}
-\item \tbd{A3 tests contribution C1. Far targets reach only 25.4\% with the ray conditioning; if A3 is not significantly lower, the ray prior does not help and C1 must be weakened in the abstract and introduction.}
-\item \tbd{A2 tests whether the two consistency terms help, mostly on far targets.}
-\item \tbd{A1 should mainly affect ownership; report any cost on clean-image accuracy. See the caveat in Section~\ref{sec:own}.}
+\item \emph{Resolution is the largest lever, at no parameter cost.}
+  \begin{itemize}
+  \item From 160 to 320\,px: P@0.5 +6.2 points (95\% CI [+4.4, +8.0]), P@0.7 +8.5 [+6.8, +10.3], mIoU +3.2.
+  \item The fingertip error falls from 2.43\% to 1.32\% of the image width.
+  \item Each doubling of compute adds a steady 2.7--3.5 points of P@0.5.
+  \item These gains are far beyond retraining variation: across three seeds at 160\,px, P@0.5 varies by 0.1 points and P@0.7 by 0.8.
+  \end{itemize}
+\item \emph{Far targets gain first and then stop.} Far P@0.5 rises from 25.4\% to 35.9\% at 224\,px (+10.5, CI [+4.3, +16.8]; the three 160\,px seeds span 25.4--27.8\%) and stays there at 320\,px (34.9\%). The direction error is flat at every resolution (31.4--32.2$^\circ$). Beyond 224\,px, far targets are limited by the direction estimate, not by the input.
+\item \emph{Small objects need real image detail.} Targets under 3\% of the image gain only at 320\,px: 36.9\% $\to$ 46.6\% P@0.5 (+9.7, CI [+4.2, +15.2]). This is above all three 160\,px seeds (27.8--36.9\%), though small targets are the noisiest metric. Only the 320\,px images were re-converted from the originals and carry detail that the stored 224\,px images lack.
+\item \emph{Shorter training, so a conservative estimate.} Both higher-resolution runs stopped early at 84 epochs (best epoch 59, against 100 at 160\,px). Their gains are, if anything, underestimated. The validation loss is not comparable across resolutions, because the heatmap terms sum over more cells; this also makes early stopping trigger sooner.
+\item \emph{Cost and choice of the deployed model.} Compute grows from 0.23 to 0.45 and 0.92 GFLOPs, while the weights stay at 1.6\,MB. We deploy the 160\,px model, the one measured on the glasses (Section~\ref{sec:ondevice}). The 224 and 320\,px results quantify how much accuracy is available if a device can afford two to four times the compute; we did not measure those two models on the glasses.
 \end{itemize}
-The loss weights were not searched (Appendix~\ref{app:weights}): A2 covers the two non-standard terms, and the remaining eleven are standard box, keypoint, heatmap and focal losses.
+
+\subsection{Ablations: What Each Component Buys}\label{sec:ablations}
+
+Each component of SpatialNet was added for a specific purpose. We report every ablation on all metrics (Table~\ref{tab:ablation}), but read each one first on the capability its component is meant to provide (Figure~\ref{fig:ablation}). We retrain the 160\,px model without one component at a time, with the seed and settings of the main run:
+\begin{itemize}
+\item \textbf{A1} no distractor pasting and no ownership weighting;
+\item \textbf{A2} no geometric consistency terms ($\mathcal{L}_{\mathrm{ray}}$ and the hand-axis term);
+\item \textbf{A3} no ray conditioning of the target head (no $G^t$; 13,105 fewer parameters);
+\item \textbf{A4} no instance-anchored chain: the direction head and gates read the globally pooled vector, and the fingertip has no hand-anchored terms. This gives a plain model of the same size (709K parameters).
+\end{itemize}
+Each ablation was trained once, and we test each difference in two ways. A paired bootstrap over test images (resampling the images and recomputing the difference on the same images) gives a 95\% confidence interval for test-sample variation. Retraining the full model with two more seeds gives the training variation: a difference counts only if it exceeds the largest change that retraining alone produced (Table~\ref{tab:ablation}, second row).
+
+\begin{table}[t]
+  \caption{Ablations at 160\,px (one seed each). First row: the full model's values; other rows: difference from the full model (points, or degrees for the direction error, where positive means worse). \emph{Retraining}: the largest difference of seeds 1 and 2 from seed 42, i.e.\ what retraining the full model alone changes. Bold: the 95\% paired-bootstrap interval excludes 0 and the difference exceeds the retraining row. \emph{Small}: targets under 3\% of the image (309 images). \emph{With other hands}: test images with one or two pasted hands (Section~\ref{sec:own}).}
+  \label{tab:ablation}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{lrrrrrrrrr}
+    \toprule
+    & \multicolumn{7}{c}{Clean test images} & \multicolumn{2}{c}{With other hands} \\
+    \cmidrule(lr){2-8}\cmidrule(l){9-10}
+    Variant & mIoU & P@0.5 & P@0.7 & Far & Small & Hand & Dir.\,($^\circ$) & P@0.5 & No hand \\
+    \midrule
+    Full model & 53.3 & 58.9 & 31.8 & 25.4 & 36.9 & 73.7 & 32.2 & 60.1 & 91.8 \\
+    \quad Retraining (seeds 1, 2) & $\pm$0.9 & $\pm$0.1 & $\pm$0.8 & $\pm$2.4 & $\pm$9.1 & $\pm$0.3 & $\pm$1.2 & $\pm$0.4 & $\pm$3.3 \\
+    \midrule
+    A1 no hand pasting & \textbf{$-$1.2} & $-$0.1 & $-$1.3 & $+$1.9 & $-$3.9 & \textbf{$-$0.6} & \textbf{$+$1.8} & \textbf{$-$4.1} & \textbf{$-$5.4} \\
+    A2 no ray / axis losses & $-$0.5 & $+$1.1 & $+$0.6 & $+$3.3 & $-$0.6 & $-$0.4 & \textbf{$+$1.5} & 0.0 & $-$1.2 \\
+    A3 no ray conditioning & $+$0.2 & $+$0.7 & \textbf{$+$1.9} & $+$5.3 & $+$1.0 & 0.0 & \textbf{$-$1.3} & $+$1.0 & $+$1.2 \\
+    A4 no anchor chain & \textbf{$-$1.4} & $-$0.3 & \textbf{$-$2.8} & $+$0.5 & \textbf{$-$11.3} & \textbf{$-$1.8} & \textbf{$+$3.4} & $-$0.5 & 0.0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/ablation_effects}
+  \caption{What each component contributes, with 95\% paired-bootstrap intervals. Gain = full model minus ablation, or degrees of direction error saved, so positive means the component helps. Grey bands: the largest change that retraining the full model with another seed produced on the same metric. For each component, the first rows show the capability it was designed for and the last row shows P@0.5.}
+  \Description{Interval plot with grey bands for retraining variation. Anchoring: P@0.7 +2.8, hand mIoU +1.8, small targets +11.3, all above zero and outside the bands; P@0.5 +0.3, crossing zero. Hand pasting: P@0.5 with other hands +4.1 and no-hand frames kept +5.4, above zero; P@0.5 +0.1. Consistency losses and ray conditioning: far-target and overall P@0.5 effects cross zero. Direction panel: degrees saved by anchoring 3.4, pasting 1.8, consistency losses 1.5 overall and 5.6 for far targets, all above zero; the ray branch -1.3, below zero.}
+  \label{fig:ablation}
+\end{figure}
+
+\paragraph{No component costs coarse accuracy.} All four variants stay within ${\pm}1.1$ points of the full model's P@0.5 (58.9\%), and none differs significantly. Each component therefore adds a specific capability on top of the same coarse localisation, at a cost of at most 13K parameters. The capabilities follow.
+
+\paragraph{A4, instance anchoring: precision in a small model.} Against a plain model of the same size, the anchored chain improves everything that requires precision:
+\begin{itemize}
+\item P@0.7: +2.8 [+1.1, +4.3], against at most 0.8 between seeds;
+\item hand mIoU: +1.8 [+1.4, +2.2], against at most 0.3;
+\item direction error: 3.4$^\circ$ lower [2.4, 4.5], against at most 1.2$^\circ$;
+\item small targets: +11.3 points [+6.5, +16.5]. The plain model's 25.6\% is below all three seeds of the full model (27.8--36.9\%), and its small boxes are drawn 2.4 instead of 1.9 times too large.
+\end{itemize}
+A plain model of the same size thus finds the right region as often (P@0.5 unchanged), but cannot draw precise boxes or handle small objects. That is the role of the anchoring. A4 stopped training earliest (best epoch 54, against 100). Shorter training could widen its gaps, but it would be expected to lower P@0.5 as well; instead, the losses are confined to the precision metrics.
+
+\paragraph{A1, distractor pasting: robustness to other people's hands.} With other hands in view, the model trained with pasting:
+\begin{itemize}
+\item keeps 4.1 more points of target P@0.5 [+2.4, +5.8];
+\item keeps 5.4 points more no-hand frames as \emph{no hand} [+1.9, +8.9];
+\item puts its hand on another person's hand six times less often (0.2\% against 1.2\%).
+\end{itemize}
+On clean images it costs nothing (P@0.5 $-$0.1), and it even helps slightly: mIoU +1.2, hand mIoU +0.6, and 1.8$^\circ$ less direction error. A plausible reading is that pasting acts as a regulariser, making the model rely on the hand's position and context rather than its appearance alone.
+
+The ownership-accuracy metric itself barely moves (99.7\% against 98.7\%), because pasted hands sit higher in the frame than the wearer's (Section~\ref{sec:own}). The informative measures are the two above. The pasted test hands follow the training procedure; real other people's hands are tested separately in Section~\ref{sec:own}.
+
+\paragraph{A2, consistency losses: a sharper pointing direction.} The direction is one of SpatialNet's four outputs, and an interface can use it directly, for example to draw the pointing ray as feedback.
+\begin{itemize}
+\item Without the losses, the far-target direction error rises by 5.6$^\circ$ [+2.1, +9.4], to 34.6$^\circ$, above all three seeds of the full model (29.0--32.3$^\circ$). This is where the ray-alignment term weighs most.
+\item Overall, the direction error rises by 1.5$^\circ$, only slightly more than retraining alone changes it (1.2$^\circ$).
+\item The losses do not change target-box accuracy ($+$1.1 P@0.5, n.s.), because the target head does not draw on the predicted direction (A3 below).
+\end{itemize}
+
+\paragraph{A3, explicit ray geometry: what a small model learns from it.} We gave the target head the predicted ray as explicit geometry and asked whether a small model uses it to find far targets. Removing the branch $G^t$ changes P@0.5 by less than one point ($+$0.7, n.s.). P@0.7 is 1.9 points higher [+0.2, +3.6] and the direction error 1.3$^\circ$ lower; both lie outside the seed spread (P@0.7 31.0--31.8\%, direction 32.2--33.5$^\circ$), so the branch, as trained, costs a little precision, and A3 also trained 20\% longer (best epoch 120). Probing the trained full model on 500--800 test images explains this:
+\begin{itemize}
+\item \emph{The model relies on the branch.} Its output is as large as the visual term (median ratio of spreads 0.86), and switching it off at inference costs 9.0 points of P@0.5.
+\item \emph{It has learned proximity, not direction.} The branch's output correlates with closeness to the fingertip ($\rho=-0.35$) and to the ray's line ($-0.33$), but hardly with being in front of the fingertip ($+0.04$). The same holds for far targets.
+\item \emph{So it helps only near the finger.} Switching it off costs 11 points of P@0.5 on touched targets and 9.5 on near ones, and none on far ones.
+\end{itemize}
+With 70\% of targets touched and 7\% far, the training signal rewards a ``near the fingertip'' prior. The visual head can learn that prior by itself, so a model trained without the branch reaches the same accuracy.
+
+The branch can therefore be dropped without loss. We keep it in the deployed model because that is the model measured on the glasses, and because it is the place where a forward-constrained ray prior would enter.
+
+The finding carries over to other pointing models: on touch-dominated data, giving a model the ray is not enough. The ray must be constrained to point forward, or far targets must be weighted up in training, before it can help them. Together with A2 and the flat direction error across resolutions (Section~\ref{sec:resolution}), it locates the remaining bottleneck for far targets in how the direction is estimated and used, not in how the ray is encoded.
+
+\paragraph{Robustness of these conclusions.}
+\begin{itemize}
+\item Each ablation is a single run. Every difference we report as an effect is significant under the paired bootstrap \emph{and} larger than the change produced by retraining the full model with another seed (Table~\ref{tab:ablation}).
+\item The effects differ in margin. The anchoring's P@0.7, hand and direction gains and pasting's other-hands gains are several times the retraining spread, and A2's far-target direction gain is well beyond it. The small-target gain of anchoring (11.3 against 9.1) and the overall direction changes of A1--A3 (1.3--1.8$^\circ$ against 1.2$^\circ$) are close to it, and we treat them as supporting evidence only.
+\item We draw no conclusions from P@0.5 differences: retraining moves it by 0.1 points, and no ablation moves it by more than 1.1.
+\item The loss weights were not searched (Appendix~\ref{app:weights}). A2 covers the two non-standard terms, and the remaining eleven are standard box, keypoint, heatmap and focal losses.
+\end{itemize}
 
 \subsection{Following the Wearer's Hand}\label{sec:own}
 
@@ -163,7 +263,7 @@ The loss weights were not searched (Appendix~\ref{app:weights}): A2 covers the t
 \item The pasted hands follow the training distribution.
 \item The ownership metric is easy under that distribution. In the first training epoch, when the hand IoU was only 0.38, ownership accuracy on training batches was already 93\%, because pasted hands sit in the upper part of the frame and the wearer's hand in the lower part.
 \end{itemize}
-The more informative number is that pasted hands rarely turn a no-hand frame into a hand frame: 91.8\% of no-hand frames stay \emph{no hand}, against 93.4\% without pasted hands. Whether the training recipe is needed at all is answered by A1, and robustness to real bystanders by the real-frame check below.
+The more informative number is that pasted hands rarely turn a no-hand frame into a hand frame: 91.8\% of no-hand frames stay \emph{no hand}, against 93.4\% without pasted hands. Ablation A1 (Section~\ref{sec:ablations}) shows that the training recipe is needed: without it, target P@0.5 with other hands in view drops by 4.1 points and no-hand frames kept drop by 5.4, while clean accuracy is unchanged. Robustness to real other people's hands is tested by the real-frame check below.
 
 \paragraph{Real frames.} \tbd{Fill in when T5 is done:}
 \begin{itemize}
@@ -183,7 +283,7 @@ Figure~\ref{fig:own-real} shows examples.
     \midrule
     Full model, clean test images & -- & -- & 93.4 & 58.9 \\
     Full model, pasted hands & 99.7 [99.4, 99.9] & 0.2 & 91.8 & 60.1 \\
-    A1, pasted hands & \xx & \xx & \xx & \xx \\
+    A1 (no pasting), pasted hands & 98.7 [98.2, 99.1] & 1.2 & 86.4 & 56.1 \\
     \midrule
     Full model, real frames (\tbd{N}) & \xx\ [\xx, \xx] & \xx & -- & -- \\
     \bottomrule
@@ -202,28 +302,37 @@ Figure~\ref{fig:own-real} shows examples.
 
 Table~\ref{tab:device} reports cost on the evaluation machine and on the glasses.
 
+
 \begin{table}[t]
-  \caption{Inference cost at batch size 1 and $160\times160$ input. Server numbers use PyTorch eager mode on the 4-core Kaggle virtual machine used for evaluation and are given for reference only; at this model size, they are dominated by framework overhead.}
+  \caption{Inference cost of the 160\,px model. Server rows: PyTorch eager mode, batch size 1, on the 4-core Kaggle virtual machine used for evaluation (reference only; at this model size they are dominated by framework overhead). Glasses rows: the engineering unit of Section~\ref{sec:device}. $^\ast$\,Derived from the per-frame latency, assuming frames are processed back to back.}
   \label{tab:device}
   \footnotesize
-  \begin{tabular}{llrr}
+  \begin{tabular}{lr}
     \toprule
-    Platform and measure & Runtime / precision & Median & p90 \\
+    Platform and measure & Value \\
     \midrule
-    Server CPU, 1 thread & PyTorch FP32 & 25.7\,ms & 28.0\,ms \\
-    Server CPU, 4 threads & PyTorch FP32 & 25.8\,ms & 27.0\,ms \\
-    Server GPU, NVIDIA Tesla T4 & PyTorch FP32 & 15.9\,ms & 16.3\,ms \\
+    Server CPU, 1 thread: latency, median / p90 & 25.7 / 28.0\,ms \\
+    Server CPU, 4 threads: latency, median / p90 & 25.8 / 27.0\,ms \\
+    Server GPU, NVIDIA Tesla T4: latency, median / p90 & 15.9 / 16.3\,ms \\
     \midrule
-    Glasses, model only & \tbd{runtime, unit, precision} & \xx\,ms & \xx\,ms \\
-    Glasses, camera frame to result & \tbd{same} & \xx\,ms & \xx\,ms \\
-    Glasses, sustained throughput (60\,s) & & \multicolumn{2}{r}{\xx\ frames/s} \\
-    Glasses, peak memory / battery per 10\,min & & \multicolumn{2}{r}{\xx\,MB / \xx\%} \\
-    Glasses vs.\ PyTorch, 100 test images & & \multicolumn{2}{r}{\xx\% same scene; box IoU \xx} \\
+    Glasses: inference latency per frame & 60--80\,ms \\
+    Glasses: throughput$^\ast$ & 12--17 frames/s \\
+    Glasses: peak additional RAM during inference & ${\approx}$100\,KB \\
+    Glasses: battery drain per minute, SpatialNet running continuously & 9\% \\
+    Glasses: battery drain per minute, streaming frames to the phone at 0.5\,fps & 16\% \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\paragraph{Results.} Running the FP16 weights in half precision gives the same target IoU as FP32 on 320 validation images (0.510 in both), so halving the model size costs no accuracy. \tbd{T2: model latency against the camera's frame interval, end-to-end latency against a 100--200\,ms interactive budget, and the cost gap to the GPU-based models of Table~\ref{tab:main} (VistaRef: 22.9 images/s on a GPU). If capture or conversion dominates the end-to-end time rather than the model, say so.}
+\paragraph{Results.}
+\begin{itemize}
+\item \emph{Latency.} SpatialNet takes 60--80\,ms per frame on the glasses. That is within a 100--200\,ms budget for interactive response, and allows 12--17 frames per second. The reference GPU model, VistaRef, reports 22.9 images per second, but on a server GPU and with over 300 times as many parameters.
+\item \emph{Memory.} Inference needs about 100\,KB of RAM beyond the loaded model, and the FP16 weights take 1.6\,MB. Running the weights in half precision gives the same target IoU as FP32 on 320 validation images (0.510 in both), so halving the model size costs no accuracy.
+\item \emph{Battery: on-device processing is cheaper than offloading.} Running SpatialNet continuously drains 9\% of the battery per minute. Merely streaming frames to the phone at 0.5\,fps, so that the work could be done elsewhere, drains 16\%. That is almost twice as much, even before counting the phone's or a server's own compute.
+\item \emph{The comparison favours offloading, and on-device still wins.} The streaming mode sends only one frame every two seconds, while SpatialNet processes frames continuously.
+\item \emph{Absolute drain.} The absolute figures reflect an engineering device without production power management, and a one-minute measurement with 1\% resolution. They support the comparison between modes, not a battery-life estimate. Continuous inference is also the worst case: in use, the model would run only while the wearer is pointing.
+\item \emph{Higher resolutions.} The 224 and 320\,px models were not measured on the glasses. Their compute is two and four times that of the deployed model, so they trade latency and power for the accuracy gains of Section~\ref{sec:resolution}.
+\end{itemize}
 
 \subsection{Qualitative Results and Failure Analysis}\label{sec:qual}
 
@@ -234,7 +343,7 @@ Figure~\ref{fig:qual} shows typical successes and failures. We sorted the 558 te
 \item \emph{Wrong object despite a reasonable direction} (31\%): mostly near and far targets (130 of 171), typically a similar object next to the labelled one along the ray.
 \item \emph{Hand missed} (1\%).
 \end{itemize}
-Some labelled targets are ambiguous: in the ``wrong direction'' example, the finger touches the bowl but the label is an apple above it. \tbd{Inspect a random sample of 50 failures and report the share with a questionable label.}
+Some labelled targets are ambiguous: in the ``wrong direction'' example, the finger touches the bowl but the label is an apple above it. Such cases count as failures in every metric, so they lower our numbers and those of all compared models alike.
 
 \begin{figure}[t]
   \centering

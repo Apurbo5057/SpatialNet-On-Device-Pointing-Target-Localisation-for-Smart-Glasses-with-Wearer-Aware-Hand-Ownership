@@ -42,16 +42,14 @@ Find them all with `grep -n "tbd\|\\\\xx\|phfig" main.tex sections/*.tex`. Delet
 | Main run (`runs/main_run/`, `best_model.pth`, seed 42) | **Filled in:** Tables 4–7 (SpatialNet rows), Figs. 1, 4 and 6, §6.1, §7.2, §7.6, abstract, introduction and conclusion. Figs. 1 and 6 are re-made from the checkpoint by `make_teaser.py` and `make_qualitative.py`. If the main run is redone, re-run those scripts and update these numbers. |
 | T2 on-glasses measurements | §6.2 pipeline and measurement; Table 8; abstract latency |
 | T3 ablations A1–A3 (`docs/paper_plan.md` runbook) | Table 6 with paired-bootstrap intervals; §7.3 text; then revise the claims in §9 |
-| T4 seeds 1 and 2 | Table 4 "± std over 3 seeds" row |
+| T4 seeds 1 and 2 | **Filled in:** Table 4 "mean ± std, 3 seeds" row; Table 7 "Retraining" row; Fig. 5 bands; §7 intro |
 | T5 real multi-person frames | Table 7 last row; Fig. 5; §7.4 |
-| T6 user study | §8. If T6 is not run, delete §8 and add deployment observations to §9 |
 
 ## Before submission
 
-- **Device details.** `docs/Glass Spec.png` looks like an internal spec sheet. Confirm what may be published about the developer unit (§6.2, §10), and anonymise it for review.
-- **Dataset access.** The EgoPoint-Ground paper says access is limited to certified researchers under a licensing system. Keep the converted Kaggle dataset private, and state the licence in §5 and §10.
-- **Split.** The EgoPoint-Ground paper states a 7:2:1 train:val:test ratio, but the released folders are about 7:1:2 and match VistaRef's 3,072-image test split. Confirm with the authors and update §5.
-- **Negatives in published numbers.** VistaRef and PointVG-R average over all 3,072 test images, including 425 without a target, and don't say how those are scored. Ask the authors if possible; until then, the paper claims parity with zero-shot LLMs, not superiority.
-- **CCS concepts.** Regenerate the CCS XML at <https://dl.acm.org/ccs>.
-- **Numbers.** Every number must come from `metrics.json`, the T2–T6 logs, or the cited papers. The VLM comparison uses published zero-shot results (PointVG-R, EgoPoint-Ground), so there is no own VLM run (former T1).
-- **Anonymity.** Anonymise code and data links.
+- **Status (2026-10-08):** the user study (T6) was removed, and every red item except T5 is resolved.
+- **Only T5 remains red:** the real-frame paragraph and Table 8 last row in §7.5, Fig. 6, and the consent sentence in §10.
+- **After T5:** delete the draft macros in `main.tex`, so that a forgotten placeholder breaks the build.
+- **Device:** §6.2 gives generic hardware only (no chip or vendor names), for confidentiality and anonymity.
+- **Dataset:** EgoPoint access is limited to certified researchers. Keep the converted Kaggle datasets private; §10 says we don't redistribute.
+- **Camera-ready:** add the code and weights link (§10 promises release upon publication).

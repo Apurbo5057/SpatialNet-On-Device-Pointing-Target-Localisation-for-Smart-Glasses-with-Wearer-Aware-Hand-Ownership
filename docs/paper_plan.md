@@ -29,16 +29,36 @@ Status on 2026-10-07.
 - Table 4: published numbers checked against the PDFs in `Literature review/` (VistaRef, PointVG-R, EgoPoint-Ground).
 - The own VLM benchmark (former T1) is dropped; the published zero-shot results are used instead.
 - Figures done: architecture (Canva), teaser, qualitative results, ownership examples.
+- **224 px run** (`runs/img224/`), in the paper (§7.3, Tables 4 and 6):
+  - P@0.5 62.4 (+3.5);
+  - far P@0.5 35.9 (+10.5);
+  - same 0.72M parameters.
+  - Analysis: `docs/runs/img224.md`.
+- **Ablation A1** (`runs/A1_no_copypaste/`), in the paper (§7.4, Tables 7 and 8):
+  - with other hands in view: P@0.5 −4.1, no-hand frames kept −5.4;
+  - clean images: unchanged.
+  - Analysis: `docs/runs/A1_no_copypaste.md`.
+- **Tools:**
+  - `paper/scripts/compare_runs.py`: paired bootstrap of any run against the main run;
+  - `paper/scripts/error_breakdown.py`: failure types and target-size bins;
+  - `experiments/make_variant.py`: builds a Kaggle notebook for any variant.
 
 ### Running on Kaggle
 
-- **224 px input run** (`experiments/img224/`, kernel `spatialnet-train-224`, version 2). Same model and settings; only `--img_size 224` differs.
-  - Version 1 failed because Kaggle could not mount the dataset; version 2 runs.
-  - When it finishes:
-    1. Download it to `runs/img224/`.
-    2. Compare it with the 160 px run, using paired bootstrap intervals and fingertip error in % of image width.
-    3. Add a "160 vs 224 px" result to the paper (§7, Table 4 or a short table).
-- **Ablation A1** (`experiments/A1_no_copypaste/`, kernel `spatialnet-ablation-a1`). See section 3.
+- **Ablation A3, no ray conditioning** (`experiments/A3_no_roi_geometry/`, kernel `spatialnet-ablation-a3`).
+- **320 px input** (`experiments/img320/`, kernel `spatialnet-train-320`):
+  - uses the new private dataset `egopoint-spatialnet-320`, re-converted from the originals (labels identical to the 224 dataset);
+  - tests whether a still larger input keeps helping.
+- **When each finishes:**
+  1. Download it to `runs/<name>/`.
+  2. Run `python paper/scripts/compare_runs.py runs/main_run runs/<name>`.
+  3. Write `docs/runs/<name>.md`.
+  4. Fill in Table 6 (resolution) or Table 7 (ablations).
+
+### Still to run
+
+- Ablations A2 and A4 (section 3).
+- Seeds 1 and 2 (section 4).
 
 ---
 
@@ -167,7 +187,9 @@ Status on 2026-10-07.
 
 ---
 
-## 4. T4: seeds (2 runs)
+## 4. T4: seeds (2 runs) — DONE 2026-10-08
+
+**Done:** filled Table 4 (mean ± std over seeds 42, 1, 2: P@0.5 59.0±0.1) and the retraining row in Table 7; see `docs/runs/seeds.md`. The headline stays seed 42 (the deployed model).
 
 **Goal.** Show that the main result is stable.
 
@@ -211,70 +233,21 @@ Status on 2026-10-07.
 
 ---
 
-## 6. T6: user study (optional but strong)
+## 7. Before submission (checklist)
 
-**Goal.** Show that the system is useful to real people on the glasses.
+User study (T6): removed from the paper and the plan on 2026-10-08. It is listed as future work in §9 (Limitations, "Interaction").
 
-### Steps
-
-1. **Ethics:** get institutional approval or an exemption, and prepare the consent form.
-2. **Participants:** 12 people. Record age, gender, handedness, and prior AR or smart-glasses use.
-3. **Setup:** 10–15 everyday objects, some near (under 1 m) and some far (2–4 m).
-4. **Task:** the experimenter names an object, the participant points, and the glasses show or speak the detected target.
-5. **Trials:** 20 per participant (10 near, 10 far) in counterbalanced order.
-6. **Log per trial:** named object, detected object, correct (yes/no), and time from the start of pointing to the result.
-7. **After the trials:**
-   - SUS (10 items);
-   - raw NASA-TLX (6 items);
-   - a 5-question interview.
-8. **Report:**
-   - success rate with a Wilson CI, near and far;
-   - median response time;
-   - SUS score against the benchmark of 68;
-   - TLX scores;
-   - 3–4 interview themes with quotes.
-
-**Goes to:** §8.
-
-**If skipped:** delete §8, add a short "deployment observations" paragraph to §9, and list the user study as future work.
-
-**Effort:** about one week.
+- [x] All red items except T5 resolved (2026-10-08). Only the T5 real-frame check is still red (§7.5 paragraph, Table 8 last row, Fig. 6, ethics sentence in §10).
+- [x] Device: chip and vendor names removed from §6.2. Only generic hardware (SoC + MCU, 12 MP 105° camera, NPU, 160 mAh, <45 g) is given.
+- [x] Dataset: §10 states use under the authors' access terms, with no redistribution of images or labels. Keep the Kaggle dataset private.
+- [x] Split: §5 uses the released split as is, the same as VistaRef and PointVG-R.
+- [x] CCS concepts: `\ccsdesc` entries are in `main.tex` (the XML is optional at review).
+- [ ] After T5: delete the draft macros in `main.tex` (`\tbd`, `\xx`, `\phfig`), so that any forgotten placeholder breaks the build.
+- [ ] Camera-ready only: add the code and weights link (§10 promises release upon publication).
 
 ---
 
-## 7. Label audit (small)
-
-**Goal.** Know how many failures are label problems rather than model errors.
-
-### Steps
-
-1. Claude samples 50 random test images with target IoU below 0.3 and saves them with predicted and labelled boxes.
-2. You mark each one:
-   - model error;
-   - questionable label;
-   - both plausible.
-3. Report the share of questionable labels in one sentence.
-
-**Goes to:** §7.6.
-
-**Effort:** about one hour.
-
----
-
-## 8. Before submission (checklist)
-
-- [ ] Every red `\tbd`, `xx.x` and placeholder figure in `paper/` is filled; build with `pdflatex main && bibtex main && pdflatex main && pdflatex main`.
-- [ ] Device: confirm what may be published about the glasses (the spec sheet looks internal), and anonymise it for review.
-- [ ] Dataset: state the EgoPoint licence; keep the Kaggle dataset private.
-- [ ] Split: ask the EgoPoint-Ground authors how the release (10,837 / 1,546 / 3,072) relates to their 7:2:1 split, and how the published works score no-hand test images.
-- [ ] CCS concepts: regenerate the XML at <https://dl.acm.org/ccs>.
-- [ ] Delete the draft macros in `main.tex`, so that forgotten placeholders break the build.
-- [ ] Anonymise all code and data links.
-- [ ] Every number comes from `metrics.json`, the run logs, or a cited paper.
-
----
-
-## 9. Order and budget
+## 8. Order and budget
 
 | Order | Task | GPU-hours | Your time |
 |---|---|---|---|
@@ -283,8 +256,6 @@ Status on 2026-10-07.
 | 3 | T3 ablations A1–A4 | about 8 | about 1 h of setup |
 | 4 | T4 seeds | about 4 | about 30 min |
 | 5 | T5 real frames | — | about 1 day |
-| 6 | Label audit | — | about 1 h |
-| 7 | T6 user study (optional) | — | about 1 week |
 | 8 | 224 px run (running) | about 3 | — |
 
 The Kaggle quota is about 30 GPU-hours a week, so T3 and T4 fit in one week.

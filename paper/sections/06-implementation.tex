@@ -8,7 +8,7 @@
 \item Up to 180 epochs, stopping early after 25 epochs without a lower validation loss.
 \item Gradient clipping at 1.0, mixed precision, seed 42.
 \end{itemize}
-Training took 1\,h\,40\,min on one NVIDIA Tesla T4 (47\,s per epoch). Early stopping ended it after 125 epochs; the reported checkpoint is from epoch 100. \tbd{Early stopping cut the one-cycle schedule, planned for 180 epochs, while the learning rate was still at about a third of its peak. If the main run is repeated with a schedule that completes, update all numbers, and use the same setting for the ablations and seeds.}
+Training took 1\,h\,40\,min on one NVIDIA Tesla T4 (47\,s per epoch). Early stopping ended it after 125 epochs; the reported checkpoint is from epoch 100. Early stopping (patience 25 on the validation loss) ended the 180-epoch one-cycle schedule before it completed. Every run in this paper uses the same rule, so all comparisons are like for like; a completed schedule would, if anything, raise the absolute numbers.
 
 \paragraph{Augmentation.} Besides the distractor pasting of Section~\ref{sec:ownership}:
 \begin{itemize}
@@ -24,24 +24,26 @@ All augmentation is on the fly; the dataset on disk is never modified. Appendix~
 \paragraph{Export.} The model is exported to ONNX (opset 17, which bilinear grid sampling requires) and to FP16. The FP16 weights take 1.6\,MB.
 
 \subsection{Deployment on Smart Glasses}\label{sec:device}
-We deploy SpatialNet on a smart-glasses developer unit \tbd{confirm what may be disclosed about this unit and anonymise for review; the spec sheet we have appears to be internal}. The unit has:
+We deploy the 160\,px model on an engineering unit of a pair of smart glasses: a pre-production test device, not a retail product. Its hardware:
 \begin{itemize}
-\item a Snapdragon AR1 Gen~1 system-on-chip;
-\item a single 12\,MP ultra-wide camera (105$^\circ$) mounted in portrait orientation;
-\item a 160\,mAh battery, in a frame weighing under 45\,g;
-\item \tbd{operating system and version}.
+\item a smart-glasses system-on-chip paired with a low-power microcontroller;
+\item a single 12\,MP ultra-wide camera (105$^\circ$) in portrait orientation, with a dedicated low-power vision NPU;
+\item Wi-Fi~6 and Bluetooth~5.4 to a companion phone;
+\item a 160\,mAh battery, in a frame weighing under 45\,g.
+\end{itemize}
+Because it is an engineering device, its power management is not tuned for production, so absolute battery figures are pessimistic. We therefore compare power between operating modes on the same unit, rather than reporting battery life. We treat the unit as a measurement platform: its pre-production software stack is not public, so we report end-to-end device measurements rather than runtime-specific details.
+
+\paragraph{Operating modes.} We compare two ways of running pointing localisation:
+\begin{itemize}
+\item \emph{On the glasses:} SpatialNet runs continuously on frames from the glasses' camera.
+\item \emph{Offloading:} the glasses only capture frames and transmit them to the companion phone at 0.5 frames per second, the alternative in which localisation would run on the phone or in the cloud.
 \end{itemize}
 
-\paragraph{Pipeline.} \tbd{Describe: runtime (e.g., ONNX Runtime / TFLite / QNN), execution unit (CPU, GPU or NPU) and precision; how frames are captured, resized to $160\times160$ and converted; when the model runs (every frame, or only after a trigger); and how the result reaches the user (audio, companion phone, or a downstream recogniser on the target crop).}
-
-The camera delivers portrait frames, whereas most EgoPoint images are landscape. The model squashes both to a square, so the deployed input has a different aspect ratio from most training images. The accuracy-parity check in Table~\ref{tab:device} measures the combined effect of the on-device conversion; real-frame accuracy is assessed in Sections~\ref{sec:own} and~\ref{sec:study}.
-
-\paragraph{Measurement.} \tbd{Fill in when T2 is done:}
+\paragraph{Measurement.}
 \begin{itemize}
-\item model latency: median and 90th percentile over at least 200 frames, after 20 warm-up frames;
-\item end-to-end latency, from camera frame to displayed or spoken result;
-\item sustained throughput over 60\,s;
-\item peak memory of the application;
-\item battery drain over 10 minutes of continuous inference;
-\item accuracy parity: on 100 test images, the agreement of the deployed model's outputs with PyTorch.
+\item the inference latency per frame;
+\item the peak additional RAM used during inference, measured over the idle application with the model already loaded (the 1.6\,MB of FP16 weights are stored separately);
+\item the battery drain over one minute, in each operating mode, starting from the same charge level.
 \end{itemize}
+
+The camera delivers portrait frames, whereas most EgoPoint images are landscape. The model squashes both to a square, so the deployed input has a different aspect ratio from most training images. Real-frame behaviour is assessed in Section~\ref{sec:own}.

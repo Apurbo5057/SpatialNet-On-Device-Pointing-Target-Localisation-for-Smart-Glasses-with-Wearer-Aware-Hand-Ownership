@@ -16,7 +16,8 @@ Explicit ray reasoning is thus not new, and neither is avoiding a hand-box input
 \begin{itemize}
 \item the only input is the image;
 \item it uses no language model, no transformer and no external pose model;
-\item a single forward pass of a 0.72M-parameter CNN, 300--10{,}000 times smaller than the models above, produces every output, with the ray entering as a learned log-prior on a heatmap;
+\item a single forward pass of a 0.72M-parameter CNN, 300--10{,}000 times smaller than the models above, produces every output;
+\item we test, rather than assume, whether explicit ray geometry helps a model this small, and show when it does not;
 \item it runs on smart-glasses hardware.
 \end{itemize}
 Table~\ref{tab:related} summarises the differences.

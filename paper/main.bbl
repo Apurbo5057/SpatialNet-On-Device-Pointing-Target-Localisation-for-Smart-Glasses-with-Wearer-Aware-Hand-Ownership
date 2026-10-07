@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{43}
+\begin{thebibliography}{41}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -86,19 +86,6 @@
   Annual Conference on Computer Graphics and Interactive Techniques}}
   \emph{(\bibinfo{series}{SIGGRAPH '80})}. \bibinfo{publisher}{ACM},
   \bibinfo{pages}{262--270}.
-\newblock
-
-
-\bibitem[Brooke(1996)]%
-        {brooke1996sus}
-\bibfield{author}{\bibinfo{person}{John Brooke}.}
-  \bibinfo{year}{1996}\natexlab{}.
-\newblock \showarticletitle{{SUS}: A ``Quick and Dirty'' Usability Scale}.
-\newblock In \bibinfo{booktitle}{\emph{Usability Evaluation in Industry}},
-  \bibfield{editor}{\bibinfo{person}{Patrick~W. Jordan},
-  \bibinfo{person}{B.~Thomas}, \bibinfo{person}{Bernard~A. Weerdmeester}, {and}
-  \bibinfo{person}{Ian~L. McClelland}} (Eds.). \bibinfo{publisher}{Taylor \&
-  Francis}, \bibinfo{pages}{189--194}.
 \newblock
 
 
@@ -194,20 +181,6 @@
   Method for Instance Segmentation}. In \bibinfo{booktitle}{\emph{Proceedings
   of the IEEE/CVF Conference on Computer Vision and Pattern Recognition
   (CVPR)}}. \bibinfo{pages}{2918--2928}.
-\newblock
-
-
-\bibitem[Hart and Staveland(1988)]%
-        {hart1988development}
-\bibfield{author}{\bibinfo{person}{Sandra~G. Hart} {and}
-  \bibinfo{person}{Lowell~E. Staveland}.} \bibinfo{year}{1988}\natexlab{}.
-\newblock \showarticletitle{Development of {NASA-TLX} (Task Load Index):
-  Results of Empirical and Theoretical Research}.
-\newblock In \bibinfo{booktitle}{\emph{Human Mental Workload}},
-  \bibfield{editor}{\bibinfo{person}{Peter~A. Hancock} {and}
-  \bibinfo{person}{Najmedin Meshkati}} (Eds.). \bibinfo{series}{Advances in
-  Psychology}, Vol.~\bibinfo{volume}{52}. \bibinfo{publisher}{North-Holland},
-  \bibinfo{pages}{139--183}.
 \newblock
 
 
