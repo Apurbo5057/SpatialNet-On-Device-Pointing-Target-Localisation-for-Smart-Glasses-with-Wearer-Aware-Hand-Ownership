@@ -33,7 +33,7 @@ In addition, training pastes unlabelled hands of other people into the frames an
 \paragraph{Evaluation.} We train and test on EgoPoint and report:
 \begin{itemize}
 \item accuracy by fingertip--target distance, which matters because about 70\% of targets are touched by the fingertip;
-\item comparisons with zero-shot vision--language models on our test images, with published state-of-the-art results, and with simple fingertip-based references;
+\item comparisons with published results of state-of-the-art models and zero-shot multimodal LLMs on the same test split, and with simple fingertip-based references;
 \item ablations of each component;
 \item behaviour when other people's hands are in view (pasted and real);
 \item latency on a smart-glasses developer unit.
@@ -41,7 +41,7 @@ In addition, training pastes unlabelled hands of other people into the frames an
 \paragraph{Results in brief.}
 \begin{itemize}
 \item SpatialNet finds the wearer's hand reliably (P@0.5 of 92.6\%, the share of test frames with IoU${\geq}0.5$) and the fingertip precisely (3.9\,px mean error at $160\times160$).
-\item It localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%). That is above zero-shot 7--8B multimodal LLMs reported on the same test split (44.5--49.8\%), close to a 7B model fine-tuned on EgoPoint (63.6\%), and far below VistaRef (93.9\%) and PointVG-R (83.6\%).
+\item It localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%). That is comparable to zero-shot 7--8B multimodal LLMs reported on the same test split (44.5--49.8\%), close to a 7B model fine-tuned on EgoPoint (63.6\%), and far below VistaRef (93.9\%) and PointVG-R (83.6\%).
 \item It drops to 25.4\% for far targets.
 \item It runs in \xx\,ms on the glasses. \tbd{T2 latency.}
 \end{itemize}

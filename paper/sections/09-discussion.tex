@@ -31,7 +31,7 @@ Wearer-awareness from distractor pasting is a third, secondary choice. Its evide
 \item \emph{A 2D ray.} The ray lives in the image plane. Objects at different depths along the same image ray are told apart only by appearance, and the eye--camera offset is ignored. Depth, or a second view, could resolve such cases.
 \item \emph{Single frames.} The model has no temporal context. Detecting a pointing \emph{event}, as opposed to a pointing frame, and smoothing the target over a short window are left to the application.
 \item \emph{Dataset coverage.} Results come from one dataset with mostly landscape, partly synthetic images and unknown demographic coverage (for example, skin tone and handedness). Flip augmentation covers left hands only geometrically. Evaluation on real, diverse glasses footage is the most important next step.
-\item \emph{Baselines.} We copied the published state-of-the-art results instead of re-running those models, and two of them use different inputs or subsets. The VLMs were used zero-shot with \tbd{one prompt}. Large grounding models are clearly more accurate. Our claim is the operating point, with accuracy reported next to its cost, not superiority.
+\item \emph{Baselines.} We copied the published state-of-the-art results instead of re-running those models, and two of them use different inputs or subsets, or average over test images without a target. We did not re-run any multimodal LLM under our exact protocol. Large grounding models are clearly more accurate. Our claim is the operating point, with accuracy reported next to its cost, not superiority.
 \end{itemize}
 
 \paragraph{Implications for glasses interfaces.} A model of this size can run continuously and act as a gate for more expensive components:

@@ -2,7 +2,7 @@
 
 We answer five questions:
 \begin{enumerate}
-\item How well does SpatialNet find the pointed-at object, compared with the published state of the art, vision--language models and simple references (Section~\ref{sec:main})?
+\item How well does SpatialNet find the pointed-at object, compared with published results of state-of-the-art and zero-shot models and with simple references (Section~\ref{sec:main})?
 \item Where does it fail, by distance and by head (Section~\ref{sec:heads-results})?
 \item Which design choices matter (Section~\ref{sec:ablations})?
 \item Does it follow the wearer's hand when other hands are visible (Section~\ref{sec:own})?
@@ -12,17 +12,12 @@ SpatialNet numbers are from one training run (seed 42) on the 3,029 test images.
 
 \subsection{Pointed-Target Localisation}\label{sec:main}
 
-\paragraph{References.} We compare SpatialNet with four kinds of reference.
+\paragraph{References.} We compare SpatialNet with two kinds of reference.
 \begin{itemize}
 \item \emph{Published results.} We copy these numbers and do not re-run the models.
   \begin{itemize}
   \item VistaRef~\cite{li2026vistaref} and PointVG-R~\cite{li2026pointvgr} report results on the same 3,072-image test split; ours omits 43 unclear images and the 425 images without a target. PointVG-R also reports zero-shot and fine-tuned multimodal LLMs on that split.
   \item EgoPoint-Ground's pointing-only (POG) results~\cite{egopoint} come from a different setting: zero-shot models receive the ground-truth hand box, and the evaluated subset is not stated.
-  \end{itemize}
-\item \emph{Vision--language models (VLMs).} We prompt \tbd{model names, versions and access dates; cite each} zero-shot on our 3,029 test images and ask for the box of the object that the camera wearer is pointing at (prompts and parsing in Appendix~\ref{app:vlm}).
-  \begin{itemize}
-  \item An answer that cannot be parsed into a box counts as IoU 0.
-  \item Latency is the wall-clock time per image, measured \tbd{API or local GPU}.
   \end{itemize}
 \item \emph{Simple references.} These test whether knowing where the fingertip is would be enough:
   \begin{itemize}
@@ -54,10 +49,6 @@ SpatialNet numbers are from one training run (seed 42) on the 3,029 test images.
     \quad Qwen3-VL-8B$^\ddagger$, image + instruction & 8B & 48.1 & 44.5 & 39.0 & 43.0 & -- & -- \\
     \quad SV-CoT$^\dagger$, image + hand box & $>$1B & 69.4 & 63.9 & 55.6 & -- & -- & -- \\
     \quad Qwen3-VL-4B$^\dagger$, image + hand box & 4B & 67.1 & 61.2 & 53.2 & -- & -- & -- \\
-    \multicolumn{8}{l}{\emph{Vision--language models: image + text prompt, zero-shot, our test split}} \\
-    \quad\tbd{VLM 1} & \tbd{size} & \xx & \xx & \xx & \xx & \xx & \xx\,s \\
-    \quad\tbd{VLM 2} & \tbd{size} & \xx & \xx & \xx & \xx & \xx & \xx\,s \\
-    \quad\tbd{VLM 3} & \tbd{size} & \xx & \xx & \xx & \xx & \xx & \xx\,s \\
     \multicolumn{8}{l}{\emph{Simple references}} \\
     \quad Mean training box, fixed position & 0 & 41.3 & 9.6 & 0.9 & 27.4 & 4.3 & -- \\
     \quad Mean-size box at predicted fingertip & 0.72M & 43.5 & 11.2 & 0.9 & 28.8 & 0.0 & -- \\
@@ -73,10 +64,17 @@ SpatialNet numbers are from one training run (seed 42) on the 3,029 test images.
 \begin{itemize}
 \item \emph{The target head does real work.} Knowing the fingertip is not enough: a mean-size box at the true fingertip reaches a P@0.5 of only 11.4\% (12.0\% when shifted by the mean training offset), because target sizes vary widely (2.6\% to 44\% of the image area, 10th to 90th percentile). SpatialNet reaches 58.9\%.
 \item \emph{Large models trained on EgoPoint are far more accurate.} SpatialNet is 35 points below VistaRef in P@0.5 and 51 points below in P@0.7, where its boxes are least precise; in mIoU the gap is 29 points (53.3 against 82.0). It is 25 points below PointVG-R, and 4.7 points below Qwen2.5-VL-7B fine-tuned on the same data.
-\item \emph{It is above zero-shot multimodal LLMs.} In P@0.5, SpatialNet (58.9\%) is above zero-shot Qwen2.5-VL-7B (49.8\%) and Qwen3-VL-8B (44.5\%) as reported by PointVG-R. It is slightly below zero-shot models that are given the true hand box (61.2--63.9\%).
+\item \emph{It is comparable to zero-shot multimodal LLMs.}
+  \begin{itemize}
+  \item SpatialNet's P@0.5 (58.9\%) and mIoU (53.3\%) are above the zero-shot Qwen2.5-VL-7B (49.8\%, 45.5\%) and Qwen3-VL-8B (44.5\%, 43.0\%) reported by PointVG-R.
+  \item Those numbers average over all 3,072 test images, including 425 without a target. If those were scored as failures, Qwen2.5-VL-7B would reach about 57.8\% P@0.5 and 52.8\% mIoU on the images with a target, on a par with SpatialNet.
+  \item The zero-shot models draw tighter boxes: their P@0.7 (39.0--42.9\%) exceeds SpatialNet's (31.8\%).
+  \item SpatialNet finds the right region far more often: P@0.3 of 78.6\% against 48.1--54.2\%.
+  \item Against zero-shot models that are given the true hand box, it is slightly lower in P@0.5 (61.2--63.9\%).
+  \end{itemize}
+  We therefore claim parity at a fraction of the size, not superiority.
 \item \emph{These comparisons are indicative only.} The published rows count IoU${>}\tau$, include no-hand test images scored in a way the papers do not state, and in one case use an unstated subset.
 \item \emph{Cost.} VistaRef reports 22.9 images/s on a GPU, and the multimodal LLMs need billions of parameters. SpatialNet runs on the glasses in \xx\,ms \tbd{T2}.
-\item \tbd{VLM comparison after T1. The VLMs are general, zero-shot models while SpatialNet is trained on EgoPoint, so the comparison shows what a specialised on-device model reaches against the general alternative a developer could call today; it does not show that VLMs are worse in general.}
 \end{itemize}
 
 \subsection{Per-Head Accuracy and Target Distance}\label{sec:heads-results}
@@ -225,7 +223,7 @@ Table~\ref{tab:device} reports cost on the evaluation machine and on the glasses
   \end{tabular}
 \end{table}
 
-\paragraph{Results.} Running the FP16 weights in half precision gives the same target IoU as FP32 on 320 validation images (0.510 in both), so halving the model size costs no accuracy. \tbd{T2: model latency against the camera's frame interval, end-to-end latency against a 100--200\,ms interactive budget, and the gap to the VLM latencies of Table~\ref{tab:main}. If capture or conversion dominates the end-to-end time rather than the model, say so.}
+\paragraph{Results.} Running the FP16 weights in half precision gives the same target IoU as FP32 on 320 validation images (0.510 in both), so halving the model size costs no accuracy. \tbd{T2: model latency against the camera's frame interval, end-to-end latency against a 100--200\,ms interactive budget, and the cost gap to the GPU-based models of Table~\ref{tab:main} (VistaRef: 22.9 images/s on a GPU). If capture or conversion dominates the end-to-end time rather than the model, say so.}
 
 \subsection{Qualitative Results and Failure Analysis}\label{sec:qual}
 
