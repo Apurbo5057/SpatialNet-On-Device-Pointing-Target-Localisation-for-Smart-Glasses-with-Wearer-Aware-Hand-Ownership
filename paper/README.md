@@ -39,10 +39,7 @@ Find them all with `grep -n "tbd\|\\\\xx\|phfig" main.tex sections/*.tex`. Delet
 
 | Source | Goes to |
 |---|---|
-| Main run `evaluation/metrics.json` (`best_model.pth`) | Table 4 SpatialNet row; Table 5 (by head and distance); hand-gate paragraph in §7.2; Fig. 4 (`iou_success_rate.pdf`, `target_iou_by_gap.pdf`); abstract and introduction numbers |
-| `predictions/test.csv` + `scripts/simple_references.py` | Table 4 row "Mean-size box at predicted fingertip". The fixed-box and true-fingertip rows are already filled; they depend only on labels. |
-| Failure inspection of `predictions/test.csv` | §7.6 failure types and counts; Fig. 6 |
-| `training/run_info.json` | §6.1 GPU, training time, epochs |
+| Main run (`runs/main_run/`, `best_model.pth`, seed 42) | **Filled in:** Tables 4–7 (SpatialNet rows), Figs. 1, 4 and 6, §6.1, §7.2, §7.6, abstract, introduction and conclusion. Figs. 1 and 6 are re-made from the checkpoint by `make_teaser.py` and `make_qualitative.py`. If the main run is redone, re-run those scripts and update these numbers. |
 | T1 VLM benchmark | Table 4 VLM rows; Appendix C prompts and parsing |
 | T2 on-glasses measurements | §6.2 pipeline and measurement; Table 8; abstract latency |
 | T3 ablations A1–A3 (`docs/paper_plan.md` runbook) | Table 6 with paired-bootstrap intervals; §7.3 text; then revise the claims in §9 |

@@ -8,7 +8,7 @@
 \item Up to 180 epochs, stopping early after 25 epochs without a lower validation loss.
 \item Gradient clipping at 1.0, mixed precision, seed 42.
 \end{itemize}
-Training took \xx\,h on one \tbd{GPU model} and stopped after \tbd{N} epochs.
+Training took 1\,h\,40\,min on one NVIDIA Tesla T4 (47\,s per epoch). Early stopping ended it after 125 epochs; the reported checkpoint is from epoch 100. \tbd{Early stopping cut the one-cycle schedule, planned for 180 epochs, while the learning rate was still at about a third of its peak. If the main run is repeated with a schedule that completes, update all numbers, and use the same setting for the ablations and seeds.}
 
 \paragraph{Augmentation.} Besides the distractor pasting of Section~\ref{sec:ownership}:
 \begin{itemize}

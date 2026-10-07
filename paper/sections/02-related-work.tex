@@ -7,16 +7,17 @@
 \paragraph{Pointing-target grounding.}
 \begin{itemize}
 \item \emph{Third-person.} YouRefIt grounds targets from language and gesture together~\cite{chen2021yourefit}.
-\item \emph{EgoPoint-Ground.} For egocentric images, it introduced 15K images (real captures from smart glasses, plus synthetically composed and generated images) and several tasks~\cite{egopoint}. In its pointing-only task, methods receive the image and the ground-truth hand box. Its SV-CoT baseline reasons with a multimodal LLM from the pointing direction to a ray and then to the target.
+\item \emph{EgoPoint-Ground.} For egocentric images, it introduced 15K images (real captures from smart glasses, plus synthetically composed and generated images) and several tasks~\cite{egopoint}. In its pointing-only task, models receive the image and the ground-truth hand box and are evaluated without task-specific training. Its SV-CoT baseline reasons with a multimodal LLM from the pointing direction to a ray and then to the target.
 \item \emph{PointVG-R.} It builds a similar hand--direction--ray--target chain of thought into Qwen2.5-VL-7B with reinforcement learning~\cite{li2026pointvgr}, and names latency as a limitation for wearables.
-\item \emph{VistaRef.} It adds hand-keypoint and geometric-ray modules and an orientation-consistency loss to a BEiT-3 grounding model (226M parameters with the Base backbone)~\cite{li2026vistaref}. With the Large backbone, it reports IoU${>}0.5$ for 93.9\% of the 3,072 EgoPoint test images; our test split omits 43 of these (Section~\ref{sec:data}).
+\item \emph{VistaRef.} It adds hand-keypoint and geometric-ray modules and an orientation-consistency loss to a BEiT-3 grounding model (226M parameters with the Base backbone)~\cite{li2026vistaref}. With the Large backbone, it reports IoU${\geq}0.5$ for 93.9\% of the 3,072 EgoPoint test images (Section~\ref{sec:data} explains how our test split differs).
 \item \emph{EgoPoint-Bench.} It shows that general multimodal LLMs still struggle with egocentric pointing~\cite{li2026egopointbench}.
 \end{itemize}
-Explicit ray reasoning is thus not new. What SpatialNet changes is the operating point:
+Explicit ray reasoning is thus not new, and neither is avoiding a hand-box input: VistaRef uses a fixed prompt and finds the hand itself. What SpatialNet changes is the operating point:
 \begin{itemize}
-\item the ray enters a 0.72M-parameter CNN as a learned log-prior on a heatmap, inside one forward pass;
-\item the model needs no hand box and no prompt;
-\item it is trained to ignore other people's hands.
+\item the only input is the image;
+\item it uses no language model, no transformer and no external pose model;
+\item a single forward pass of a 0.72M-parameter CNN, 300--10{,}000 times smaller than the models above, produces every output, with the ray entering as a learned log-prior on a heatmap;
+\item it runs on smart-glasses hardware.
 \end{itemize}
 Table~\ref{tab:related} summarises the differences.
 

@@ -16,26 +16,41 @@ Answering this on glasses is hard for three reasons.
 \end{itemize}
 Some benchmark tasks even give the model the ground-truth hand box~\cite{egopoint}. These systems reach high accuracy on a GPU, but none of them is designed for glasses-class hardware, and to our knowledge none addresses other people's hands in view. Egocentric fingertip systems, including one that runs on a phone, stop at the fingertip~\cite{huang2016pointing,jain2019gestarlite} and never localise the target.
 
-\paragraph{SpatialNet.} We present SpatialNet, a 0.72M-parameter convolutional network (0.23 GFLOPs, 1.6\,MB in FP16). From a single frame and in one forward pass, it predicts the wearer's hand, the fingertip, the pointing direction and the box of the pointed-at object, together with presence gates for each. Three ideas make this work at such a small size:
+\paragraph{SpatialNet.} We ask how far a model that fits on the glasses can go. SpatialNet needs only one 2D RGB frame:
+\begin{itemize}
+\item no text prompt, no hand box, no depth;
+\item no external hand detector or pose estimator.
+\end{itemize}
+It predicts the wearer's hand, the fingertip, the pointing direction and the box of the pointed-at object, with presence gates for each. All outputs come from one forward pass of a compact convolutional network with no self-attention and no token-by-token decoding: 0.72M parameters, 0.23 GFLOPs, 1.6\,MB in FP16. This makes it 300 times smaller than VistaRef and about 10{,}000 times smaller than the 7B multimodal LLMs.
+
+Two design choices let such a small network solve a task that others approach with large models:
 \begin{itemize}
 \item \emph{Instance-anchored heads.} The heads form a chain in which each one reads a shared feature map at the location the previous one predicted, so the fingertip, direction and target all belong to the same hand.
 \item \emph{Ray-conditioned target search.} The target heatmap is conditioned on six ray-coordinate maps, computed from the model's own fingertip and direction, through a zero-initialised branch. The ray acts as a learned prior that the network uses only as far as it helps.
-\item \emph{Ownership by training.} Training pastes unlabelled hands of other people into the frames and penalises the hand heatmap for responding to them. The model thus learns to follow the wearer's hand without any labelled bystander hands.
 \end{itemize}
+In addition, training pastes unlabelled hands of other people into the frames and penalises responses to them, so the model learns to prefer the wearer's hand without labelled bystander hands.
 
 \paragraph{Evaluation.} We train and test on EgoPoint and report:
 \begin{itemize}
 \item accuracy by fingertip--target distance, which matters because about 70\% of targets are touched by the fingertip;
 \item comparisons with zero-shot vision--language models on our test images, with published state-of-the-art results, and with simple fingertip-based references;
 \item ablations of each component;
-\item ownership on images with pasted and with real hands of other people;
+\item behaviour when other people's hands are in view (pasted and real);
 \item latency on a smart-glasses developer unit.
 \end{itemize}
-\tbd{One sentence with the headline T1/T2 numbers, phrased as an accuracy--cost trade-off. For example: ``SpatialNet reaches \xx\% IoU$\geq$0.5, against 93.9\% reported for VistaRef with over 300$\times$ more parameters, and runs in \xx\,ms on the glasses.''}
+\paragraph{Results in brief.}
+\begin{itemize}
+\item SpatialNet finds the wearer's hand reliably (IoU${\geq}0.5$ in 92.6\% of test frames) and the fingertip precisely (3.9\,px mean error at $160\times160$).
+\item It localises the pointed-at object with IoU${\geq}0.5$ in 58.9\% of frames. That is above zero-shot 7--8B multimodal LLMs reported on the same test split (44.5--49.8\%), close to a 7B model fine-tuned on EgoPoint (63.6\%), and far below VistaRef (93.9\%) and PointVG-R (83.6\%).
+\item It drops to 25.4\% for far targets.
+\item It runs in \xx\,ms on the glasses. \tbd{T2 latency.}
+\end{itemize}
+We present this as an operating point, with its limits measured, not as a replacement for large models.
 
 \paragraph{Contributions.}
 \begin{enumerate}
-\item \emph{A pointed-target localiser small enough for smart glasses.} It works from the image alone, in one forward pass, through instance-anchored heads with a peak-windowed soft-argmax and a zero-initialised, ray-conditioned target prior (Section~\ref{sec:method}).
-\item \emph{A training recipe for wearer-awareness without bystander labels.} It combines distractor-hand pasting that follows egocentric geometry, self-pasting, and ownership-weighted heatmap negatives (Section~\ref{sec:ownership}).
-\item \emph{An evaluation that exposes where pointing localisation fails.} It stratifies results by distance, measures ownership on synthetic and real frames, and places accuracy next to on-glasses cost (Sections~\ref{sec:data}--\ref{sec:results}). \tbd{Add the user study if T6 is done.}
+\item \emph{An image-only, single-pass pointed-target localiser sized for smart glasses.} From one RGB frame, a 0.72M-parameter CNN without self-attention, external models or prompts outputs the hand, fingertip, direction and target box, and runs on a glasses developer unit (Sections~\ref{sec:method} and~\ref{sec:impl}).
+\item \emph{The design that makes this size workable.} Instance-anchored heads with a peak-windowed soft-argmax, and a zero-initialised, ray-conditioned prior on the target heatmap (Section~\ref{sec:heads}). Ablations quantify each part (Section~\ref{sec:ablations}).
+\item \emph{An evaluation that places accuracy next to cost.} It compares with published models that are 300 to 10{,}000 times larger, stratifies by fingertip--target distance, decomposes the errors, and measures latency on the glasses (Section~\ref{sec:results}). \tbd{Add the user study if T6 is done.}
 \end{enumerate}
+A training recipe for preferring the wearer's hand, by pasting unlabelled distractor hands, is included and evaluated (Section~\ref{sec:ownership}). We treat it as secondary, because its evidence is so far synthetic.

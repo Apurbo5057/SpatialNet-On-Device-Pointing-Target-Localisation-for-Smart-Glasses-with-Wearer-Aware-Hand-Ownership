@@ -1,12 +1,20 @@
 \section{Discussion}\label{sec:discussion}
 
-\paragraph{What the design contributes.} \tbd{Rewrite once Table~\ref{tab:ablation} is filled in, keeping only the statements its intervals support.} The architecture rests on three choices:
+\paragraph{What a single-image, single-pass CNN can and cannot do.} The results separate the task into two parts.
+\begin{itemize}
+\item \emph{Easy at this size.} Finding the wearer's hand, the fingertip and whether a hand is present works well: 92.6\% hand IoU${\geq}0.5$, 3.9\,px fingertip error, and AUROC 0.998.
+\item \emph{Hard at this size.} Deciding which object the finger refers to, and how far that object extends, is what the large models do much better. Our errors split about evenly between wrong extent, wrong direction and wrong object (Section~\ref{sec:qual}).
+\end{itemize}
+A 0.72M CNN at $160\times160$ therefore makes a good always-on front end: it can trigger and crop for a heavier model, but should not be expected to reach large-model accuracy alone.
+
+\paragraph{What the design contributes.} \tbd{Rewrite once Table~\ref{tab:ablation} is filled in, keeping only the statements its intervals support; add A4 (no anchor chain) as the same-size plain baseline.} The design rests on two choices, both cheap (13K parameters each):
 \begin{itemize}
 \item \emph{Anchoring.} Every head reads features where the previous head looked, so the chain stays on one hand instance.
 \item \emph{Learned, safe geometry.} The ray enters as a zero-initialised log-prior. It cannot hurt at the start of training and is used only as far as it helps.
-\item \emph{Ownership from training data.} Wearer-awareness comes from distractor pasting, not from extra labels.
 \end{itemize}
-These choices add little cost: the ray branch has 13K parameters, and the hand-offset branch 13K.
+Wearer-awareness from distractor pasting is a third, secondary choice. Its evidence is so far synthetic (Section~\ref{sec:own}).
+
+\paragraph{Deployment caveat.} The heads use bilinear sampling (\texttt{grid\_sample}, ONNX opset 16 or later), which not every mobile NPU runtime supports. \tbd{T2: state whether it ran on the NPU or fell back to the CPU.}
 
 \paragraph{Why most targets are touched, and what that implies.} Where people point at distant objects depends on the eye as well as the arm: modelling the dominant eye makes pointing rays markedly more accurate~\cite{plaumann2018towards}, and common ray-casting models show systematic offsets~\cite{mayer2015modeling}. If wearers align the fingertip with the target from the eye, a camera next to the eye sees the target at or just behind the fingertip. This is consistent with about 70\% of EgoPoint targets containing the fingertip in the image, although part of EgoPoint is staged or generated \tbd{confirm}. It has two consequences:
 \begin{itemize}
@@ -18,6 +26,8 @@ These choices add little cost: the ray branch has 13K parameters, and the hand-o
 \begin{itemize}
 \item \emph{Two scenes.} The pointing and target gates were never trained or tested against negatives (Section~\ref{sec:data}). In deployment, a non-pointing hand may therefore be read as pointing, and the cascade's middle states are untested. A dataset with non-pointing hands and pointing without a target is needed before relying on them.
 \item \emph{Ownership.} Our distractors are synthetic and encode the prior that the wearer's arm enters from the bottom of the view. The real-frame check (Section~\ref{sec:own}) is small. A wearer pointing upward from a raised arm, or a companion's hand close to the wearer's, can break the prior.
+\item \emph{Target extent from a local window.} The target size is regressed from a $3\times3$ neighbourhood of the stride-8 map around the predicted centre. That window cannot see the edges of large objects, and at $160\times160$ it resolves small ones poorly. This matches the observed bias: small targets come out too large, large ones too small, and IoU${\geq}0.7$ reaches only 31.8\%. Sampling the size from a larger or box-shaped region, or using a higher input resolution, are the obvious next steps.
+\item \emph{A coarse direction.} The direction error (median 18.6$^\circ$) is large for far targets, where the ray matters most, and limits them to 25.4\% IoU${\geq}0.5$.
 \item \emph{A 2D ray.} The ray lives in the image plane. Objects at different depths along the same image ray are told apart only by appearance, and the eye--camera offset is ignored. Depth, or a second view, could resolve such cases.
 \item \emph{Single frames.} The model has no temporal context. Detecting a pointing \emph{event}, as opposed to a pointing frame, and smoothing the target over a short window are left to the application.
 \item \emph{Dataset coverage.} Results come from one dataset with mostly landscape, partly synthetic images and unknown demographic coverage (for example, skin tone and handedness). Flip augmentation covers left hands only geometrically. Evaluation on real, diverse glasses footage is the most important next step.
