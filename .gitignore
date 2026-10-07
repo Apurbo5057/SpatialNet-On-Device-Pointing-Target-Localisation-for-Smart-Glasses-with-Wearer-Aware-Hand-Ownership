@@ -1,0 +1,29 @@
+# Local datasets
+/EgoPoint_dataset/
+/EgoPoint_spatialnet/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Local environments and credentials
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+kaggle.json
+
+# Generated runs and exports
+/outputs/
+/outputs_spatialnet/
+/quick_run/
+*.onnx
+
+# OS metadata
+.DS_Store
+Thumbs.db
