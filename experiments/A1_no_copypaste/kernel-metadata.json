@@ -1,0 +1,17 @@
+{
+  "id": "mosharafapurbo/spatialnet-ablation-a1",
+  "title": "SpatialNet Ablation A1",
+  "code_file": "spatialnet_a1_no_copypaste.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": [
+    "mosharafapurbo/egopoint-spatialnet",
+    "mosharafapurbo/spatialnet-code"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

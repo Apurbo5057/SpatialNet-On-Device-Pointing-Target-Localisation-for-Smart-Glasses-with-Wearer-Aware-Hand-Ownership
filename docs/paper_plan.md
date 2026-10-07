@@ -30,9 +30,15 @@ Status on 2026-10-07.
 - The own VLM benchmark (former T1) is dropped; the published zero-shot results are used instead.
 - Figures done: architecture (Canva), teaser, qualitative results, ownership examples.
 
-### Postponed
+### Running on Kaggle
 
-- **224 px input run** (`experiments/img224/`, kernel `spatialnet-train-224`). Stopped on purpose; add it later if time allows.
+- **224 px input run** (`experiments/img224/`, kernel `spatialnet-train-224`, version 2). Same model and settings; only `--img_size 224` differs.
+  - Version 1 failed because Kaggle could not mount the dataset; version 2 runs.
+  - When it finishes:
+    1. Download it to `runs/img224/`.
+    2. Compare it with the 160 px run, using paired bootstrap intervals and fingertip error in % of image width.
+    3. Add a "160 vs 224 px" result to the paper (§7, Table 4 or a short table).
+- **Ablation A1** (`experiments/A1_no_copypaste/`, kernel `spatialnet-ablation-a1`). See section 3.
 
 ---
 
@@ -279,6 +285,6 @@ Status on 2026-10-07.
 | 5 | T5 real frames | — | about 1 day |
 | 6 | Label audit | — | about 1 h |
 | 7 | T6 user study (optional) | — | about 1 week |
-| 8 | 224 px run (optional, later) | about 3 | — |
+| 8 | 224 px run (running) | about 3 | — |
 
 The Kaggle quota is about 30 GPU-hours a week, so T3 and T4 fit in one week.
