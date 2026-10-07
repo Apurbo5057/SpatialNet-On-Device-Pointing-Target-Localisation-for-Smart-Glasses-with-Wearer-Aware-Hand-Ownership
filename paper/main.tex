@@ -1,0 +1,77 @@
+%% SpatialNet -- IMWUT submission draft.
+%% Build: pdflatex main && bibtex main && pdflatex main && pdflatex main   (see README.md)
+%% Red text marks values and statements that must be filled in or confirmed before submission.
+\documentclass[acmsmall,screen,review,anonymous]{acmart}
+\acmJournal{IMWUT}
+
+\usepackage{multirow}
+\usepackage{rotating}
+
+%% ---- Draft markers (delete together with every red item before submission) ----
+\newcommand{\tbd}[1]{\textcolor{red}{[#1]}}                 % text to write or confirm
+\newcommand{\xx}{\textcolor{red}{xx.x}}                      % numeric result to fill in
+\newcommand{\xxpm}{\textcolor{red}{xx.x$\,\pm\,$x.x}}        % mean $\pm$ std over seeds
+\newcommand{\phfig}[3]{\fcolorbox{red}{white}{\parbox[c][#2][c]{\dimexpr#1-2\fboxsep-2\fboxrule\relax}{\centering\color{red}\footnotesize #3}}}
+
+\newlength{\archh}   % height of the sideways architecture figure (set before the float)
+
+%% ---- Notation ----
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\bH}{\vect{b}_h}
+\newcommand{\bT}{\vect{b}_t}
+\newcommand{\cH}{\vect{c}_h}
+\newcommand{\cT}{\vect{c}_t}
+\newcommand{\vH}{\vect{v}_h}
+\newcommand{\vP}{\vect{v}_p}
+\newcommand{\tip}{\vect{p}}
+\newcommand{\dir}{\vect{u}}
+\newcommand{\cell}{\vect{g}}
+
+\begin{document}
+
+\title[SpatialNet]{SpatialNet: Wearer-Aware, On-Device Localisation of Pointed-At Objects for Smart Glasses}
+
+\author{Anonymous Author(s)}
+\affiliation{%
+  \institution{Anonymous Institution}
+  \country{Anonymous Country}}
+
+\begin{abstract}
+Pointing is the most direct way to ask smart glasses about something in view (``what is \emph{that}?''). Before any assistant can answer, the glasses must work out which object the wearer is pointing at, from their own camera, quickly, and without being misled by other people's hands. The most accurate pointing-grounding models are transformers and multimodal LLMs with hundreds of millions to billions of parameters, built for GPUs, and some receive the pointing hand as an input. We present SpatialNet, a 0.72M-parameter network (0.23 GFLOPs, 1.6\,MB in FP16) that, in one forward pass over a single frame, finds the wearer's hand, the fingertip, the pointing direction and the box of the pointed-at object. Its heads form an instance-anchored chain: each stage reads a shared feature map at the location the previous stage predicted, and the target search is conditioned on ray coordinates computed from the model's own fingertip and direction. To prefer the wearer's hand without labelled bystander hands, we train with pasted, unlabelled distractor hands and an ownership-weighted heatmap penalty. On the EgoPoint test split, SpatialNet localises the pointed-at object with IoU $\geq$ 0.5 in \xx\% of frames, against 93.9\% reported for a model with over 300 times as many parameters, and runs in \xx\,ms per frame on a smart-glasses developer unit. \tbd{Adjust the last sentence to the final T1/T2 results; keep it to one sentence.}
+\end{abstract}
+
+%% CCS concepts: regenerate the XML at https://dl.acm.org/ccs and paste it here before submission.
+\ccsdesc[500]{Human-centered computing~Ubiquitous and mobile computing systems and tools}
+\ccsdesc[500]{Human-centered computing~Gestural input}
+\ccsdesc[300]{Computing methodologies~Object detection}
+
+\keywords{smart glasses, pointing gesture, deictic reference, egocentric vision, on-device inference, hand ownership}
+
+\begin{teaserfigure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/teaser}
+  \caption{From one frame of the glasses' camera, SpatialNet finds the wearer's hand, the fingertip, the pointing direction and the pointed-at object, for objects touched (a), near (b) and far (c), and ignores other people's hands (d; the hands in (d) are synthetic, pasted with the procedure of Section~\ref{sec:ownership}). EgoPoint test images. \tbd{The overlays currently show ground-truth labels; replace them with SpatialNet predictions from \texttt{predictions/test.csv} after the main run.}}
+  \Description{Four egocentric photos. In each, a blue box marks the wearer's pointing hand, an orange dot the fingertip, a purple arrow the pointing direction and a green box the object pointed at: a vase touched by the finger, a bird close to the finger, a dog far from the finger among several dogs, and a remote control on a desk with two pasted hands of other people marked by red dashed boxes.}
+  \label{fig:teaser}
+\end{teaserfigure}
+
+\maketitle
+
+\input{sections/01-introduction}
+\input{sections/02-related-work}
+\input{sections/03-problem}
+\input{sections/04-method}
+\input{sections/05-data-protocol}
+\input{sections/06-implementation}
+\input{sections/07-results}
+\input{sections/08-user-study}
+\input{sections/09-discussion}
+\input{sections/10-ethics-conclusion}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

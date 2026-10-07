@@ -1,0 +1,31 @@
+\section{Discussion}\label{sec:discussion}
+
+\paragraph{What the design contributes.} \tbd{Rewrite once Table~\ref{tab:ablation} is filled in, keeping only the statements its intervals support.} The architecture rests on three choices:
+\begin{itemize}
+\item \emph{Anchoring.} Every head reads features where the previous head looked, so the chain stays on one hand instance.
+\item \emph{Learned, safe geometry.} The ray enters as a zero-initialised log-prior. It cannot hurt at the start of training and is used only as far as it helps.
+\item \emph{Ownership from training data.} Wearer-awareness comes from distractor pasting, not from extra labels.
+\end{itemize}
+These choices add little cost: the ray branch has 13K parameters, and the hand-offset branch 13K.
+
+\paragraph{Why most targets are touched, and what that implies.} Where people point at distant objects depends on the eye as well as the arm: modelling the dominant eye makes pointing rays markedly more accurate~\cite{plaumann2018towards}, and common ray-casting models show systematic offsets~\cite{mayer2015modeling}. If wearers align the fingertip with the target from the eye, a camera next to the eye sees the target at or just behind the fingertip. This is consistent with about 70\% of EgoPoint targets containing the fingertip in the image, although part of EgoPoint is staged or generated \tbd{confirm}. It has two consequences:
+\begin{itemize}
+\item For such targets, the fingertip tells \emph{where} the object is but not \emph{how large} it is: a mean-size box at the true fingertip reaches IoU${\geq}0.5$ in only 11.4\% of test images (Table~\ref{tab:main}). On touched objects, the target head mainly has to estimate the object's extent.
+\item The ray matters for the remaining near and far targets, where the finger points away from the line of sight. This subset is small (7\% far), so it needs its own metrics rather than pooled averages.
+\end{itemize}
+
+\paragraph{Limitations.}
+\begin{itemize}
+\item \emph{Two scenes.} The pointing and target gates were never trained or tested against negatives (Section~\ref{sec:data}). In deployment, a non-pointing hand may therefore be read as pointing, and the cascade's middle states are untested. A dataset with non-pointing hands and pointing without a target is needed before relying on them.
+\item \emph{Ownership.} Our distractors are synthetic and encode the prior that the wearer's arm enters from the bottom of the view. The real-frame check (Section~\ref{sec:own}) is small. A wearer pointing upward from a raised arm, or a companion's hand close to the wearer's, can break the prior.
+\item \emph{A 2D ray.} The ray lives in the image plane. Objects at different depths along the same image ray are told apart only by appearance, and the eye--camera offset is ignored. Depth, or a second view, could resolve such cases.
+\item \emph{Single frames.} The model has no temporal context. Detecting a pointing \emph{event}, as opposed to a pointing frame, and smoothing the target over a short window are left to the application.
+\item \emph{Dataset coverage.} Results come from one dataset with mostly landscape, partly synthetic images and unknown demographic coverage (for example, skin tone and handedness). Flip augmentation covers left hands only geometrically. Evaluation on real, diverse glasses footage is the most important next step.
+\item \emph{Baselines.} We copied the published state-of-the-art results instead of re-running those models, and two of them use different inputs or subsets. The VLMs were used zero-shot with \tbd{one prompt}. Large grounding models are clearly more accurate. Our claim is the operating point, with accuracy reported next to its cost, not superiority.
+\end{itemize}
+
+\paragraph{Implications for glasses interfaces.} A model of this size can run continuously and act as a gate for more expensive components:
+\begin{itemize}
+\item \emph{Crops instead of frames.} Only when the glasses detect a pointing frame with a confident target does a recogniser or assistant run, and then on the target crop instead of the full frame. This reduces computation, bandwidth and the amount of bystander imagery that leaves the device. \tbd{Quantify if T2 measured it; otherwise keep as a design implication.}
+\item \emph{Confirmation for far targets.} Because far targets are where errors concentrate (Section~\ref{sec:heads-results}), interfaces should confirm the selection, for example by naming the object or highlighting it, before acting on it.
+\end{itemize}

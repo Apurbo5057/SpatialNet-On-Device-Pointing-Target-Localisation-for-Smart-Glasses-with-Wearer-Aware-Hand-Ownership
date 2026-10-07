@@ -1,0 +1,55 @@
+\section{Loss Weights}\label{app:weights}
+
+Table~\ref{tab:weights} lists the 13 loss terms and their weights. \tbd{One true sentence on how the weights were set, e.g.: set by hand during development so that the weighted terms had similar magnitudes early in training, judged on the validation split only; no search on the test split.}
+
+\begin{table}[h]
+  \caption{Loss terms, their supervision, and weights.}
+  \label{tab:weights}
+  \footnotesize
+  \begin{tabular}{llll}
+    \toprule
+    Term & Loss & Supervision & Weight \\
+    \midrule
+    Hand box & 1 $-$ CIoU & hand box & 0.10 \\
+    Fingertip & Wing ($w{=}0.5$, $\epsilon{=}0.1$) & fingertip & 0.18 \\
+    Direction & 1 $-$ cosine & fingertip $\to$ target centre & 0.03 \\
+    Target box & 1 $-$ SIoU & target box & 0.45 \\
+    Target box, auxiliary & 1 $-$ IoU & target box & 0.10 \\
+    Hand gate & focal BCE, positives $\times3$ & $H$ & 0.08 \\
+    Pointing gate & focal BCE, positives $\times2$ & $P$ (hand images) & 0.10 \\
+    Target gate & focal BCE, positives $\times2$ & $T$ (pointing images) & 0.06 \\
+    Ray alignment & distance to ray $+$ 0.5 $\cdot$ behind & none (predictions only) & 0.08 \\
+    Hand axis & hinge outside a $60^\circ$ cone & none (predictions only) & 0.02 \\
+    Hand heatmap & penalty-reduced focal, ownership-weighted & hand centre & 0.10 \\
+    Fingertip heatmap & penalty-reduced focal & fingertip & 0.10 \\
+    Target heatmap & penalty-reduced focal & target centre & 0.10 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Augmentation Parameters}\label{app:aug}
+
+\begin{table}[h]
+  \caption{Training-time augmentation, applied on the fly; each training image is seen once per epoch as a new random variant. Validation and test images are only resized and normalised.}
+  \label{tab:aug}
+  \footnotesize
+  \begin{tabular}{lp{0.62\linewidth}}
+    \toprule
+    Step & Setting \\
+    \midrule
+    Distractor hands & 1--2 hands with probability 0.5 (hand images) or 0.3 (no-hand images); scale 0.45--1.0; rotation by 90/180/270$^\circ$ and optional mirror with probability 0.7; centre in the top 65\% of the frame; overlap with the wearer's hand and the target below 15\%; feathered alpha (12\% of the crop size); colour jitter; 30\% self-paste; pool of 512 donor crops, half from pointing hands \\
+    Decoy patch & unlabelled non-hand patch from a no-hand image, with probability 0.15 \\
+    Horizontal flip & 0.5 \\
+    Shift / scale / rotate & ${\pm}5\%$ / ${\pm}10\%$ / ${\pm}15^\circ$, probability 0.4 \\
+    Perspective & scale 0.02--0.05, probability 0.2 \\
+    Brightness / contrast & ${\pm}20\%$, probability 0.5 \\
+    Gaussian blur & kernel 3--5, probability 0.2 \\
+    Mixup & within the same scene, $\lambda\sim\mathrm{Beta}(0.2,0.2)$ folded to ${\geq}0.5$, label of the dominant image, every batch \\
+    Anchor forcing & ground-truth anchors with probability 0.5 decaying to 0 over 20 epochs \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Vision--Language Model Prompts}\label{app:vlm}
+
+\tbd{For each model: name, version or snapshot, access date, and decoding settings (temperature, maximum tokens); the exact prompt; the expected output format and how it was parsed into a box (coordinate convention, normalisation); the share of answers that could not be parsed; and the latency measurement setup.}

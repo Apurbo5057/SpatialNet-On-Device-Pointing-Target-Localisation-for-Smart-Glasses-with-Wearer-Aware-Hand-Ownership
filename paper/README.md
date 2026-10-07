@@ -1,0 +1,61 @@
+# SpatialNet paper (IMWUT draft)
+
+ACM `acmart` class, `acmsmall` format, `\acmJournal{IMWUT}`, anonymous review mode. The current draft is 22 pages, including references and appendix.
+
+## Build
+
+```bash
+cd paper
+pdflatex main && bibtex main && pdflatex main && pdflatex main
+```
+
+`latexmk` needs Perl, which is not installed here, so run the four commands above. `acmart.cls` was generated from the official acmart source in `template/acmart-primary/`.
+
+## Layout
+
+| Path | Contents |
+|---|---|
+| `main.tex` | Preamble, title, abstract, teaser, draft macros, section includes |
+| `sections/01-introduction.tex` … `10-ethics-conclusion.tex`, `appendix.tex` | One file per section |
+| `references.bib` | All references. The 2026 arXiv entries were checked in October 2026; switch them to venue versions if they get published. |
+| `figures/architecture.pdf` | Fig. 2, exported from the Canva design (link below), placed as a landscape page |
+| `figures/teaser.pdf`, `figures/ownership_examples.pdf` | Figs. 1 and 3, made by `make_teaser.py` and `make_ownership_examples.py` |
+| `figures/thumbs/`, `make_thumbnails.py`, `make_ray_inset.py` | Images placed inside the Canva diagram |
+| `scripts/simple_references.py` | The "Simple references" rows of Table 4, computed from `predictions/test.csv` |
+
+Architecture diagram in Canva: <https://canva.link/senozgc7x6ep7k9> (design `DAHXR61pElc`). After editing it, export it as PDF to `figures/architecture.pdf`.
+
+## Red placeholders
+
+| Macro | Meaning |
+|---|---|
+| `\tbd{...}` | Text to write or confirm |
+| `\xx`, `\xxpm` | A number, or a mean ± std, to fill in |
+| `\phfig{w}{h}{...}` | A figure to insert |
+
+Find them all with `grep -n "tbd\|\\\\xx\|phfig" main.tex sections/*.tex`. Delete the macro definitions in `main.tex` before submitting, so that a forgotten placeholder breaks the build instead of being printed.
+
+## Where each result goes
+
+| Source | Goes to |
+|---|---|
+| Main run `evaluation/metrics.json` (`best_model.pth`) | Table 4 SpatialNet row; Table 5 (by head and distance); hand-gate paragraph in §7.2; Fig. 4 (`iou_success_rate.pdf`, `target_iou_by_gap.pdf`); abstract and introduction numbers |
+| `predictions/test.csv` + `scripts/simple_references.py` | Table 4 row "Mean-size box at predicted fingertip". The fixed-box and true-fingertip rows are already filled; they depend only on labels. |
+| Failure inspection of `predictions/test.csv` | §7.6 failure types and counts; Fig. 6 |
+| `training/run_info.json` | §6.1 GPU, training time, epochs |
+| T1 VLM benchmark | Table 4 VLM rows; Appendix C prompts and parsing |
+| T2 on-glasses measurements | §6.2 pipeline and measurement; Table 8; abstract latency |
+| T3 ablations A1–A3 (`docs/paper_plan.md` runbook) | Table 6 with paired-bootstrap intervals; §7.3 text; then revise the claims in §9 |
+| T4 seeds 1 and 2 | Table 4 "± std over 3 seeds" row |
+| T5 real multi-person frames | Table 7 last row; Fig. 5; §7.4 |
+| T6 user study | §8. If T6 is not run, delete §8 and add deployment observations to §9 |
+
+## Before submission
+
+- **Device details.** `docs/Glass Spec.png` looks like an internal spec sheet. Confirm what may be published about the developer unit (§6.2, §10), and anonymise it for review.
+- **Dataset access.** The EgoPoint-Ground paper says access is limited to certified researchers under a licensing system. Keep the converted Kaggle dataset private, and state the licence in §5 and §10.
+- **Split.** The EgoPoint-Ground paper states a 7:2:1 train:val:test ratio, but the released folders are about 7:1:2 and match VistaRef's 3,072-image test split. Confirm with the authors and update §5.
+- **Real-image subset.** The published POG numbers are for real images only. If per-image source labels are available, also report SpatialNet on that subset.
+- **CCS concepts.** Regenerate the CCS XML at <https://dl.acm.org/ccs>.
+- **Numbers.** Every number must come from `metrics.json` or the T1–T6 logs.
+- **Anonymity.** Anonymise code and data links.

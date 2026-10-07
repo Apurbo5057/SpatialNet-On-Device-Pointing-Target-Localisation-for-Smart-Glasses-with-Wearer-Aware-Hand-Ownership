@@ -1,0 +1,41 @@
+\section{Introduction}\label{sec:intro}
+
+Camera-equipped smart glasses are becoming everyday devices, and an assistant on them is most useful when the wearer can refer to things in view. Pointing is the most direct way to do so: ``what is \emph{that}?'', ``remind me to buy \emph{this}''. Systems have combined speech with pointing since Bolt's \emph{Put-that-there}~\cite{bolt1980put}, and recent wearable assistants use pointing and gaze to resolve such pronouns~\cite{lee2024gazepointar}. Before any of this works on glasses, the device must answer a spatial question from its own camera: \emph{which object is the wearer pointing at?}
+
+Answering this on glasses is hard for three reasons.
+\begin{itemize}
+\item \emph{The egocentric view.} The camera sees the wearer's hand from behind and often only in part. The target may be touched or across the room, and a pointing direction drawn in the image is only a rough guide to it.
+\item \emph{Other people's hands.} A companion's hand or a stranger's pointing gesture can be in view, and must not be mistaken for the wearer's.
+\item \emph{The budget.} Glasses-class processors share a battery of a few hundred milliampere-hours with the camera, audio and radio. Sending frames to a cloud model adds network latency and moves imagery of bystanders off the device.
+\end{itemize}
+
+\paragraph{Prior work.} Pointing-target grounding in egocentric images is an active research area, and EgoPoint-Ground~\cite{egopoint} provides a large benchmark for it. The strongest methods are large models:
+\begin{itemize}
+\item multimodal LLMs that reason step by step from the hand to a ray and then to the target~\cite{egopoint,li2026pointvgr};
+\item a 226M-parameter transformer that models the pointing ray explicitly~\cite{li2026vistaref}.
+\end{itemize}
+Some benchmark tasks even give the model the ground-truth hand box~\cite{egopoint}. These systems reach high accuracy on a GPU, but none of them is designed for glasses-class hardware, and to our knowledge none addresses other people's hands in view. Egocentric fingertip systems, including one that runs on a phone, stop at the fingertip~\cite{huang2016pointing,jain2019gestarlite} and never localise the target.
+
+\paragraph{SpatialNet.} We present SpatialNet, a 0.72M-parameter convolutional network (0.23 GFLOPs, 1.6\,MB in FP16). From a single frame and in one forward pass, it predicts the wearer's hand, the fingertip, the pointing direction and the box of the pointed-at object, together with presence gates for each. Three ideas make this work at such a small size:
+\begin{itemize}
+\item \emph{Instance-anchored heads.} The heads form a chain in which each one reads a shared feature map at the location the previous one predicted, so the fingertip, direction and target all belong to the same hand.
+\item \emph{Ray-conditioned target search.} The target heatmap is conditioned on six ray-coordinate maps, computed from the model's own fingertip and direction, through a zero-initialised branch. The ray acts as a learned prior that the network uses only as far as it helps.
+\item \emph{Ownership by training.} Training pastes unlabelled hands of other people into the frames and penalises the hand heatmap for responding to them. The model thus learns to follow the wearer's hand without any labelled bystander hands.
+\end{itemize}
+
+\paragraph{Evaluation.} We train and test on EgoPoint and report:
+\begin{itemize}
+\item accuracy by fingertip--target distance, which matters because about 70\% of targets are touched by the fingertip;
+\item comparisons with zero-shot vision--language models on our test images, with published state-of-the-art results, and with simple fingertip-based references;
+\item ablations of each component;
+\item ownership on images with pasted and with real hands of other people;
+\item latency on a smart-glasses developer unit.
+\end{itemize}
+\tbd{One sentence with the headline T1/T2 numbers, phrased as an accuracy--cost trade-off. For example: ``SpatialNet reaches \xx\% IoU$\geq$0.5, against 93.9\% reported for VistaRef with over 300$\times$ more parameters, and runs in \xx\,ms on the glasses.''}
+
+\paragraph{Contributions.}
+\begin{enumerate}
+\item \emph{A pointed-target localiser small enough for smart glasses.} It works from the image alone, in one forward pass, through instance-anchored heads with a peak-windowed soft-argmax and a zero-initialised, ray-conditioned target prior (Section~\ref{sec:method}).
+\item \emph{A training recipe for wearer-awareness without bystander labels.} It combines distractor-hand pasting that follows egocentric geometry, self-pasting, and ownership-weighted heatmap negatives (Section~\ref{sec:ownership}).
+\item \emph{An evaluation that exposes where pointing localisation fails.} It stratifies results by distance, measures ownership on synthetic and real frames, and places accuracy next to on-glasses cost (Sections~\ref{sec:data}--\ref{sec:results}). \tbd{Add the user study if T6 is done.}
+\end{enumerate}

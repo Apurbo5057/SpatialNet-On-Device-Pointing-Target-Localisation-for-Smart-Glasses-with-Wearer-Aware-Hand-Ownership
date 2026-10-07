@@ -1,0 +1,223 @@
+\section{Results}\label{sec:results}
+
+We answer five questions:
+\begin{enumerate}
+\item How well does SpatialNet find the pointed-at object, compared with the published state of the art, vision--language models and simple references (Section~\ref{sec:main})?
+\item Where does it fail, by distance and by head (Section~\ref{sec:heads-results})?
+\item Which design choices matter (Section~\ref{sec:ablations})?
+\item Does it follow the wearer's hand when other hands are visible (Section~\ref{sec:own})?
+\item How fast does it run on the glasses (Section~\ref{sec:ondevice})?
+\end{enumerate}
+Unless stated otherwise, SpatialNet numbers are mean $\pm$ standard deviation over three training seeds on the 3,029 test images.
+
+\subsection{Pointed-Target Localisation}\label{sec:main}
+
+\paragraph{References.} We compare SpatialNet with four kinds of reference.
+\begin{itemize}
+\item \emph{State of the art, as published.} VistaRef~\cite{li2026vistaref} reports results on the same 3,072-image test split (ours omits 43 unclear images). EgoPoint-Ground's pointing-only (POG) results~\cite{egopoint} come from a different setting: the methods receive the ground-truth hand box, and results are given for the real-image subset. We copy these numbers and do not re-run the models.
+\item \emph{Vision--language models (VLMs).} We prompt \tbd{model names, versions and access dates; cite each} zero-shot on our 3,029 test images and ask for the box of the object that the camera wearer is pointing at (prompts and parsing in Appendix~\ref{app:vlm}).
+  \begin{itemize}
+  \item An answer that cannot be parsed into a box counts as IoU 0.
+  \item Latency is the wall-clock time per image, measured \tbd{API or local GPU}.
+  \end{itemize}
+\item \emph{Simple references} computed from our predictions:
+  \begin{itemize}
+  \item the mean training target box at a fixed position;
+  \item a box of mean training size centred on SpatialNet's predicted fingertip;
+  \item the same box centred on the ground-truth fingertip.
+  \end{itemize}
+  These references test whether knowing where the fingertip is would be enough. It is not. Even at the true fingertip, a mean-size box reaches IoU${\geq}0.5$ in only 11.4\% of test images, and 12.0\% when it is shifted by the mean training offset. Target sizes vary widely (2.6\% to 44\% of the image area, 10th to 90th percentile), so the extent of the target has to be estimated as well.
+\end{itemize}
+
+\begin{table}[t]
+  \caption{Target localisation on the EgoPoint test split: mean target IoU and the share of images (\%) whose IoU reaches each threshold. Published works count IoU${>}\tau$; we count IoU${\geq}\tau$. \emph{Far}: IoU $\geq$ 0.5 on the 209 far targets. Latency per image on the hardware named in the text; only SpatialNet runs on the glasses.\\
+  $^\ast$\,BEiT-3-L backbone (226M parameters with BEiT-3-Base), setting ``Train-Real'', 3,072 test images.\\
+  $^\dagger$\,Given the ground-truth hand box; real-image subset of the test split.}
+  \label{tab:main}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lrrrrrrr}
+    \toprule
+    Method & Params & IoU & ${\geq}0.3$ & ${\geq}0.5$ & ${\geq}0.7$ & Far & Latency \\
+    \midrule
+    \multicolumn{8}{l}{\emph{Published results (not re-run)}} \\
+    \quad VistaRef$^\ast$~\cite{li2026vistaref}, image + fixed prompt & $>$226M & 82.0 & 97.0 & 93.9 & 82.6 & -- & -- \\
+    \quad SV-CoT$^\dagger$~\cite{egopoint}, image + hand box & $>$1B & -- & 69.4 & 63.9 & 55.6 & -- & -- \\
+    \quad Qwen3-VL-4B$^\dagger$~\cite{egopoint}, image + hand box & 4B & -- & 67.1 & 61.2 & 53.2 & -- & -- \\
+    \multicolumn{8}{l}{\emph{Vision--language models: image + text prompt, zero-shot, our test split}} \\
+    \quad\tbd{VLM 1} & \tbd{size} & \xx & \xx & \xx & \xx & \xx & \xx\,s \\
+    \quad\tbd{VLM 2} & \tbd{size} & \xx & \xx & \xx & \xx & \xx & \xx\,s \\
+    \quad\tbd{VLM 3} & \tbd{size} & \xx & \xx & \xx & \xx & \xx & \xx\,s \\
+    \multicolumn{8}{l}{\emph{Simple references}} \\
+    \quad Mean training box, fixed position & 0 & 27.4 & 41.3 & 9.6 & 0.9 & 4.3 & -- \\
+    \quad Mean-size box at predicted fingertip & 0.72M & \xx & \xx & \xx & \xx & \xx & -- \\
+    \quad Mean-size box at true fingertip (oracle) & -- & 29.0 & 43.6 & 11.4 & 1.0 & 0.0 & -- \\
+    \midrule
+    \textbf{SpatialNet} (image only) & 0.72M & \xx & \xx & \xx & \xx & \xx & \xx\,ms \\
+    \quad $\pm$ std over 3 seeds & & \xx & \xx & \xx & \xx & \xx & \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Results.} \tbd{Write two to four sentences after T1. Keep the comparison measured:}
+\begin{itemize}
+\item \tbd{Expect SpatialNet to be clearly below VistaRef in accuracy. Say so, then state the cost on each side: parameters, hardware and latency. VistaRef reports 22.9 images/s on a GPU; SpatialNet runs on the glasses in \xx\,ms.}
+\item \tbd{The VLMs are general, zero-shot models, while SpatialNet is trained on EgoPoint. The comparison shows what a specialised on-device model reaches against the general alternative a developer could call today; it does not show that VLMs are worse in general.}
+\item \tbd{Compare SpatialNet with the fingertip-centred references; the gap shows what the target head adds beyond finding the fingertip (extent on touched objects, the ray on near and far ones).}
+\item \tbd{Optional: a plot of accuracy (IoU${\geq}0.5$) against parameters on a log scale, with VistaRef, the POG results, the VLMs and SpatialNet.}
+\end{itemize}
+\subsection{Per-Head Accuracy and Target Distance}\label{sec:heads-results}
+
+Table~\ref{tab:heads} breaks the result down by head and by fingertip--target distance. Figure~\ref{fig:curves} shows the IoU success curves.
+
+\begin{table}[t]
+  \caption{Accuracy of each head by fingertip--target distance (test split, pointing-at-target images). Fingertip error in pixels at the $160\times160$ input; direction error in degrees. Brackets: 95\% bootstrap confidence intervals of the mean.}
+  \label{tab:heads}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lrrrrrrrr}
+    \toprule
+    & \multicolumn{2}{c}{Hand IoU} & \multicolumn{2}{c}{Fingertip (px)} & \multicolumn{2}{c}{Direction ($^\circ$)} & \multicolumn{2}{c}{Target IoU} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(l){8-9}
+    Distance (images) & mean & ${\geq}0.5$ & mean & ${<}5$\,px & mean & ${<}15^\circ$ & mean [CI] & ${\geq}0.5$ \\
+    \midrule
+    On object (1,796) & \xx & \xx & \xx & \xx & \xx & \xx & \xx\ [\xx, \xx] & \xx \\
+    Near (599) & \xx & \xx & \xx & \xx & \xx & \xx & \xx\ [\xx, \xx] & \xx \\
+    Far (209) & \xx & \xx & \xx & \xx & \xx & \xx & \xx\ [\xx, \xx] & \xx \\
+    \midrule
+    All (2,604) & \xx & \xx & \xx & \xx & \xx & \xx & \xx\ [\xx, \xx] & \xx \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \phfig{0.48\linewidth}{4.2cm}{IoU success rate, hand and target\\(\texttt{evaluation/figures/iou\_success\_rate.pdf})}\hfill
+  \phfig{0.48\linewidth}{4.2cm}{Target IoU by fingertip--target distance\\(\texttt{evaluation/figures/target\_iou\_by\_gap.pdf})}
+  \caption{Left: share of test images whose hand or target box reaches each IoU threshold. Right: mean target IoU and IoU ${\geq}0.5$ for touched, near and far targets. \tbd{Insert the figures produced by the evaluation script.}}
+  \Description{Two plots to be inserted: success rate against IoU threshold for the hand and the target, and target IoU for three distance bins.}
+  \label{fig:curves}
+\end{figure}
+
+\paragraph{Hand presence.} The hand gate separates no-hand from pointing frames with accuracy \xx\% \tbd{[CI]}. It misses \xx\% of hands, raises false alarms on \xx\% of no-hand frames, and has AUROC \xx.
+
+\paragraph{Results.} \tbd{Two to four sentences. Expected pattern to verify: the target IoU drops from on-object to far targets, and the direction error matters most for far targets. Name the head that limits far targets (fingertip, direction or target box), using the table.}
+
+\subsection{Ablations}\label{sec:ablations}
+
+We retrain the model without one component at a time, with the seed and settings of the main run:
+\begin{itemize}
+\item \textbf{A1} no distractor pasting and no ownership weighting;
+\item \textbf{A2} no geometric consistency terms ($\mathcal{L}_{\mathrm{ray}}$ and the hand-axis term);
+\item \textbf{A3} no ray conditioning of the target head (no $G^t$; 13,105 fewer parameters).
+\end{itemize}
+\tbd{Optional A4: no instance-anchored chain (heads read the globally pooled vector).}
+Each ablation was trained once. Instead of seed variation, we report a paired bootstrap over test images: we resample the 2,604 images and recompute the difference between the full model and the ablation on the same images, which yields a 95\% confidence interval for each difference.
+
+\begin{table}[t]
+  \caption{Ablations (one seed each). Differences from the full model with 95\% paired-bootstrap intervals; intervals that exclude 0 are in bold. Ownership: ownership accuracy on the synthetic multi-hand test.}
+  \label{tab:ablation}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Variant & Target IoU & ${\geq}0.5$ & Far ${\geq}0.5$ & Hand IoU & Fingertip (px) & Ownership (\%) \\
+    \midrule
+    Full model (seed 42) & \xx & \xx & \xx & \xx & \xx & \xx \\
+    A1 no distractors / ownership weight & \xx & \xx & \xx & \xx & \xx & \xx \\
+    A2 no geometric consistency terms & \xx & \xx & \xx & \xx & \xx & \xx \\
+    A3 no ray conditioning & \xx & \xx & \xx & \xx & \xx & \xx \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Results.} \tbd{Write one claim per row, only as strong as its interval:}
+\begin{itemize}
+\item \tbd{A3 tests contribution C1. If far-target IoU does not drop significantly without $G^t$, say so and weaken C1 in the introduction and abstract.}
+\item \tbd{A2 tests whether the two consistency terms help, mostly on far targets.}
+\item \tbd{A1 should mainly affect ownership; report any cost on clean-image accuracy.}
+\end{itemize}
+The loss weights were not searched (Appendix~\ref{app:weights}): A2 covers the two non-standard terms, and the remaining eleven are standard box, keypoint, heatmap and focal losses.
+
+\subsection{Following the Wearer's Hand}\label{sec:own}
+
+\paragraph{Synthetic distractors.} Table~\ref{tab:own} reports the multi-hand test of Section~\ref{sec:metrics} for the full model and A1. Because the distractors follow the training distribution, these numbers show that the model has learned what it was trained on. They do not show robustness to real bystanders.
+
+\paragraph{Real frames.} \tbd{Fill in when T5 is done:}
+\begin{itemize}
+\item We recorded \tbd{N} clips with the glasses in which another person's hand is visible, sometimes pointing, with \tbd{consent procedure}, and sampled \tbd{100--150} frames.
+\item Two annotators independently labelled the predicted hand in each frame as the wearer's, another person's, or missed.
+\item We report ownership accuracy with a Wilson interval and inter-annotator agreement (Cohen's $\kappa$).
+\end{itemize}
+Figure~\ref{fig:own-real} shows examples.
+
+\begin{table}[t]
+  \caption{Ownership on test images with one or two pasted hands (synthetic), and on real frames with other people's hands (T5). All values in \%. \emph{On other hand}: predicted hand centre inside a pasted hand. \emph{No hand kept}: no-hand images with pasted hands still classed as no hand.}
+  \label{tab:own}
+  \footnotesize
+  \begin{tabular}{lrrrr}
+    \toprule
+    & Ownership accuracy & On other hand & No hand kept & Target IoU ${\geq}0.5$ \\
+    \midrule
+    Full model, clean test images & -- & -- & -- & \xx \\
+    Full model, pasted hands & \xx & \xx & \xx & \xx \\
+    A1, pasted hands & \xx & \xx & \xx & \xx \\
+    \midrule
+    Full model, real frames (\tbd{N}) & \xx\ [\xx, \xx] & \xx & -- & -- \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \phfig{\linewidth}{3.2cm}{Six real frames from the glasses with another person's hand in view: predicted wearer's hand, fingertip, ray and target (T5). Include at least one failure.}
+  \caption{Real frames with other people's hands. \tbd{Insert after T5.}}
+  \Description{To be inserted: six photos from the glasses showing SpatialNet's outputs while another person's hand is visible.}
+  \label{fig:own-real}
+\end{figure}
+
+\subsection{On-Device Performance}\label{sec:ondevice}
+
+Table~\ref{tab:device} reports cost on a desktop CPU and on the glasses.
+
+\begin{table}[t]
+  \caption{Inference cost at batch size 1 and $160\times160$ input. Desktop numbers use PyTorch eager mode and are given for reference only. \tbd{CPU model}.}
+  \label{tab:device}
+  \footnotesize
+  \begin{tabular}{llrr}
+    \toprule
+    Platform and measure & Runtime / precision & Median & p90 \\
+    \midrule
+    Desktop CPU, 1 thread & PyTorch FP32 & \xx\,ms & \xx\,ms \\
+    Desktop CPU, all threads & PyTorch FP32 & \xx\,ms & \xx\,ms \\
+    \midrule
+    Glasses, model only & \tbd{runtime, unit, precision} & \xx\,ms & \xx\,ms \\
+    Glasses, camera frame to result & \tbd{same} & \xx\,ms & \xx\,ms \\
+    Glasses, sustained throughput (60\,s) & & \multicolumn{2}{r}{\xx\ frames/s} \\
+    Glasses, peak memory / battery per 10\,min & & \multicolumn{2}{r}{\xx\,MB / \xx\%} \\
+    Glasses vs.\ PyTorch, 100 test images & & \multicolumn{2}{r}{\xx\% same scene; box IoU \xx} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Results.} \tbd{Two or three sentences: model latency against the frame interval of the camera, end-to-end latency against a 100--200\,ms interactive budget, and the gap to the VLM latencies of Table~\ref{tab:main}. If the end-to-end time is dominated by capture or conversion rather than by the model, say so.}
+
+\subsection{Qualitative Results and Failure Analysis}\label{sec:qual}
+
+Figure~\ref{fig:qual} shows typical successes and failures. We sorted the \tbd{N} test images with target IoU $<$ 0.3 into failure types by inspection:
+\begin{itemize}
+\item \tbd{wrong object along the correct ray (similar objects in a row, as in Figure~\ref{fig:teaser}c);}
+\item \tbd{correct object but box too small or too large (object extent, e.g., a whole table versus the cup on it);}
+\item \tbd{wrong direction (fingertip or hand partly out of view);}
+\item \tbd{missed or wrong hand;}
+\item \tbd{questionable label.}
+\end{itemize}
+\tbd{Give a count for each type.}
+
+\begin{figure}[t]
+  \centering
+  \phfig{\linewidth}{3.6cm}{Qualitative results: four successes (touched, near, far, cluttered) and four failures, one per failure type. Predictions solid, labels dashed.\\(\texttt{evaluation/figures/qualitative\_examples.png} or a selection from \texttt{predictions/test.csv})}
+  \caption{Successes (top) and failures (bottom) on EgoPoint test images. \tbd{Insert after the main run.}}
+  \Description{To be inserted: eight egocentric images with predicted and labelled boxes.}
+  \label{fig:qual}
+\end{figure}
