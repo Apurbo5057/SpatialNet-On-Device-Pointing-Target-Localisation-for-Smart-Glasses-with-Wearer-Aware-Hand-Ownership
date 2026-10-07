@@ -40,8 +40,8 @@ In addition, training pastes unlabelled hands of other people into the frames an
 \end{itemize}
 \paragraph{Results in brief.}
 \begin{itemize}
-\item SpatialNet finds the wearer's hand reliably (IoU${\geq}0.5$ in 92.6\% of test frames) and the fingertip precisely (3.9\,px mean error at $160\times160$).
-\item It localises the pointed-at object with IoU${\geq}0.5$ in 58.9\% of frames. That is above zero-shot 7--8B multimodal LLMs reported on the same test split (44.5--49.8\%), close to a 7B model fine-tuned on EgoPoint (63.6\%), and far below VistaRef (93.9\%) and PointVG-R (83.6\%).
+\item SpatialNet finds the wearer's hand reliably (P@0.5 of 92.6\%, the share of test frames with IoU${\geq}0.5$) and the fingertip precisely (3.9\,px mean error at $160\times160$).
+\item It localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%). That is above zero-shot 7--8B multimodal LLMs reported on the same test split (44.5--49.8\%), close to a 7B model fine-tuned on EgoPoint (63.6\%), and far below VistaRef (93.9\%) and PointVG-R (83.6\%).
 \item It drops to 25.4\% for far targets.
 \item It runs in \xx\,ms on the glasses. \tbd{T2 latency.}
 \end{itemize}

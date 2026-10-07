@@ -46,7 +46,7 @@ Table~\ref{tab:data} summarises the result. Images are stored at $224\times224$;
 
 \subsection{Metrics}\label{sec:metrics}
 \begin{itemize}
-\item \emph{Target and hand localisation.} We report mean IoU with a 95\% bootstrap confidence interval (1,000 resamples~\cite{efron1994introduction}), and the share of images with IoU $\geq$ 0.3, 0.5 and 0.7. Target metrics are given overall and by distance.
+\item \emph{Target and hand localisation.} We use the two standard grounding metrics~\cite{egopoint,li2026vistaref,li2026pointvgr}. \emph{mIoU} is the IoU between predicted and labelled box, averaged over images, with a 95\% bootstrap confidence interval (1,000 resamples~\cite{efron1994introduction}). \emph{P@$\tau$} (Precision@$\tau$) is the share of images with IoU${\geq}\tau$, for $\tau$ = 0.3, 0.5 and 0.7. Both are given in \%. Target metrics are given overall and by distance.
 \item \emph{Fingertip and direction.} Fingertip error is in pixels at the $160\times160$ input (1\,px = 0.63\% of the image side). Direction error is the angle between $\hat{\dir}$ and $\dir^\star$.
 \item \emph{Hand presence.} For the hand gate, we report accuracy, missed hands, false alarms and AUROC, and the two-scene accuracy (no hand versus pointing at target), with Wilson intervals~\cite{wilson1927probable} for proportions.
 \item \emph{No skipped images.} Localisation is scored on every image whose label contains the part, whatever scene the model predicted, so hard images cannot be skipped.
