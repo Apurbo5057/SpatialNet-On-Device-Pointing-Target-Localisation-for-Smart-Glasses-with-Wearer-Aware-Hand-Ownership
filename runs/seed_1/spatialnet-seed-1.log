@@ -1,0 +1,825 @@
+[{"stream_name":"stderr","time":6.3463919,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":6.346430576,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":6.346434645,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":6.346437152,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":6.900348671,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":6.90037453,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":6.900379062,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":6.900382698,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":8.081370619,"data":"\n"}
+,{"stream_name":"stdout","time":8.081391605,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":8.081396849,"data":"  Setup\n"}
+,{"stream_name":"stdout","time":8.081400882,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":8.082077659,"data":"  Code         /kaggle/input/datasets/mosharafapurbo/spatialnet-code -\u003e /tmp/spatialnet  (13 files)\n"}
+,{"stream_name":"stdout","time":8.082085965,"data":"  Data         /kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet\n"}
+,{"stream_name":"stdout","time":8.082089443,"data":"  Output       /kaggle/working/seed_1\n"}
+,{"stream_name":"stdout","time":8.082092793,"data":"  Resume from  -\n"}
+,{"stream_name":"stdout","time":8.082095989,"data":"\n"}
+,{"stream_name":"stdout","time":8.082099195,"data":"Dataset (every label file is parsed; a malformed file stops here)\n"}
+,{"stream_name":"stdout","time":8.08210251,"data":"-----------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":69.93739553,"data":"  Split  Images  No hand  Non-pointing  Pointing, no target  Pointing at target  Tgt on-object  Tgt near  Tgt far\n"}
+,{"stream_name":"stdout","time":69.937447641,"data":"  -----  ------  -------  ------------  -------------------  ------------------  -------------  --------  -------\n"}
+,{"stream_name":"stdout","time":69.937453771,"data":"  train   10669     1535             0                    0                9134           6511      1995      628\n"}
+,{"stream_name":"stdout","time":69.937459053,"data":"  val      1524      211             0                    0                1313            922       297       94\n"}
+,{"stream_name":"stdout","time":69.937464214,"data":"  test     3029      425             0                    0                2604           1796       599      209\n"}
+,{"stream_name":"stdout","time":69.937469582,"data":"  total   15222     2171             0                    0               13051           9229      2891      931\n"}
+,{"stream_name":"stdout","time":78.215797916,"data":"\n"}
+,{"stream_name":"stdout","time":78.215825714,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":78.215831488,"data":"  SpatialNet training\n"}
+,{"stream_name":"stdout","time":78.21583573,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":78.261964519,"data":"\n"}
+,{"stream_name":"stdout","time":78.261988403,"data":"Environment\n"}
+,{"stream_name":"stdout","time":78.261993369,"data":"-----------\n"}
+,{"stream_name":"stdout","time":78.261997311,"data":"  Device            Tesla T4  (cuda, mixed precision on)\n"}
+,{"stream_name":"stdout","time":78.262001227,"data":"  PyTorch / Python  2.11.0+cu128 / 3.13.15\n"}
+,{"stream_name":"stdout","time":78.262005852,"data":"  Seed              1\n"}
+,{"stream_name":"stdout","time":78.262009917,"data":"  Data              /kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet\n"}
+,{"stream_name":"stdout","time":78.262013653,"data":"  Output            /kaggle/working/seed_1\n"}
+,{"stream_name":"stdout","time":78.262017243,"data":"\n"}
+,{"stream_name":"stdout","time":78.262020693,"data":"Dataset\n"}
+,{"stream_name":"stdout","time":78.262024048,"data":"-------\n"}
+,{"stream_name":"stdout","time":78.417950085,"data":"\n"}
+,{"stream_name":"stdout","time":78.417970345,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":78.417976053,"data":"  SpatialNet training\n"}
+,{"stream_name":"stdout","time":78.417980059,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":78.417983957,"data":"\n"}
+,{"stream_name":"stdout","time":78.417987361,"data":"Environment\n"}
+,{"stream_name":"stdout","time":78.417990811,"data":"-----------\n"}
+,{"stream_name":"stdout","time":78.41799423,"data":"  Device            Tesla T4  (cuda, mixed precision on)\n"}
+,{"stream_name":"stdout","time":78.417997857,"data":"  PyTorch / Python  2.11.0+cu128 / 3.13.15\n"}
+,{"stream_name":"stdout","time":78.418001453,"data":"  Seed              1\n"}
+,{"stream_name":"stdout","time":78.418004969,"data":"  Data              /kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet\n"}
+,{"stream_name":"stdout","time":78.418012805,"data":"  Output            /kaggle/working/seed_1\n"}
+,{"stream_name":"stdout","time":78.418015843,"data":"\n"}
+,{"stream_name":"stdout","time":78.418018589,"data":"Dataset\n"}
+,{"stream_name":"stdout","time":78.418021071,"data":"-------\n"}
+,{"stream_name":"stdout","time":91.783390903,"data":"  Split  Images  No hand  Non-pointing  Pointing, no target  Pointing at target  Tgt on-object  Tgt near  Tgt far\n"}
+,{"stream_name":"stdout","time":91.783424153,"data":"  -----  ------  -------  ------------  -------------------  ------------------  -------------  --------  -------\n"}
+,{"stream_name":"stdout","time":91.783428856,"data":"  train   10669     1535             0                    0                9134           6511      1995      628\n"}
+,{"stream_name":"stdout","time":91.783432852,"data":"  val      1524      211             0                    0                1313            922       297       94\n"}
+,{"stream_name":"stdout","time":91.783436408,"data":"  test     3029      425             0                    0                2604           1796       599      209\n"}
+,{"stream_name":"stdout","time":91.783451391,"data":"  total   15222     2171             0                    0               13051           9229      2891      931\n"}
+,{"stream_name":"stdout","time":91.985756114,"data":"  Split  Images  No hand  Non-pointing  Pointing, no target  Pointing at target  Tgt on-object  Tgt near  Tgt far\n"}
+,{"stream_name":"stdout","time":91.985778139,"data":"  -----  ------  -------  ------------  -------------------  ------------------  -------------  --------  -------\n"}
+,{"stream_name":"stdout","time":91.985784442,"data":"  train   10669     1535             0                    0                9134           6511      1995      628\n"}
+,{"stream_name":"stdout","time":91.985801632,"data":"  val      1524      211             0                    0                1313            922       297       94\n"}
+,{"stream_name":"stdout","time":91.985804116,"data":"  test     3029      425             0                    0                2604           1796       599      209\n"}
+,{"stream_name":"stdout","time":91.985806487,"data":"  total   15222     2171             0                    0               13051           9229      2891      931\n"}
+,{"stream_name":"stdout","time":136.131864714,"data":"\n"}
+,{"stream_name":"stdout","time":136.131902075,"data":"Model\n"}
+,{"stream_name":"stdout","time":136.131907483,"data":"-----\n"}
+,{"stream_name":"stdout","time":136.131918197,"data":"  Backbone     ShuffleNetV2, ImageNet-pretrained\n"}
+,{"stream_name":"stdout","time":136.132082463,"data":"  Parameters   722,104 (backbone 143,136, heads 578,968)\n"}
+,{"stream_name":"stdout","time":136.13210071,"data":"  Size (FP32)  2.75 MB\n"}
+,{"stream_name":"stdout","time":136.132104638,"data":"  Compute      0.231 GFLOPs per 160x160 image\n"}
+,{"stream_name":"stdout","time":136.134714051,"data":"\n"}
+,{"stream_name":"stdout","time":136.134728053,"data":"Training setup\n"}
+,{"stream_name":"stdout","time":136.134734689,"data":"--------------\n"}
+,{"stream_name":"stdout","time":136.134743332,"data":"  Input size                          160 x 160\n"}
+,{"stream_name":"stdout","time":136.134746591,"data":"  Epochs (max) / early-stop patience  180 / 25 epochs on val loss\n"}
+,{"stream_name":"stdout","time":136.134749807,"data":"  Batch size / steps per epoch        32 / 334\n"}
+,{"stream_name":"stdout","time":136.134752757,"data":"  Optimizer                           AdamW, weight decay 1e-4\n"}
+,{"stream_name":"stdout","time":136.134755869,"data":"  Learning rate                       one-cycle, peak 0.003 (backbone x0.1), 10% warm-up, cosine decay\n"}
+,{"stream_name":"stdout","time":136.134758939,"data":"  Gradient clipping                   1\n"}
+,{"stream_name":"stdout","time":136.13476182,"data":"  MixUp                               alpha 0.2, within same H P T group\n"}
+,{"stream_name":"stdout","time":136.134764874,"data":"  Distractor-hand copy-paste          p 0.5 (no-hand p 0.3), up to 2 hands\n"}
+,{"stream_name":"stdout","time":136.134767793,"data":"  Anchor forcing                      p 0.5 -\u003e 0 over 20 epochs\n"}
+,{"stream_name":"stdout","time":136.134771143,"data":"  Loss                                13 weighted terms (focal gamma 2, missed-detection weight x2, hand x3)\n"}
+,{"stream_name":"stdout","time":136.135866242,"data":"\n"}
+,{"stream_name":"stdout","time":136.135878132,"data":"Training (validation metrics; best = lowest val loss, metric = best target IoU with no missed detections)\n"}
+,{"stream_name":"stdout","time":136.135889417,"data":"---------------------------------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":136.135892787,"data":"  Epoch      Time        LR  Train loss   Val loss  Hand IoU  Target IoU  Tip err px  Ray err deg   Gate acc % H/P/T   Missed % H/P/T         Saved\n"}
+,{"stream_name":"stdout","time":136.135895909,"data":"  -------  ------  --------  ----------  ---------  --------  ----------  ----------  -----------  -----------------  ---------------  ------------\n"}
+,{"stream_name":"stdout","time":136.337425004,"data":"\n"}
+,{"stream_name":"stdout","time":136.337453608,"data":"Model\n"}
+,{"stream_name":"stdout","time":136.337459031,"data":"-----\n"}
+,{"stream_name":"stdout","time":136.337476547,"data":"  Backbone     ShuffleNetV2, ImageNet-pretrained\n"}
+,{"stream_name":"stdout","time":136.337480876,"data":"  Parameters   722,104 (backbone 143,136, heads 578,968)\n"}
+,{"stream_name":"stdout","time":136.337484835,"data":"  Size (FP32)  2.75 MB\n"}
+,{"stream_name":"stdout","time":136.337488485,"data":"  Compute      0.231 GFLOPs per 160x160 image\n"}
+,{"stream_name":"stdout","time":136.337492525,"data":"\n"}
+,{"stream_name":"stdout","time":136.337495907,"data":"Training setup\n"}
+,{"stream_name":"stdout","time":136.337499309,"data":"--------------\n"}
+,{"stream_name":"stdout","time":136.337502769,"data":"  Input size                          160 x 160\n"}
+,{"stream_name":"stdout","time":136.337506555,"data":"  Epochs (max) / early-stop patience  180 / 25 epochs on val loss\n"}
+,{"stream_name":"stdout","time":136.337510206,"data":"  Batch size / steps per epoch        32 / 334\n"}
+,{"stream_name":"stdout","time":136.337513994,"data":"  Optimizer                           AdamW, weight decay 1e-4\n"}
+,{"stream_name":"stdout","time":136.337517959,"data":"  Learning rate                       one-cycle, peak 0.003 (backbone x0.1), 10% warm-up, cosine decay\n"}
+,{"stream_name":"stdout","time":136.337522095,"data":"  Gradient clipping                   1\n"}
+,{"stream_name":"stdout","time":136.337525995,"data":"  MixUp                               alpha 0.2, within same H P T group\n"}
+,{"stream_name":"stdout","time":136.337529829,"data":"  Distractor-hand copy-paste          p 0.5 (no-hand p 0.3), up to 2 hands\n"}
+,{"stream_name":"stdout","time":136.337533706,"data":"  Anchor forcing                      p 0.5 -\u003e 0 over 20 epochs\n"}
+,{"stream_name":"stdout","time":136.337537934,"data":"  Loss                                13 weighted terms (focal gamma 2, missed-detection weight x2, hand x3)\n"}
+,{"stream_name":"stdout","time":136.337542324,"data":"\n"}
+,{"stream_name":"stdout","time":136.337545847,"data":"Training (validation metrics; best = lowest val loss, metric = best target IoU with no missed detections)\n"}
+,{"stream_name":"stdout","time":136.337549773,"data":"---------------------------------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":136.337554178,"data":"  Epoch      Time        LR  Train loss   Val loss  Hand IoU  Target IoU  Tip err px  Ray err deg   Gate acc % H/P/T   Missed % H/P/T         Saved\n"}
+,{"stream_name":"stdout","time":136.337558551,"data":"  -------  ------  --------  ----------  ---------  --------  ----------  ----------  -----------  -----------------  ---------------  ------------\n"}
+,{"stream_name":"stdout","time":208.513158901,"data":"  1/180       72s  1.20e-04      4.2702     1.1822     0.313       0.277       16.54         50.7   86.3/ 89.6/ 89.6    0.0/  0.0/  0.0   best+metric\n"}
+,{"stream_name":"stdout","time":208.719993009,"data":"  1/180       72s  1.20e-04      4.2702     1.1822     0.313       0.277       16.54         50.7   86.3/ 89.6/ 89.6    0.0/  0.0/  0.0   best+metric\n"}
+,{"stream_name":"stdout","time":257.197181711,"data":"  2/180       48s  1.42e-04      0.8722     0.8647     0.422       0.311       11.35         47.0   87.2/ 89.6/ 89.6    0.0/  0.0/  0.0   best+metric\n"}
+,{"stream_name":"stdout","time":257.407094821,"data":"  2/180       48s  1.42e-04      0.8722     0.8647     0.422       0.311       11.35         47.0   87.2/ 89.6/ 89.6    0.0/  0.0/  0.0   best+metric\n"}
+,{"stream_name":"stdout","time":305.85600632,"data":"  3/180       48s  2.07e-04      0.7631     0.7312     0.469       0.342        8.87         46.5   92.3/ 89.6/ 89.6    1.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":306.067384035,"data":"  3/180       48s  2.07e-04      0.7631     0.7312     0.469       0.342        8.87         46.5   92.3/ 89.6/ 89.6    1.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":354.140122533,"data":"  4/180       48s  3.13e-04      0.7045     0.6595     0.509       0.353        7.35         44.2   94.7/ 89.6/ 89.6    1.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":354.352218659,"data":"  4/180       48s  3.13e-04      0.7045     0.6595     0.509       0.353        7.35         44.2   94.7/ 89.6/ 89.6    1.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":402.652006635,"data":"  5/180       48s  4.57e-04      0.6630     0.6252     0.527       0.371        6.10         38.3   95.1/ 89.6/ 89.6    1.0/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":402.858971862,"data":"  5/180       48s  4.57e-04      0.6630     0.6252     0.527       0.371        6.10         38.3   95.1/ 89.6/ 89.6    1.0/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":451.63005166,"data":"  6/180       49s  6.35e-04      0.6336     0.5917     0.555       0.384        5.73         42.2   95.4/ 89.6/ 89.6    0.7/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":451.836519909,"data":"  6/180       49s  6.35e-04      0.6336     0.5917     0.555       0.384        5.73         42.2   95.4/ 89.6/ 89.6    0.7/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":500.373147333,"data":"  7/180       49s  8.40e-04      0.6142     0.5696     0.562       0.387        5.39         36.1   95.7/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":500.585301898,"data":"  7/180       49s  8.40e-04      0.6142     0.5696     0.562       0.387        5.39         36.1   95.7/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":548.430266666,"data":"  8/180       48s  1.07e-03      0.5966     0.5572     0.574       0.388        5.04         38.8   96.2/ 89.6/ 89.6    0.4/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":548.641237948,"data":"  8/180       48s  1.07e-03      0.5966     0.5572     0.574       0.388        5.04         38.8   96.2/ 89.6/ 89.6    0.4/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":596.787247343,"data":"  9/180       48s  1.31e-03      0.5852     0.5338     0.582       0.410        4.84         37.0   96.7/ 89.6/ 89.6    1.2/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":597.000701296,"data":"  9/180       48s  1.31e-03      0.5852     0.5338     0.582       0.410        4.84         37.0   96.7/ 89.6/ 89.6    1.2/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":645.344403069,"data":"  10/180      48s  1.56e-03      0.5705     0.5326     0.586       0.410        4.79         35.3   95.2/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":645.555290428,"data":"  10/180      48s  1.56e-03      0.5705     0.5326     0.586       0.410        4.79         35.3   95.2/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":693.588568308,"data":"  11/180      48s  1.81e-03      0.5597     0.5111     0.593       0.421        4.59         34.3   96.9/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":693.795525691,"data":"  11/180      48s  1.81e-03      0.5597     0.5111     0.593       0.421        4.59         34.3   96.9/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":742.264644531,"data":"  12/180      49s  2.05e-03      0.5473     0.5178     0.598       0.422        4.57         38.3   96.5/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":742.46934806,"data":"  12/180      49s  2.05e-03      0.5473     0.5178     0.598       0.422        4.57         38.3   96.5/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":791.018265195,"data":"  13/180      49s  2.28e-03      0.5489     0.5044     0.601       0.419        4.42         34.8   96.2/ 89.6/ 89.6    0.1/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":791.225415441,"data":"  13/180      49s  2.28e-03      0.5489     0.5044     0.601       0.419        4.42         34.8   96.2/ 89.6/ 89.6    0.1/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":839.362125025,"data":"  14/180      48s  2.49e-03      0.5439     0.4911     0.604       0.423        4.02         33.4   97.3/ 89.6/ 89.6    0.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":839.568533962,"data":"  14/180      48s  2.49e-03      0.5439     0.4911     0.604       0.423        4.02         33.4   97.3/ 89.6/ 89.6    0.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":887.763072177,"data":"  15/180      48s  2.66e-03      0.5478     0.5109     0.604       0.425        4.33         33.3   96.1/ 89.1/ 89.6    0.2/  0.5/  0.0              \n"}
+,{"stream_name":"stdout","time":887.978438016,"data":"  15/180      48s  2.66e-03      0.5478     0.5109     0.604       0.425        4.33         33.3   96.1/ 89.1/ 89.6    0.2/  0.5/  0.0              \n"}
+,{"stream_name":"stdout","time":936.353178727,"data":"  16/180      48s  2.81e-03      0.5425     0.4815     0.606       0.431        4.08         33.4   97.3/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":936.559915988,"data":"  16/180      48s  2.81e-03      0.5425     0.4815     0.606       0.431        4.08         33.4   97.3/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":984.451559629,"data":"  17/180      48s  2.91e-03      0.5477     0.4806     0.615       0.431        3.96         33.9   97.7/ 89.6/ 89.6    0.4/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":984.659047788,"data":"  17/180      48s  2.91e-03      0.5477     0.4806     0.615       0.431        3.96         33.9   97.7/ 89.6/ 89.6    0.4/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1032.642378298,"data":"  18/180      48s  2.98e-03      0.5340     0.4957     0.614       0.431        3.98         34.0   95.4/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1032.852268187,"data":"  18/180      48s  2.98e-03      0.5340     0.4957     0.614       0.431        3.98         34.0   95.4/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1081.105051096,"data":"  19/180      48s  3.00e-03      0.5320     0.4751     0.617       0.431        3.87         33.1   97.5/ 89.6/ 89.6    0.6/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1081.313469799,"data":"  19/180      48s  3.00e-03      0.5320     0.4751     0.617       0.431        3.87         33.1   97.5/ 89.6/ 89.6    0.6/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1128.99193076,"data":"  20/180      48s  3.00e-03      0.5249     0.4616     0.618       0.442        4.04         33.3   97.6/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1129.203662479,"data":"  20/180      48s  3.00e-03      0.5249     0.4616     0.618       0.442        4.04         33.3   97.6/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1176.557848436,"data":"  21/180      47s  3.00e-03      0.5374     0.4731     0.613       0.429        3.82         34.7   98.1/ 89.6/ 89.6    1.0/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1176.763413493,"data":"  21/180      47s  3.00e-03      0.5374     0.4731     0.613       0.429        3.82         34.7   98.1/ 89.6/ 89.6    1.0/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1224.649917323,"data":"  22/180      48s  3.00e-03      0.5161     0.4562     0.619       0.437        3.99         32.6   98.3/ 89.6/ 89.6    1.1/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1224.86268509,"data":"  22/180      48s  3.00e-03      0.5161     0.4562     0.619       0.437        3.99         32.6   98.3/ 89.6/ 89.6    1.1/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1273.270231458,"data":"  23/180      49s  3.00e-03      0.5082     0.4661     0.623       0.433        3.87         30.8   98.2/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1273.475693309,"data":"  23/180      49s  3.00e-03      0.5082     0.4661     0.623       0.433        3.87         30.8   98.2/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1322.297012449,"data":"  24/180      49s  2.99e-03      0.4983     0.4635     0.626       0.444        3.72         32.2   97.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1322.502090376,"data":"  24/180      49s  2.99e-03      0.4983     0.4635     0.626       0.444        3.72         32.2   97.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1371.573558336,"data":"  25/180      49s  2.99e-03      0.5078     0.4500     0.616       0.443        3.72         32.7   98.2/ 89.6/ 89.6    1.6/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1371.777884294,"data":"  25/180      49s  2.99e-03      0.5078     0.4500     0.616       0.443        3.72         32.7   98.2/ 89.6/ 89.6    1.6/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1420.407005044,"data":"  26/180      49s  2.99e-03      0.4966     0.4541     0.626       0.444        3.75         31.5   98.4/ 89.6/ 89.6    0.6/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1420.611394016,"data":"  26/180      49s  2.99e-03      0.4966     0.4541     0.626       0.444        3.75         31.5   98.4/ 89.6/ 89.6    0.6/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1469.27828113,"data":"  27/180      49s  2.98e-03      0.5062     0.4470     0.631       0.446        3.78         32.2   97.7/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1469.482806511,"data":"  27/180      49s  2.98e-03      0.5062     0.4470     0.631       0.446        3.78         32.2   97.7/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1517.788318627,"data":"  28/180      48s  2.98e-03      0.4941     0.4453     0.627       0.447        4.06         32.1   98.0/ 89.6/ 89.6    0.6/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1517.993163215,"data":"  28/180      48s  2.98e-03      0.4941     0.4453     0.627       0.447        4.06         32.1   98.0/ 89.6/ 89.6    0.6/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1565.731494209,"data":"  29/180      48s  2.97e-03      0.4891     0.4540     0.630       0.450        3.88         31.1   98.0/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1565.939309655,"data":"  29/180      48s  2.97e-03      0.4891     0.4540     0.630       0.450        3.88         31.1   98.0/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1614.023144139,"data":"  30/180      48s  2.97e-03      0.4810     0.4415     0.635       0.444        3.70         31.5   98.6/ 89.6/ 89.6    0.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1614.23026646,"data":"  30/180      48s  2.97e-03      0.4810     0.4415     0.635       0.444        3.70         31.5   98.6/ 89.6/ 89.6    0.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1661.792145007,"data":"  31/180      48s  2.96e-03      0.4833     0.4502     0.623       0.441        3.88         32.4   98.2/ 89.6/ 89.6    0.8/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1662.002289046,"data":"  31/180      48s  2.96e-03      0.4833     0.4502     0.623       0.441        3.88         32.4   98.2/ 89.6/ 89.6    0.8/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1709.538797099,"data":"  32/180      48s  2.95e-03      0.4974     0.4491     0.633       0.450        3.73         32.3   98.1/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1709.747013181,"data":"  32/180      48s  2.95e-03      0.4974     0.4491     0.633       0.450        3.73         32.3   98.1/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1757.269529991,"data":"  33/180      48s  2.95e-03      0.4872     0.4454     0.631       0.451        3.59         32.6   98.1/ 89.6/ 89.6    0.6/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1757.477762046,"data":"  33/180      48s  2.95e-03      0.4872     0.4454     0.631       0.451        3.59         32.6   98.1/ 89.6/ 89.6    0.6/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1804.820604494,"data":"  34/180      47s  2.94e-03      0.4800     0.4592     0.638       0.451        3.74         31.3   96.6/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1805.027456562,"data":"  34/180      47s  2.94e-03      0.4800     0.4592     0.638       0.451        3.74         31.3   96.6/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1852.326519754,"data":"  35/180      47s  2.93e-03      0.4708     0.4376     0.636       0.450        3.60         31.5   98.8/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1852.534809009,"data":"  35/180      47s  2.93e-03      0.4708     0.4376     0.636       0.450        3.60         31.5   98.8/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":1899.691456318,"data":"  36/180      47s  2.92e-03      0.4782     0.4402     0.642       0.452        3.58         31.1   98.1/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1899.903396257,"data":"  36/180      47s  2.92e-03      0.4782     0.4402     0.642       0.452        3.58         31.1   98.1/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1946.787183284,"data":"  37/180      47s  2.91e-03      0.4888     0.4499     0.626       0.447        3.65         30.9   97.7/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1946.994416765,"data":"  37/180      47s  2.91e-03      0.4888     0.4499     0.626       0.447        3.65         30.9   97.7/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1994.501549671,"data":"  38/180      48s  2.90e-03      0.4793     0.4460     0.637       0.453        3.68         31.0   97.8/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":1994.712006789,"data":"  38/180      48s  2.90e-03      0.4793     0.4460     0.637       0.453        3.68         31.0   97.8/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2041.571657791,"data":"  39/180      47s  2.89e-03      0.4715     0.4389     0.638       0.446        3.61         31.5   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2041.786291566,"data":"  39/180      47s  2.89e-03      0.4715     0.4389     0.638       0.446        3.61         31.5   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2089.410760558,"data":"  40/180      48s  2.88e-03      0.4647     0.4341     0.641       0.459        3.63         31.3   98.4/ 89.6/ 89.6    0.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2089.615820539,"data":"  40/180      48s  2.88e-03      0.4647     0.4341     0.641       0.459        3.63         31.3   98.4/ 89.6/ 89.6    0.8/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2136.889283657,"data":"  41/180      47s  2.87e-03      0.4644     0.4278     0.626       0.456        3.64         31.7   98.5/ 89.6/ 89.6    0.7/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2137.097715946,"data":"  41/180      47s  2.87e-03      0.4644     0.4278     0.626       0.456        3.64         31.7   98.5/ 89.6/ 89.6    0.7/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2184.315214743,"data":"  42/180      47s  2.85e-03      0.4614     0.4337     0.640       0.458        3.66         31.0   98.3/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2184.530222848,"data":"  42/180      47s  2.85e-03      0.4614     0.4337     0.640       0.458        3.66         31.0   98.3/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2230.90346476,"data":"  43/180      46s  2.84e-03      0.4637     0.4581     0.631       0.456        3.78         31.2   97.1/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2231.111649294,"data":"  43/180      46s  2.84e-03      0.4637     0.4581     0.631       0.456        3.78         31.2   97.1/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2278.26828766,"data":"  44/180      47s  2.83e-03      0.4597     0.4424     0.632       0.455        3.55         31.6   98.2/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2278.478881669,"data":"  44/180      47s  2.83e-03      0.4597     0.4424     0.632       0.455        3.55         31.6   98.2/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2325.990541548,"data":"  45/180      48s  2.81e-03      0.4491     0.4270     0.637       0.460        3.78         31.1   98.4/ 89.6/ 89.6    1.1/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2326.206883159,"data":"  45/180      48s  2.81e-03      0.4491     0.4270     0.637       0.460        3.78         31.1   98.4/ 89.6/ 89.6    1.1/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2373.114060677,"data":"  46/180      47s  2.80e-03      0.4499     0.4272     0.641       0.462        3.67         30.5   98.5/ 89.6/ 89.6    0.8/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2373.326560988,"data":"  46/180      47s  2.80e-03      0.4499     0.4272     0.641       0.462        3.67         30.5   98.5/ 89.6/ 89.6    0.8/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2419.663518728,"data":"  47/180      46s  2.78e-03      0.4560     0.4337     0.639       0.456        3.62         32.3   98.3/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2419.873270542,"data":"  47/180      46s  2.78e-03      0.4560     0.4337     0.639       0.456        3.62         32.3   98.3/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2466.630466861,"data":"  48/180      47s  2.77e-03      0.4638     0.4301     0.641       0.460        3.61         31.8   98.3/ 89.6/ 89.6    1.0/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2466.839087169,"data":"  48/180      47s  2.77e-03      0.4638     0.4301     0.641       0.460        3.61         31.8   98.3/ 89.6/ 89.6    1.0/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2513.712412195,"data":"  49/180      47s  2.75e-03      0.4395     0.4296     0.647       0.462        3.54         30.7   98.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2513.921463046,"data":"  49/180      47s  2.75e-03      0.4395     0.4296     0.647       0.462        3.54         30.7   98.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2560.058009328,"data":"  50/180      46s  2.74e-03      0.4489     0.4367     0.640       0.462        3.65         30.7   98.2/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2560.266814865,"data":"  50/180      46s  2.74e-03      0.4489     0.4367     0.640       0.462        3.65         30.7   98.2/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2606.816924224,"data":"  51/180      47s  2.72e-03      0.4528     0.4355     0.647       0.458        3.52         30.9   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2607.022114603,"data":"  51/180      47s  2.72e-03      0.4528     0.4355     0.647       0.458        3.52         30.9   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2653.540769385,"data":"  52/180      47s  2.70e-03      0.4373     0.4290     0.647       0.459        3.68         30.5   98.7/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2653.748066701,"data":"  52/180      47s  2.70e-03      0.4373     0.4290     0.647       0.459        3.68         30.5   98.7/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2700.131441563,"data":"  53/180      46s  2.69e-03      0.4337     0.4397     0.648       0.462        3.65         31.0   98.2/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2700.341569579,"data":"  53/180      46s  2.69e-03      0.4337     0.4397     0.648       0.462        3.65         31.0   98.2/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2747.34591195,"data":"  54/180      47s  2.67e-03      0.4354     0.4318     0.650       0.464        3.69         30.8   98.0/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2747.555562143,"data":"  54/180      47s  2.67e-03      0.4354     0.4318     0.650       0.464        3.69         30.8   98.0/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2793.758272604,"data":"  55/180      46s  2.65e-03      0.4299     0.4254     0.648       0.463        3.58         30.2   98.7/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2793.971186059,"data":"  55/180      46s  2.65e-03      0.4299     0.4254     0.648       0.463        3.58         30.2   98.7/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2840.165518994,"data":"  56/180      46s  2.63e-03      0.4340     0.4251     0.650       0.468        3.52         29.5   98.1/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2840.374712132,"data":"  56/180      46s  2.63e-03      0.4340     0.4251     0.650       0.468        3.52         29.5   98.1/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2886.458785471,"data":"  57/180      46s  2.61e-03      0.4350     0.4349     0.650       0.465        3.56         31.1   97.4/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2886.668086736,"data":"  57/180      46s  2.61e-03      0.4350     0.4349     0.650       0.465        3.56         31.1   97.4/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2932.32569801,"data":"  58/180      46s  2.59e-03      0.4276     0.4214     0.646       0.466        3.79         30.7   98.8/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2932.541834773,"data":"  58/180      46s  2.59e-03      0.4276     0.4214     0.646       0.466        3.79         30.7   98.8/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":2978.218037452,"data":"  59/180      46s  2.57e-03      0.4234     0.4399     0.648       0.464        3.75         31.0   98.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":2978.426489573,"data":"  59/180      46s  2.57e-03      0.4234     0.4399     0.648       0.464        3.75         31.0   98.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3023.838759007,"data":"  60/180      46s  2.55e-03      0.4304     0.4247     0.649       0.464        3.62         30.4   98.4/ 89.6/ 89.6    0.6/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3024.046174449,"data":"  60/180      46s  2.55e-03      0.4304     0.4247     0.649       0.464        3.62         30.4   98.4/ 89.6/ 89.6    0.6/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3069.52319836,"data":"  61/180      46s  2.53e-03      0.4298     0.4240     0.654       0.463        3.70         30.3   98.5/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3069.735823071,"data":"  61/180      46s  2.53e-03      0.4298     0.4240     0.654       0.463        3.70         30.3   98.5/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3115.311394252,"data":"  62/180      46s  2.51e-03      0.4288     0.4205     0.650       0.465        3.59         30.7   98.4/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3115.530348174,"data":"  62/180      46s  2.51e-03      0.4288     0.4205     0.650       0.465        3.59         30.7   98.4/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3161.128664932,"data":"  63/180      46s  2.49e-03      0.4239     0.4246     0.655       0.465        3.55         30.5   97.9/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3161.336271762,"data":"  63/180      46s  2.49e-03      0.4239     0.4246     0.655       0.465        3.55         30.5   97.9/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3206.62911038,"data":"  64/180      45s  2.46e-03      0.4265     0.4219     0.653       0.465        3.57         30.6   98.4/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3206.839301299,"data":"  64/180      45s  2.46e-03      0.4265     0.4219     0.653       0.465        3.57         30.6   98.4/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3252.475062555,"data":"  65/180      46s  2.44e-03      0.4305     0.4255     0.650       0.470        3.58         29.5   98.2/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3252.684178653,"data":"  65/180      46s  2.44e-03      0.4305     0.4255     0.650       0.470        3.58         29.5   98.2/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3298.097289103,"data":"  66/180      46s  2.42e-03      0.4199     0.4227     0.647       0.465        3.58         29.6   98.4/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3298.30670316,"data":"  66/180      46s  2.42e-03      0.4199     0.4227     0.647       0.465        3.58         29.6   98.4/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3343.837350397,"data":"  67/180      46s  2.40e-03      0.4232     0.4318     0.654       0.471        3.50         29.6   98.0/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3344.047915362,"data":"  67/180      46s  2.40e-03      0.4232     0.4318     0.654       0.471        3.50         29.6   98.0/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3389.242196536,"data":"  68/180      45s  2.37e-03      0.4155     0.4200     0.653       0.468        3.68         28.9   98.7/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3389.451701182,"data":"  68/180      45s  2.37e-03      0.4155     0.4200     0.653       0.468        3.68         28.9   98.7/ 89.6/ 89.6    0.5/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3434.786060357,"data":"  69/180      45s  2.35e-03      0.4168     0.4162     0.652       0.467        3.51         30.2   99.0/ 89.6/ 89.6    0.7/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3435.006306401,"data":"  69/180      45s  2.35e-03      0.4168     0.4162     0.652       0.467        3.51         30.2   99.0/ 89.6/ 89.6    0.7/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3480.66032585,"data":"  70/180      46s  2.32e-03      0.4157     0.4294     0.649       0.466        3.60         30.2   98.0/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3480.872224815,"data":"  70/180      46s  2.32e-03      0.4157     0.4294     0.649       0.466        3.60         30.2   98.0/ 89.6/ 89.6    0.1/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3527.760564808,"data":"  71/180      47s  2.30e-03      0.4077     0.4214     0.654       0.470        3.57         29.9   98.6/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3527.966005251,"data":"  71/180      47s  2.30e-03      0.4077     0.4214     0.654       0.470        3.57         29.9   98.6/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3574.799117775,"data":"  72/180      47s  2.28e-03      0.4042     0.4246     0.653       0.472        3.49         30.3   98.4/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3575.00841505,"data":"  72/180      47s  2.28e-03      0.4042     0.4246     0.653       0.472        3.49         30.3   98.4/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3621.356090029,"data":"  73/180      46s  2.25e-03      0.4038     0.4241     0.655       0.465        3.50         30.9   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3621.570261568,"data":"  73/180      46s  2.25e-03      0.4038     0.4241     0.655       0.465        3.50         30.9   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3668.434939206,"data":"  74/180      47s  2.22e-03      0.4036     0.4265     0.656       0.465        3.46         29.6   98.3/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3668.644252868,"data":"  74/180      47s  2.22e-03      0.4036     0.4265     0.656       0.465        3.46         29.6   98.3/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3715.510201506,"data":"  75/180      47s  2.20e-03      0.3985     0.4327     0.654       0.462        3.55         31.1   98.5/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3715.72022301,"data":"  75/180      47s  2.20e-03      0.3985     0.4327     0.654       0.462        3.55         31.1   98.5/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3762.160078265,"data":"  76/180      47s  2.17e-03      0.3980     0.4279     0.650       0.469        3.52         30.7   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3762.366031958,"data":"  76/180      47s  2.17e-03      0.3980     0.4279     0.650       0.469        3.52         30.7   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3809.234318555,"data":"  77/180      47s  2.15e-03      0.3921     0.4154     0.653       0.474        3.56         30.3   98.9/ 89.6/ 89.6    0.4/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3809.454295831,"data":"  77/180      47s  2.15e-03      0.3921     0.4154     0.653       0.474        3.56         30.3   98.9/ 89.6/ 89.6    0.4/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3856.587091467,"data":"  78/180      47s  2.12e-03      0.4009     0.4181     0.650       0.476        3.46         30.4   98.3/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3856.793179494,"data":"  78/180      47s  2.12e-03      0.4009     0.4181     0.650       0.476        3.46         30.4   98.3/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3903.617440716,"data":"  79/180      47s  2.09e-03      0.3887     0.4127     0.656       0.473        3.48         30.0   98.9/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3903.828074252,"data":"  79/180      47s  2.09e-03      0.3887     0.4127     0.656       0.473        3.48         30.0   98.9/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3950.889588499,"data":"  80/180      47s  2.07e-03      0.3898     0.4120     0.655       0.481        3.46         30.2   98.7/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3951.102187893,"data":"  80/180      47s  2.07e-03      0.3898     0.4120     0.655       0.481        3.46         30.2   98.7/ 89.6/ 89.6    0.3/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":3997.808298995,"data":"  81/180      47s  2.04e-03      0.3965     0.4192     0.656       0.473        3.65         29.7   98.4/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":3998.014082685,"data":"  81/180      47s  2.04e-03      0.3965     0.4192     0.656       0.473        3.65         29.7   98.4/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4044.765438527,"data":"  82/180      47s  2.01e-03      0.3865     0.4171     0.656       0.476        3.55         30.1   98.4/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4044.972045367,"data":"  82/180      47s  2.01e-03      0.3865     0.4171     0.656       0.476        3.55         30.1   98.4/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4092.076710238,"data":"  83/180      47s  1.99e-03      0.3907     0.4176     0.653       0.473        3.62         30.0   99.2/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4092.287005749,"data":"  83/180      47s  1.99e-03      0.3907     0.4176     0.653       0.473        3.62         30.0   99.2/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4138.433949682,"data":"  84/180      46s  1.96e-03      0.3998     0.4115     0.654       0.476        3.57         30.7   98.9/ 89.6/ 89.6    0.7/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":4138.64950389,"data":"  84/180      46s  1.96e-03      0.3998     0.4115     0.654       0.476        3.57         30.7   98.9/ 89.6/ 89.6    0.7/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":4185.516556365,"data":"  85/180      47s  1.93e-03      0.3670     0.4218     0.655       0.473        3.59         29.8   98.4/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4185.724579029,"data":"  85/180      47s  1.93e-03      0.3670     0.4218     0.655       0.473        3.59         29.8   98.4/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4232.708526867,"data":"  86/180      47s  1.90e-03      0.3775     0.4147     0.653       0.475        3.45         29.6   98.7/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4232.915235256,"data":"  86/180      47s  1.90e-03      0.3775     0.4147     0.653       0.475        3.45         29.6   98.7/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4279.650575567,"data":"  87/180      47s  1.87e-03      0.3958     0.4279     0.654       0.468        3.47         30.1   98.2/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4279.857579042,"data":"  87/180      47s  1.87e-03      0.3958     0.4279     0.654       0.468        3.47         30.1   98.2/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4326.869775374,"data":"  88/180      47s  1.85e-03      0.3926     0.4211     0.655       0.472        3.54         30.3   98.4/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4327.076490914,"data":"  88/180      47s  1.85e-03      0.3926     0.4211     0.655       0.472        3.54         30.3   98.4/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4373.97780388,"data":"  89/180      47s  1.82e-03      0.3826     0.4210     0.655       0.474        3.58         29.7   98.4/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4374.18883875,"data":"  89/180      47s  1.82e-03      0.3826     0.4210     0.655       0.474        3.58         29.7   98.4/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4421.000639834,"data":"  90/180      47s  1.79e-03      0.3906     0.4209     0.654       0.469        3.47         30.4   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4421.207756369,"data":"  90/180      47s  1.79e-03      0.3906     0.4209     0.654       0.469        3.47         30.4   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4468.768020733,"data":"  91/180      48s  1.76e-03      0.3719     0.4126     0.660       0.478        3.57         30.4   98.6/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4468.974112134,"data":"  91/180      48s  1.76e-03      0.3719     0.4126     0.660       0.478        3.57         30.4   98.6/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4516.120610363,"data":"  92/180      47s  1.73e-03      0.3748     0.4185     0.653       0.470        3.40         30.7   98.6/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4516.3275094,"data":"  92/180      47s  1.73e-03      0.3748     0.4185     0.653       0.470        3.40         30.7   98.6/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4564.035434906,"data":"  93/180      48s  1.70e-03      0.3815     0.4164     0.658       0.473        3.46         29.9   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4564.243912472,"data":"  93/180      48s  1.70e-03      0.3815     0.4164     0.658       0.473        3.46         29.9   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4612.024418997,"data":"  94/180      48s  1.67e-03      0.3791     0.4227     0.656       0.475        3.56         29.8   98.5/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4612.230356674,"data":"  94/180      48s  1.67e-03      0.3791     0.4227     0.656       0.475        3.56         29.8   98.5/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4660.336253252,"data":"  95/180      48s  1.65e-03      0.3762     0.4209     0.659       0.472        3.48         29.9   98.8/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4660.542667904,"data":"  95/180      48s  1.65e-03      0.3762     0.4209     0.659       0.472        3.48         29.9   98.8/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4708.546895604,"data":"  96/180      48s  1.62e-03      0.3807     0.4287     0.656       0.470        3.50         30.1   98.5/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4708.753600363,"data":"  96/180      48s  1.62e-03      0.3807     0.4287     0.656       0.470        3.50         30.1   98.5/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4757.270538202,"data":"  97/180      49s  1.59e-03      0.3737     0.4151     0.652       0.476        3.48         29.1   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4757.48129772,"data":"  97/180      49s  1.59e-03      0.3737     0.4151     0.652       0.476        3.48         29.1   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4806.291798863,"data":"  98/180      49s  1.56e-03      0.3553     0.4245     0.656       0.476        3.57         30.3   98.3/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4806.498385162,"data":"  98/180      49s  1.56e-03      0.3553     0.4245     0.656       0.476        3.57         30.3   98.3/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4855.039208673,"data":"  99/180      49s  1.53e-03      0.3584     0.4198     0.657       0.474        3.51         29.4   98.6/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4855.246157423,"data":"  99/180      49s  1.53e-03      0.3584     0.4198     0.657       0.474        3.51         29.4   98.6/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4903.572006697,"data":"  100/180     48s  1.50e-03      0.3620     0.4245     0.658       0.473        3.56         30.5   98.0/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4903.786729848,"data":"  100/180     48s  1.50e-03      0.3620     0.4245     0.658       0.473        3.56         30.5   98.0/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":4952.535334662,"data":"  101/180     49s  1.47e-03      0.3727     0.4110     0.657       0.481        3.47         29.2   98.8/ 89.6/ 89.6    0.6/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":4952.749200482,"data":"  101/180     49s  1.47e-03      0.3727     0.4110     0.657       0.481        3.47         29.2   98.8/ 89.6/ 89.6    0.6/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":5001.512383651,"data":"  102/180     49s  1.44e-03      0.3622     0.4199     0.653       0.480        3.60         30.1   98.2/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5001.719900561,"data":"  102/180     49s  1.44e-03      0.3622     0.4199     0.653       0.480        3.60         30.1   98.2/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5050.444551438,"data":"  103/180     49s  1.41e-03      0.3597     0.4080     0.660       0.483        3.47         29.4   98.9/ 89.6/ 89.6    0.4/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":5050.651909582,"data":"  103/180     49s  1.41e-03      0.3597     0.4080     0.660       0.483        3.47         29.4   98.9/ 89.6/ 89.6    0.4/  0.0/  0.0          best\n"}
+,{"stream_name":"stdout","time":5099.567582149,"data":"  104/180     49s  1.38e-03      0.3539     0.4196     0.660       0.477        3.50         30.0   98.8/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5099.782901843,"data":"  104/180     49s  1.38e-03      0.3539     0.4196     0.660       0.477        3.50         30.0   98.8/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5148.50894654,"data":"  105/180     49s  1.35e-03      0.3527     0.4227     0.661       0.471        3.53         29.0   98.7/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5148.718528342,"data":"  105/180     49s  1.35e-03      0.3527     0.4227     0.661       0.471        3.53         29.0   98.7/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5197.373221901,"data":"  106/180     49s  1.33e-03      0.3765     0.4341     0.661       0.468        3.49         29.7   98.1/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5197.588974904,"data":"  106/180     49s  1.33e-03      0.3765     0.4341     0.661       0.468        3.49         29.7   98.1/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5246.211041323,"data":"  107/180     49s  1.30e-03      0.3662     0.4202     0.660       0.475        3.54         29.5   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5246.425210266,"data":"  107/180     49s  1.30e-03      0.3662     0.4202     0.660       0.475        3.54         29.5   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5294.478008927,"data":"  108/180     48s  1.27e-03      0.3713     0.4221     0.660       0.476        3.56         30.1   98.9/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5294.693387588,"data":"  108/180     48s  1.27e-03      0.3713     0.4221     0.660       0.476        3.56         30.1   98.9/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5343.276238093,"data":"  109/180     49s  1.24e-03      0.3574     0.4214     0.662       0.473        3.48         29.6   99.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5343.483563784,"data":"  109/180     49s  1.24e-03      0.3574     0.4214     0.662       0.473        3.48         29.6   99.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5392.282450993,"data":"  110/180     49s  1.21e-03      0.3472     0.4133     0.665       0.483        3.52         29.3   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5392.490718888,"data":"  110/180     49s  1.21e-03      0.3472     0.4133     0.665       0.483        3.52         29.3   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5441.222102403,"data":"  111/180     49s  1.18e-03      0.3632     0.4158     0.664       0.476        3.45         29.3   99.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5441.432499139,"data":"  111/180     49s  1.18e-03      0.3632     0.4158     0.664       0.476        3.45         29.3   99.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5489.90688435,"data":"  112/180     49s  1.15e-03      0.3539     0.4295     0.662       0.473        3.53         29.6   98.7/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5490.114886182,"data":"  112/180     49s  1.15e-03      0.3539     0.4295     0.662       0.473        3.53         29.6   98.7/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5538.925716355,"data":"  113/180     49s  1.13e-03      0.3591     0.4160     0.663       0.477        3.53         29.5   98.8/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5539.139983295,"data":"  113/180     49s  1.13e-03      0.3591     0.4160     0.663       0.477        3.53         29.5   98.8/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5587.946470765,"data":"  114/180     49s  1.10e-03      0.3532     0.4174     0.660       0.479        3.52         29.8   98.8/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5588.164384491,"data":"  114/180     49s  1.10e-03      0.3532     0.4174     0.660       0.479        3.52         29.8   98.8/ 89.6/ 89.6    0.2/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5636.174624214,"data":"  115/180     48s  1.07e-03      0.3496     0.4238     0.665       0.479        3.43         29.2   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5636.388467933,"data":"  115/180     48s  1.07e-03      0.3496     0.4238     0.665       0.479        3.43         29.2   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5684.405824756,"data":"  116/180     48s  1.04e-03      0.3700     0.4183     0.665       0.479        3.49         29.3   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5684.620560128,"data":"  116/180     48s  1.04e-03      0.3700     0.4183     0.665       0.479        3.49         29.3   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5732.425850415,"data":"  117/180     48s  1.01e-03      0.3526     0.4221     0.665       0.472        3.57         29.3   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5732.633379033,"data":"  117/180     48s  1.01e-03      0.3526     0.4221     0.665       0.472        3.57         29.3   98.6/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5781.288103707,"data":"  118/180     49s  9.87e-04      0.3525     0.4196     0.662       0.472        3.53         29.7   98.7/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5781.496711166,"data":"  118/180     49s  9.87e-04      0.3525     0.4196     0.662       0.472        3.53         29.7   98.7/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5829.70939389,"data":"  119/180     48s  9.60e-04      0.3414     0.4236     0.664       0.476        3.55         30.0   98.9/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5829.924294887,"data":"  119/180     48s  9.60e-04      0.3414     0.4236     0.664       0.476        3.55         30.0   98.9/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5878.061079048,"data":"  120/180     48s  9.33e-04      0.3456     0.4157     0.662       0.478        3.52         29.8   98.9/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5878.268463972,"data":"  120/180     48s  9.33e-04      0.3456     0.4157     0.662       0.478        3.52         29.8   98.9/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5925.238935239,"data":"  121/180     47s  9.06e-04      0.3551     0.4238     0.663       0.474        3.59         30.0   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5925.452220255,"data":"  121/180     47s  9.06e-04      0.3551     0.4238     0.663       0.474        3.59         30.0   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5972.850674626,"data":"  122/180     47s  8.79e-04      0.3530     0.4150     0.664       0.481        3.55         29.8   98.7/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":5973.066035938,"data":"  122/180     47s  8.79e-04      0.3530     0.4150     0.664       0.481        3.55         29.8   98.7/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6020.59290816,"data":"  123/180     48s  8.53e-04      0.3355     0.4133     0.664       0.481        3.56         29.8   99.1/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6020.808752332,"data":"  123/180     48s  8.53e-04      0.3355     0.4133     0.664       0.481        3.56         29.8   99.1/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6068.252315873,"data":"  124/180     48s  8.27e-04      0.3416     0.4133     0.665       0.481        3.51         29.9   99.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6068.468599477,"data":"  124/180     48s  8.27e-04      0.3416     0.4133     0.665       0.481        3.51         29.9   99.0/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6116.011140243,"data":"  125/180     48s  8.01e-04      0.3315     0.4153     0.664       0.480        3.46         29.5   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6116.218345699,"data":"  125/180     48s  8.01e-04      0.3315     0.4153     0.664       0.480        3.46         29.5   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6164.081787294,"data":"  126/180     48s  7.75e-04      0.3342     0.4141     0.665       0.483        3.48         29.2   98.8/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6164.296420287,"data":"  126/180     48s  7.75e-04      0.3342     0.4141     0.665       0.483        3.48         29.2   98.8/ 89.6/ 89.6    0.3/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6212.444057111,"data":"  127/180     48s  7.50e-04      0.3437     0.4145     0.664       0.482        3.55         29.7   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6212.655391489,"data":"  127/180     48s  7.50e-04      0.3437     0.4145     0.664       0.482        3.55         29.7   98.8/ 89.6/ 89.6    0.4/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6260.607866566,"data":"  128/180     48s  7.25e-04      0.3362     0.4127     0.667       0.483        3.55         29.6   98.8/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6260.820111056,"data":"  128/180     48s  7.25e-04      0.3362     0.4127     0.667       0.483        3.55         29.6   98.8/ 89.6/ 89.6    0.5/  0.0/  0.0              \n"}
+,{"stream_name":"stdout","time":6265.87061013,"data":"\n"}
+,{"stream_name":"stdout","time":6265.870635564,"data":"Summary\n"}
+,{"stream_name":"stdout","time":6265.870640934,"data":"-------\n"}
+,{"stream_name":"stdout","time":6265.870645113,"data":"  Epochs run                128 of 180 (early stop: no val-loss improvement for 25 epochs)\n"}
+,{"stream_name":"stdout","time":6265.870649455,"data":"  Training time             1h 43m (median 48 s/epoch)\n"}
+,{"stream_name":"stdout","time":6265.870653783,"data":"  best_model.pth            epoch 103, val loss 0.4080\n"}
+,{"stream_name":"stdout","time":6265.870658155,"data":"  best_model_by_metric.pth  epoch 2, no missed detections on val\n"}
+,{"stream_name":"stdout","time":6265.870662432,"data":"\n"}
+,{"stream_name":"stdout","time":6265.870666397,"data":"  Validation metrics at the best epoch (103):\n"}
+,{"stream_name":"stdout","time":6265.870860937,"data":"    Metric                   Value\n"}
+,{"stream_name":"stdout","time":6265.870870972,"data":"    ---------------------  -------\n"}
+,{"stream_name":"stdout","time":6265.870875716,"data":"    Hand IoU                0.6595\n"}
+,{"stream_name":"stdout","time":6265.870880054,"data":"    Target IoU              0.4835\n"}
+,{"stream_name":"stdout","time":6265.870884249,"data":"    Fingertip error (px)    3.4726\n"}
+,{"stream_name":"stdout","time":6265.870888609,"data":"    Ray angle error (deg)  29.4438\n"}
+,{"stream_name":"stdout","time":6265.870892859,"data":"    Hand gate acc           0.9889\n"}
+,{"stream_name":"stdout","time":6265.870897054,"data":"    Pointing gate acc       0.8958\n"}
+,{"stream_name":"stdout","time":6265.87090127,"data":"    Target gate acc         0.8958\n"}
+,{"stream_name":"stdout","time":6265.870905588,"data":"    Missed hand rate        0.0039\n"}
+,{"stream_name":"stdout","time":6265.870909678,"data":"    Missed pointing rate    0.0000\n"}
+,{"stream_name":"stdout","time":6265.870913867,"data":"    Missed target rate      0.0000\n"}
+,{"stream_name":"stdout","time":6265.870932771,"data":"    Ownership acc           0.0000\n"}
+,{"stream_name":"stdout","time":6266.072837883,"data":"\n"}
+,{"stream_name":"stdout","time":6266.072863249,"data":"Summary\n"}
+,{"stream_name":"stdout","time":6266.072868624,"data":"-------\n"}
+,{"stream_name":"stdout","time":6266.072872069,"data":"  Epochs run                128 of 180 (early stop: no val-loss improvement for 25 epochs)\n"}
+,{"stream_name":"stdout","time":6266.07287565,"data":"  Training time             1h 43m (median 48 s/epoch)\n"}
+,{"stream_name":"stdout","time":6266.072878957,"data":"  best_model.pth            epoch 103, val loss 0.4080\n"}
+,{"stream_name":"stdout","time":6266.072882614,"data":"  best_model_by_metric.pth  epoch 2, no missed detections on val\n"}
+,{"stream_name":"stdout","time":6266.072887505,"data":"\n"}
+,{"stream_name":"stdout","time":6266.072891226,"data":"  Validation metrics at the best epoch (103):\n"}
+,{"stream_name":"stdout","time":6266.07289496,"data":"    Metric                   Value\n"}
+,{"stream_name":"stdout","time":6266.072898411,"data":"    ---------------------  -------\n"}
+,{"stream_name":"stdout","time":6266.072902208,"data":"    Hand IoU                0.6595\n"}
+,{"stream_name":"stdout","time":6266.072906047,"data":"    Target IoU              0.4835\n"}
+,{"stream_name":"stdout","time":6266.072909562,"data":"    Fingertip error (px)    3.4726\n"}
+,{"stream_name":"stdout","time":6266.072912907,"data":"    Ray angle error (deg)  29.4438\n"}
+,{"stream_name":"stdout","time":6266.072916286,"data":"    Hand gate acc           0.9889\n"}
+,{"stream_name":"stdout","time":6266.072919497,"data":"    Pointing gate acc       0.8958\n"}
+,{"stream_name":"stdout","time":6266.072922769,"data":"    Target gate acc         0.8958\n"}
+,{"stream_name":"stdout","time":6266.072925992,"data":"    Missed hand rate        0.0039\n"}
+,{"stream_name":"stdout","time":6266.072929264,"data":"    Missed pointing rate    0.0000\n"}
+,{"stream_name":"stdout","time":6266.072932527,"data":"    Missed target rate      0.0000\n"}
+,{"stream_name":"stdout","time":6266.072937403,"data":"    Ownership acc           0.0000\n"}
+,{"stream_name":"stdout","time":6266.181584325,"data":"\n"}
+,{"stream_name":"stdout","time":6266.181606118,"data":"Exported models (from best_model.pth)\n"}
+,{"stream_name":"stdout","time":6266.18162612,"data":"-------------------------------------\n"}
+,{"stream_name":"stdout","time":6266.1816306,"data":"  Format  Size (KB)   Budget used\n"}
+,{"stream_name":"stdout","time":6266.181634606,"data":"  ------  ---------  ------------\n"}
+,{"stream_name":"stdout","time":6266.181638158,"data":"  FP32         3065  30% of 10 MB\n"}
+,{"stream_name":"stdout","time":6266.18164181,"data":"  FP16         1601  16% of 10 MB\n"}
+,{"stream_name":"stdout","time":6266.181645546,"data":"  INT8         2735  27% of 10 MB\n"}
+,{"stream_name":"stdout","time":6266.18625692,"data":"\n"}
+,{"stream_name":"stdout","time":6266.186273321,"data":"  Done. Checkpoints in /kaggle/working/seed_1, statistics and figures in /kaggle/working/seed_1/training\n"}
+,{"stream_name":"stdout","time":6266.186278091,"data":"\n"}
+,{"stream_name":"stdout","time":6266.383942054,"data":"\n"}
+,{"stream_name":"stdout","time":6266.384003032,"data":"Exported models (from best_model.pth)\n"}
+,{"stream_name":"stdout","time":6266.3840093,"data":"-------------------------------------\n"}
+,{"stream_name":"stdout","time":6266.384012877,"data":"  Format  Size (KB)   Budget used\n"}
+,{"stream_name":"stdout","time":6266.384016587,"data":"  ------  ---------  ------------\n"}
+,{"stream_name":"stdout","time":6266.384020574,"data":"  FP32         3065  30% of 10 MB\n"}
+,{"stream_name":"stdout","time":6266.384045649,"data":"  FP16         1601  16% of 10 MB\n"}
+,{"stream_name":"stdout","time":6266.384048462,"data":"  INT8         2735  27% of 10 MB\n"}
+,{"stream_name":"stdout","time":6266.384050573,"data":"\n"}
+,{"stream_name":"stdout","time":6266.384052758,"data":"  Done. Checkpoints in /kaggle/working/seed_1, statistics and figures in /kaggle/working/seed_1/training\n"}
+,{"stream_name":"stdout","time":6266.384055149,"data":"\n"}
+,{"stream_name":"stdout","time":6272.686242911,"data":"\n"}
+,{"stream_name":"stdout","time":6272.686270669,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":6272.686281795,"data":"  SpatialNet evaluation\n"}
+,{"stream_name":"stdout","time":6272.686284335,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":6272.888500916,"data":"\n"}
+,{"stream_name":"stdout","time":6272.888541497,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":6272.888547407,"data":"  SpatialNet evaluation\n"}
+,{"stream_name":"stdout","time":6272.88855101,"data":"================================================================================================\n"}
+,{"stream_name":"stdout","time":6283.845856036,"data":"\n"}
+,{"stream_name":"stdout","time":6283.845887871,"data":"Setup\n"}
+,{"stream_name":"stdout","time":6283.845892872,"data":"-----\n"}
+,{"stream_name":"stdout","time":6283.845896821,"data":"  Checkpoint  /kaggle/working/seed_1/best_model.pth  (epoch 103, val loss 0.4080)\n"}
+,{"stream_name":"stdout","time":6283.845900376,"data":"  Data        /kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet  (test: 3029 images)\n"}
+,{"stream_name":"stdout","time":6283.84590394,"data":"  Device      Tesla T4 (cuda)\n"}
+,{"stream_name":"stdout","time":6283.845907266,"data":"  Output      /kaggle/working/seed_1/evaluation\n"}
+,{"stream_name":"stdout","time":6284.048299188,"data":"\n"}
+,{"stream_name":"stdout","time":6284.048328035,"data":"Setup\n"}
+,{"stream_name":"stdout","time":6284.048333763,"data":"-----\n"}
+,{"stream_name":"stdout","time":6284.048339289,"data":"  Checkpoint  /kaggle/working/seed_1/best_model.pth  (epoch 103, val loss 0.4080)\n"}
+,{"stream_name":"stdout","time":6284.048344621,"data":"  Data        /kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet  (test: 3029 images)\n"}
+,{"stream_name":"stdout","time":6284.048350034,"data":"  Device      Tesla T4 (cuda)\n"}
+,{"stream_name":"stdout","time":6284.048355639,"data":"  Output      /kaggle/working/seed_1/evaluation\n"}
+,{"stream_name":"stdout","time":6304.466671434,"data":"\n"}
+,{"stream_name":"stdout","time":6304.466710299,"data":"1. Scene classification and gates (test)\n"}
+,{"stream_name":"stdout","time":6304.466715968,"data":"----------------------------------------\n"}
+,{"stream_name":"stdout","time":6304.466726786,"data":"  3029 images. Scene accuracy 98.68% (95% CI 98.2-99.0), macro-F1 97.22%, balanced accuracy 96.57%. Gate thresholds hand/pointing/target = 0.50/0.50/0.50.\n"}
+,{"stream_name":"stdout","time":6304.466731409,"data":"  Scene (H P T)        Support  Precision %  Recall %  Recall 95% CI  F1 %\n"}
+,{"stream_name":"stdout","time":6304.466734356,"data":"  -------------------  -------  -----------  --------  -------------  ----\n"}
+,{"stream_name":"stdout","time":6304.466737398,"data":"  No hand                  425         96.8      93.6      90.9-95.6  95.2\n"}
+,{"stream_name":"stdout","time":6304.466740297,"data":"  Non-pointing               0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6304.466752388,"data":"  Pointing, no target        0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6304.466754795,"data":"  Pointing at target      2604         99.0      99.5      99.1-99.7  99.2\n"}
+,{"stream_name":"stdout","time":6304.466757098,"data":"\n"}
+,{"stream_name":"stdout","time":6304.466976539,"data":"  Ground truth \\ Predicted  No hand  Non-pointing  Pointing, no target  Pointing at target\n"}
+,{"stream_name":"stdout","time":6304.4669924,"data":"  ------------------------  -------  ------------  -------------------  ------------------\n"}
+,{"stream_name":"stdout","time":6304.46700529,"data":"  No hand                       398             0                    0                  27\n"}
+,{"stream_name":"stdout","time":6304.467009733,"data":"  Non-pointing                    0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6304.467013685,"data":"  Pointing, no target             0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6304.4670177,"data":"  Pointing at target             13             0                    0                2591\n"}
+,{"stream_name":"stdout","time":6304.467021687,"data":"\n"}
+,{"stream_name":"stdout","time":6304.467236918,"data":"  Gate            Images  Positives  Threshold  Accuracy %  Recall %  Missed  False alarms   AUROC      AP\n"}
+,{"stream_name":"stdout","time":6304.467251383,"data":"  --------------  ------  ---------  ---------  ----------  --------  ------  ------------  ------  ------\n"}
+,{"stream_name":"stdout","time":6304.467260475,"data":"  Hand present      3029       2604       0.50        98.7      99.5      13            27  0.9987  0.9998\n"}
+,{"stream_name":"stdout","time":6304.467264569,"data":"  Pointing          2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6304.46726821,"data":"  Target present    2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6304.467272074,"data":"\n"}
+,{"stream_name":"stdout","time":6304.467405773,"data":"\n"}
+,{"stream_name":"stdout","time":6304.467412202,"data":"2. Hand localisation by scene (test)\n"}
+,{"stream_name":"stdout","time":6304.467415733,"data":"------------------------------------\n"}
+,{"stream_name":"stdout","time":6304.467542528,"data":"  Subset                  n  Mean IoU %  Mean 95% CI  Median %  IoU\u003e=0.3 %  IoU\u003e=0.5 %  IoU\u003e=0.7 %  IoU\u003e=0.75 %\n"}
+,{"stream_name":"stdout","time":6304.467551312,"data":"  -------------------  ----  ----------  -----------  --------  ----------  ----------  ----------  -----------\n"}
+,{"stream_name":"stdout","time":6304.467555,"data":"  Non-pointing            0           -            -         -           -           -           -            -\n"}
+,{"stream_name":"stdout","time":6304.467558645,"data":"  Pointing, no target     0           -            -         -           -           -           -            -\n"}
+,{"stream_name":"stdout","time":6304.467562267,"data":"  Pointing at target   2604        74.0    73.4-74.5      77.3        98.0        92.8        69.9         57.0\n"}
+,{"stream_name":"stdout","time":6304.467565908,"data":"  All hand-present     2604        74.0    73.4-74.5      77.3        98.0        92.8        69.9         57.0\n"}
+,{"stream_name":"stdout","time":6304.467569437,"data":"\n"}
+,{"stream_name":"stdout","time":6304.467746212,"data":"\n"}
+,{"stream_name":"stdout","time":6304.467758196,"data":"3. Target localisation (test, pointing at target)\n"}
+,{"stream_name":"stdout","time":6304.467770535,"data":"-------------------------------------------------\n"}
+,{"stream_name":"stdout","time":6304.467773972,"data":"  Gap = distance from the fingertip to the target box (on-object: touching, near: \u003c= 0.08 of the image, far: beyond).\n"}
+,{"stream_name":"stdout","time":6304.467889843,"data":"  Subset            n  Mean IoU %  Mean 95% CI  Median %  IoU\u003e=0.3 %  IoU\u003e=0.5 %  IoU\u003e=0.7 %  IoU\u003e=0.75 %\n"}
+,{"stream_name":"stdout","time":6304.467898172,"data":"  -------------  ----  ----------  -----------  --------  ----------  ----------  ----------  -----------\n"}
+,{"stream_name":"stdout","time":6304.467902283,"data":"  All            2604        53.0    52.0-53.9      58.1        78.2        59.0        31.7         23.0\n"}
+,{"stream_name":"stdout","time":6304.467905788,"data":"  Gap on-object  1796        57.2    56.1-58.3      62.2        84.2        65.5        36.4         26.6\n"}
+,{"stream_name":"stdout","time":6304.467909181,"data":"  Gap near        599        48.7    46.7-50.8      50.2        73.6        50.3        24.4         17.4\n"}
+,{"stream_name":"stdout","time":6304.467913143,"data":"  Gap far         209        28.9    25.1-33.0      18.9        39.7        27.8        12.0          8.6\n"}
+,{"stream_name":"stdout","time":6304.467916455,"data":"\n"}
+,{"stream_name":"stdout","time":6304.468144061,"data":"\n"}
+,{"stream_name":"stdout","time":6304.468156299,"data":"4. Fingertip and pointing-ray error by scene (test)\n"}
+,{"stream_name":"stdout","time":6304.468160045,"data":"---------------------------------------------------\n"}
+,{"stream_name":"stdout","time":6304.468221606,"data":"  Subset                  n  Mean px  Mean 95% CI  Median px  P90 px  \u003c5 px %  \u003c10 px %\n"}
+,{"stream_name":"stdout","time":6304.468230196,"data":"  -------------------  ----  -------  -----------  ---------  ------  -------  --------\n"}
+,{"stream_name":"stdout","time":6304.468233894,"data":"  Pointing, no target     0        -            -          -       -        -         -\n"}
+,{"stream_name":"stdout","time":6304.468237334,"data":"  Pointing at target   2604     3.80    3.67-3.94       3.28    5.75     83.2      97.7\n"}
+,{"stream_name":"stdout","time":6304.468240853,"data":"  All pointing         2604     3.80    3.67-3.94       3.28    5.75     83.2      97.7\n"}
+,{"stream_name":"stdout","time":6304.468244344,"data":"\n"}
+,{"stream_name":"stdout","time":6304.468421571,"data":"  Pixels at the 160x160 model input. Ray error for \"Pointing, no target\" is measured against the hand-centre-to-fingertip direction.\n"}
+,{"stream_name":"stdout","time":6304.468518798,"data":"  Subset                  n  Mean deg  Mean 95% CI  Median deg  P90 deg  \u003c15 deg %  \u003c30 deg %\n"}
+,{"stream_name":"stdout","time":6304.468528808,"data":"  -------------------  ----  --------  -----------  ----------  -------  ---------  ---------\n"}
+,{"stream_name":"stdout","time":6304.468532706,"data":"  Pointing, no target     0         -            -           -        -          -          -\n"}
+,{"stream_name":"stdout","time":6304.468536346,"data":"  Pointing at target   2604     33.47  32.08-34.84       20.16    85.74       40.5       62.9\n"}
+,{"stream_name":"stdout","time":6304.468539986,"data":"  All pointing         2604     33.47  32.08-34.84       20.16    85.74       40.5       62.9\n"}
+,{"stream_name":"stdout","time":6304.468543746,"data":"\n"}
+,{"stream_name":"stdout","time":6304.468773585,"data":"  Gap           n  Fingertip mean px  Ray mean deg  Missed pointing\n"}
+,{"stream_name":"stdout","time":6304.468784313,"data":"  ---------  ----  -----------------  ------------  ---------------\n"}
+,{"stream_name":"stdout","time":6304.468788211,"data":"  on-object  1796               3.76          37.2                8\n"}
+,{"stream_name":"stdout","time":6304.468797743,"data":"  near        599               3.71          22.7                2\n"}
+,{"stream_name":"stdout","time":6304.468801688,"data":"  far         209               4.42          32.3                3\n"}
+,{"stream_name":"stdout","time":6304.468804728,"data":"\n"}
+,{"stream_name":"stdout","time":6304.67495053,"data":"\n"}
+,{"stream_name":"stdout","time":6304.674984375,"data":"1. Scene classification and gates (test)\n"}
+,{"stream_name":"stdout","time":6304.674995441,"data":"----------------------------------------\n"}
+,{"stream_name":"stdout","time":6304.674999018,"data":"  3029 images. Scene accuracy 98.68% (95% CI 98.2-99.0), macro-F1 97.22%, balanced accuracy 96.57%. Gate thresholds hand/pointing/target = 0.50/0.50/0.50.\n"}
+,{"stream_name":"stdout","time":6304.675002947,"data":"  Scene (H P T)        Support  Precision %  Recall %  Recall 95% CI  F1 %\n"}
+,{"stream_name":"stdout","time":6304.675006736,"data":"  -------------------  -------  -----------  --------  -------------  ----\n"}
+,{"stream_name":"stdout","time":6304.675015359,"data":"  No hand                  425         96.8      93.6      90.9-95.6  95.2\n"}
+,{"stream_name":"stdout","time":6304.675018161,"data":"  Non-pointing               0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6304.675020519,"data":"  Pointing, no target        0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6304.675022813,"data":"  Pointing at target      2604         99.0      99.5      99.1-99.7  99.2\n"}
+,{"stream_name":"stdout","time":6304.67502513,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675027652,"data":"  Ground truth \\ Predicted  No hand  Non-pointing  Pointing, no target  Pointing at target\n"}
+,{"stream_name":"stdout","time":6304.675030021,"data":"  ------------------------  -------  ------------  -------------------  ------------------\n"}
+,{"stream_name":"stdout","time":6304.67503231,"data":"  No hand                       398             0                    0                  27\n"}
+,{"stream_name":"stdout","time":6304.67503459,"data":"  Non-pointing                    0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6304.675036873,"data":"  Pointing, no target             0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6304.675039068,"data":"  Pointing at target             13             0                    0                2591\n"}
+,{"stream_name":"stdout","time":6304.675041254,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675043289,"data":"  Gate            Images  Positives  Threshold  Accuracy %  Recall %  Missed  False alarms   AUROC      AP\n"}
+,{"stream_name":"stdout","time":6304.675045561,"data":"  --------------  ------  ---------  ---------  ----------  --------  ------  ------------  ------  ------\n"}
+,{"stream_name":"stdout","time":6304.675047791,"data":"  Hand present      3029       2604       0.50        98.7      99.5      13            27  0.9987  0.9998\n"}
+,{"stream_name":"stdout","time":6304.675050036,"data":"  Pointing          2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6304.67505226,"data":"  Target present    2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6304.675054487,"data":"\n"}
+,{"stream_name":"stdout","time":6304.67505655,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675058564,"data":"2. Hand localisation by scene (test)\n"}
+,{"stream_name":"stdout","time":6304.675060677,"data":"------------------------------------\n"}
+,{"stream_name":"stdout","time":6304.675069508,"data":"  Subset                  n  Mean IoU %  Mean 95% CI  Median %  IoU\u003e=0.3 %  IoU\u003e=0.5 %  IoU\u003e=0.7 %  IoU\u003e=0.75 %\n"}
+,{"stream_name":"stdout","time":6304.675073144,"data":"  -------------------  ----  ----------  -----------  --------  ----------  ----------  ----------  -----------\n"}
+,{"stream_name":"stdout","time":6304.675075473,"data":"  Non-pointing            0           -            -         -           -           -           -            -\n"}
+,{"stream_name":"stdout","time":6304.675077707,"data":"  Pointing, no target     0           -            -         -           -           -           -            -\n"}
+,{"stream_name":"stdout","time":6304.675079939,"data":"  Pointing at target   2604        74.0    73.4-74.5      77.3        98.0        92.8        69.9         57.0\n"}
+,{"stream_name":"stdout","time":6304.675082157,"data":"  All hand-present     2604        74.0    73.4-74.5      77.3        98.0        92.8        69.9         57.0\n"}
+,{"stream_name":"stdout","time":6304.675084427,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675086471,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675088502,"data":"3. Target localisation (test, pointing at target)\n"}
+,{"stream_name":"stdout","time":6304.675090677,"data":"-------------------------------------------------\n"}
+,{"stream_name":"stdout","time":6304.675092899,"data":"  Gap = distance from the fingertip to the target box (on-object: touching, near: \u003c= 0.08 of the image, far: beyond).\n"}
+,{"stream_name":"stdout","time":6304.675095403,"data":"  Subset            n  Mean IoU %  Mean 95% CI  Median %  IoU\u003e=0.3 %  IoU\u003e=0.5 %  IoU\u003e=0.7 %  IoU\u003e=0.75 %\n"}
+,{"stream_name":"stdout","time":6304.675097826,"data":"  -------------  ----  ----------  -----------  --------  ----------  ----------  ----------  -----------\n"}
+,{"stream_name":"stdout","time":6304.675100141,"data":"  All            2604        53.0    52.0-53.9      58.1        78.2        59.0        31.7         23.0\n"}
+,{"stream_name":"stdout","time":6304.67510236,"data":"  Gap on-object  1796        57.2    56.1-58.3      62.2        84.2        65.5        36.4         26.6\n"}
+,{"stream_name":"stdout","time":6304.675104645,"data":"  Gap near        599        48.7    46.7-50.8      50.2        73.6        50.3        24.4         17.4\n"}
+,{"stream_name":"stdout","time":6304.675106856,"data":"  Gap far         209        28.9    25.1-33.0      18.9        39.7        27.8        12.0          8.6\n"}
+,{"stream_name":"stdout","time":6304.67510909,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675111185,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675113216,"data":"4. Fingertip and pointing-ray error by scene (test)\n"}
+,{"stream_name":"stdout","time":6304.675115445,"data":"---------------------------------------------------\n"}
+,{"stream_name":"stdout","time":6304.675117575,"data":"  Subset                  n  Mean px  Mean 95% CI  Median px  P90 px  \u003c5 px %  \u003c10 px %\n"}
+,{"stream_name":"stdout","time":6304.675119892,"data":"  -------------------  ----  -------  -----------  ---------  ------  -------  --------\n"}
+,{"stream_name":"stdout","time":6304.67512212,"data":"  Pointing, no target     0        -            -          -       -        -         -\n"}
+,{"stream_name":"stdout","time":6304.675154899,"data":"  Pointing at target   2604     3.80    3.67-3.94       3.28    5.75     83.2      97.7\n"}
+,{"stream_name":"stdout","time":6304.675158565,"data":"  All pointing         2604     3.80    3.67-3.94       3.28    5.75     83.2      97.7\n"}
+,{"stream_name":"stdout","time":6304.675162052,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675174826,"data":"  Pixels at the 160x160 model input. Ray error for \"Pointing, no target\" is measured against the hand-centre-to-fingertip direction.\n"}
+,{"stream_name":"stdout","time":6304.675179219,"data":"  Subset                  n  Mean deg  Mean 95% CI  Median deg  P90 deg  \u003c15 deg %  \u003c30 deg %\n"}
+,{"stream_name":"stdout","time":6304.675182869,"data":"  -------------------  ----  --------  -----------  ----------  -------  ---------  ---------\n"}
+,{"stream_name":"stdout","time":6304.675186322,"data":"  Pointing, no target     0         -            -           -        -          -          -\n"}
+,{"stream_name":"stdout","time":6304.675189771,"data":"  Pointing at target   2604     33.47  32.08-34.84       20.16    85.74       40.5       62.9\n"}
+,{"stream_name":"stdout","time":6304.67519323,"data":"  All pointing         2604     33.47  32.08-34.84       20.16    85.74       40.5       62.9\n"}
+,{"stream_name":"stdout","time":6304.675198321,"data":"\n"}
+,{"stream_name":"stdout","time":6304.675205367,"data":"  Gap           n  Fingertip mean px  Ray mean deg  Missed pointing\n"}
+,{"stream_name":"stdout","time":6304.67520768,"data":"  ---------  ----  -----------------  ------------  ---------------\n"}
+,{"stream_name":"stdout","time":6304.67520982,"data":"  on-object  1796               3.76          37.2                8\n"}
+,{"stream_name":"stdout","time":6304.675211944,"data":"  near        599               3.71          22.7                2\n"}
+,{"stream_name":"stdout","time":6304.675214186,"data":"  far         209               4.42          32.3                3\n"}
+,{"stream_name":"stdout","time":6304.675216348,"data":"\n"}
+,{"stream_name":"stdout","time":6312.41318753,"data":"\n"}
+,{"stream_name":"stdout","time":6312.413220166,"data":"5. Val-calibrated gate thresholds (test)\n"}
+,{"stream_name":"stdout","time":6312.413223384,"data":"----------------------------------------\n"}
+,{"stream_name":"stdout","time":6312.413225685,"data":"  Highest threshold per gate with no missed positives on the 1524 validation images: hand 0.27, pointing 0.50, target 0.50.\n"}
+,{"stream_name":"stdout","time":6312.413228404,"data":"  3029 images. Scene accuracy 97.46% (95% CI 96.8-98.0), macro-F1 94.33%, balanced accuracy 91.24%. Gate thresholds hand/pointing/target = 0.27/0.50/0.50.\n"}
+,{"stream_name":"stdout","time":6312.413232058,"data":"  Scene (H P T)        Support  Precision %  Recall %  Recall 95% CI  F1 %\n"}
+,{"stream_name":"stdout","time":6312.413246797,"data":"  -------------------  -------  -----------  --------  -------------  ----\n"}
+,{"stream_name":"stdout","time":6312.413250657,"data":"  No hand                  425         99.2      82.6      78.7-85.9  90.1\n"}
+,{"stream_name":"stdout","time":6312.41325466,"data":"  Non-pointing               0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6312.413258757,"data":"  Pointing, no target        0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6312.413262978,"data":"  Pointing at target      2604         97.2      99.9     99.7-100.0  98.5\n"}
+,{"stream_name":"stdout","time":6312.413267072,"data":"\n"}
+,{"stream_name":"stdout","time":6312.413482428,"data":"  Ground truth \\ Predicted  No hand  Non-pointing  Pointing, no target  Pointing at target\n"}
+,{"stream_name":"stdout","time":6312.4135074,"data":"  ------------------------  -------  ------------  -------------------  ------------------\n"}
+,{"stream_name":"stdout","time":6312.413516268,"data":"  No hand                       351             0                    0                  74\n"}
+,{"stream_name":"stdout","time":6312.413520409,"data":"  Non-pointing                    0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6312.413534678,"data":"  Pointing, no target             0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6312.413538361,"data":"  Pointing at target              3             0                    0                2601\n"}
+,{"stream_name":"stdout","time":6312.413542001,"data":"\n"}
+,{"stream_name":"stdout","time":6312.413733508,"data":"  Gate            Images  Positives  Threshold  Accuracy %  Recall %  Missed  False alarms   AUROC      AP\n"}
+,{"stream_name":"stdout","time":6312.413743203,"data":"  --------------  ------  ---------  ---------  ----------  --------  ------  ------------  ------  ------\n"}
+,{"stream_name":"stdout","time":6312.413746903,"data":"  Hand present      3029       2604       0.27        97.5      99.9       3            74  0.9987  0.9998\n"}
+,{"stream_name":"stdout","time":6312.413750465,"data":"  Pointing          2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6312.413754198,"data":"  Target present    2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6312.413757685,"data":"\n"}
+,{"stream_name":"stdout","time":6312.615336994,"data":"\n"}
+,{"stream_name":"stdout","time":6312.615354637,"data":"5. Val-calibrated gate thresholds (test)\n"}
+,{"stream_name":"stdout","time":6312.61535785,"data":"----------------------------------------\n"}
+,{"stream_name":"stdout","time":6312.6153602,"data":"  Highest threshold per gate with no missed positives on the 1524 validation images: hand 0.27, pointing 0.50, target 0.50.\n"}
+,{"stream_name":"stdout","time":6312.615362778,"data":"  3029 images. Scene accuracy 97.46% (95% CI 96.8-98.0), macro-F1 94.33%, balanced accuracy 91.24%. Gate thresholds hand/pointing/target = 0.27/0.50/0.50.\n"}
+,{"stream_name":"stdout","time":6312.61536531,"data":"  Scene (H P T)        Support  Precision %  Recall %  Recall 95% CI  F1 %\n"}
+,{"stream_name":"stdout","time":6312.61536754,"data":"  -------------------  -------  -----------  --------  -------------  ----\n"}
+,{"stream_name":"stdout","time":6312.615369886,"data":"  No hand                  425         99.2      82.6      78.7-85.9  90.1\n"}
+,{"stream_name":"stdout","time":6312.615384296,"data":"  Non-pointing               0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6312.615388168,"data":"  Pointing, no target        0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6312.615391917,"data":"  Pointing at target      2604         97.2      99.9     99.7-100.0  98.5\n"}
+,{"stream_name":"stdout","time":6312.615395638,"data":"\n"}
+,{"stream_name":"stdout","time":6312.61539923,"data":"  Ground truth \\ Predicted  No hand  Non-pointing  Pointing, no target  Pointing at target\n"}
+,{"stream_name":"stdout","time":6312.615403291,"data":"  ------------------------  -------  ------------  -------------------  ------------------\n"}
+,{"stream_name":"stdout","time":6312.61540719,"data":"  No hand                       351             0                    0                  74\n"}
+,{"stream_name":"stdout","time":6312.615410535,"data":"  Non-pointing                    0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6312.615413988,"data":"  Pointing, no target             0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6312.615417352,"data":"  Pointing at target              3             0                    0                2601\n"}
+,{"stream_name":"stdout","time":6312.615420767,"data":"\n"}
+,{"stream_name":"stdout","time":6312.615434085,"data":"  Gate            Images  Positives  Threshold  Accuracy %  Recall %  Missed  False alarms   AUROC      AP\n"}
+,{"stream_name":"stdout","time":6312.615437671,"data":"  --------------  ------  ---------  ---------  ----------  --------  ------  ------------  ------  ------\n"}
+,{"stream_name":"stdout","time":6312.615441085,"data":"  Hand present      3029       2604       0.27        97.5      99.9       3            74  0.9987  0.9998\n"}
+,{"stream_name":"stdout","time":6312.615444519,"data":"  Pointing          2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6312.615447956,"data":"  Target present    2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6312.615454408,"data":"\n"}
+,{"stream_name":"stdout","time":6332.719551029,"data":"\n"}
+,{"stream_name":"stdout","time":6332.719592859,"data":"6. Robustness to other people's hands (test with 1-2 pasted distractor hands)\n"}
+,{"stream_name":"stdout","time":6332.719596521,"data":"-----------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":6332.719599686,"data":"  3029 images. Scene accuracy 98.51% (95% CI 98.0-98.9), macro-F1 96.87%, balanced accuracy 96.08%. Gate thresholds hand/pointing/target = 0.50/0.50/0.50.\n"}
+,{"stream_name":"stdout","time":6332.719602324,"data":"  Scene (H P T)        Support  Precision %  Recall %  Recall 95% CI  F1 %\n"}
+,{"stream_name":"stdout","time":6332.719614071,"data":"  -------------------  -------  -----------  --------  -------------  ----\n"}
+,{"stream_name":"stdout","time":6332.719630092,"data":"  No hand                  425         96.6      92.7      89.8-94.8  94.6\n"}
+,{"stream_name":"stdout","time":6332.719634345,"data":"  Non-pointing               0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6332.719638549,"data":"  Pointing, no target        0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6332.71964279,"data":"  Pointing at target      2604         98.8      99.5      99.1-99.7  99.1\n"}
+,{"stream_name":"stdout","time":6332.71964689,"data":"\n"}
+,{"stream_name":"stdout","time":6332.719780997,"data":"  Ground truth \\ Predicted  No hand  Non-pointing  Pointing, no target  Pointing at target\n"}
+,{"stream_name":"stdout","time":6332.7197899,"data":"  ------------------------  -------  ------------  -------------------  ------------------\n"}
+,{"stream_name":"stdout","time":6332.719794104,"data":"  No hand                       394             0                    0                  31\n"}
+,{"stream_name":"stdout","time":6332.719797636,"data":"  Non-pointing                    0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6332.719801066,"data":"  Pointing, no target             0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6332.719804571,"data":"  Pointing at target             14             0                    0                2590\n"}
+,{"stream_name":"stdout","time":6332.719807935,"data":"\n"}
+,{"stream_name":"stdout","time":6332.720084306,"data":"  Gate            Images  Positives  Threshold  Accuracy %  Recall %  Missed  False alarms   AUROC      AP\n"}
+,{"stream_name":"stdout","time":6332.720098538,"data":"  --------------  ------  ---------  ---------  ----------  --------  ------  ------------  ------  ------\n"}
+,{"stream_name":"stdout","time":6332.720102576,"data":"  Hand present      3029       2604       0.50        98.5      99.5      14            31  0.9983  0.9997\n"}
+,{"stream_name":"stdout","time":6332.720106149,"data":"  Pointing          2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6332.720121787,"data":"  Target present    2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6332.720142516,"data":"\n"}
+,{"stream_name":"stdout","time":6332.720400984,"data":"  Subset                  n  Mean IoU %  Mean 95% CI  Median %  IoU\u003e=0.3 %  IoU\u003e=0.5 %  IoU\u003e=0.7 %  IoU\u003e=0.75 %\n"}
+,{"stream_name":"stdout","time":6332.720415775,"data":"  -------------------  ----  ----------  -----------  --------  ----------  ----------  ----------  -----------\n"}
+,{"stream_name":"stdout","time":6332.720425482,"data":"  Non-pointing            0           -            -         -           -           -           -            -\n"}
+,{"stream_name":"stdout","time":6332.720429422,"data":"  Pointing, no target     0           -            -         -           -           -           -            -\n"}
+,{"stream_name":"stdout","time":6332.720433426,"data":"  Pointing at target   2604        73.7    73.2-74.3      77.2        97.8        92.5        69.8         56.3\n"}
+,{"stream_name":"stdout","time":6332.720437322,"data":"  All hand-present     2604        73.7    73.2-74.3      77.2        97.8        92.5        69.8         56.3\n"}
+,{"stream_name":"stdout","time":6332.72044116,"data":"\n"}
+,{"stream_name":"stdout","time":6332.720658703,"data":"  Ownership                                                    Value\n"}
+,{"stream_name":"stdout","time":6332.720666896,"data":"  -------------------------------------------------------  ---------\n"}
+,{"stream_name":"stdout","time":6332.720670555,"data":"  Hand images with distractors                                  2377\n"}
+,{"stream_name":"stdout","time":6332.72067405,"data":"  Ownership accuracy % (predicted hand nearer the wearer)      99.79\n"}
+,{"stream_name":"stdout","time":6332.720677595,"data":"  Ownership accuracy 95% CI                                99.5-99.9\n"}
+,{"stream_name":"stdout","time":6332.720681388,"data":"  Predicted hand centre inside a distractor %                   0.21\n"}
+,{"stream_name":"stdout","time":6332.720684966,"data":"  Pointing images with distractors                              2377\n"}
+,{"stream_name":"stdout","time":6332.720691518,"data":"  Ownership accuracy on pointing images %                      99.79\n"}
+,{"stream_name":"stdout","time":6332.720695592,"data":"  No-hand images with distractors                                425\n"}
+,{"stream_name":"stdout","time":6332.720699406,"data":"  Still classified \"No hand\" %                                 92.71\n"}
+,{"stream_name":"stdout","time":6332.720703169,"data":"\n"}
+,{"stream_name":"stdout","time":6332.720833095,"data":"\n"}
+,{"stream_name":"stdout","time":6332.720839224,"data":"7. Headline comparison\n"}
+,{"stream_name":"stdout","time":6332.720842831,"data":"----------------------\n"}
+,{"stream_name":"stdout","time":6332.721086209,"data":"  Metric                                 Test (default thresholds)  Test (val-calibrated thresholds)  Test + distractor hands\n"}
+,{"stream_name":"stdout","time":6332.721094697,"data":"  -------------------------------------  -------------------------  --------------------------------  -----------------------\n"}
+,{"stream_name":"stdout","time":6332.721098587,"data":"  Scene accuracy %                                            98.7                              97.5                     98.5\n"}
+,{"stream_name":"stdout","time":6332.721102266,"data":"  Scene macro-F1 %                                            97.2                              94.3                     96.9\n"}
+,{"stream_name":"stdout","time":6332.721105876,"data":"  Missed hand / pointing / target                           13/0/0                             3/0/0                   14/0/0\n"}
+,{"stream_name":"stdout","time":6332.721117827,"data":"  False alarms hand / pointing / target                     27/0/0                            74/0/0                   31/0/0\n"}
+,{"stream_name":"stdout","time":6332.721142726,"data":"  Hand IoU mean % (all hand-present)                          74.0                              74.0                     73.7\n"}
+,{"stream_name":"stdout","time":6332.721147001,"data":"  Hand IoU\u003e=0.5 %                                             92.8                              92.8                     92.5\n"}
+,{"stream_name":"stdout","time":6332.721150905,"data":"  Target IoU mean %                                           53.0                              53.0                     53.4\n"}
+,{"stream_name":"stdout","time":6332.721154728,"data":"  Target IoU\u003e=0.5 %                                           59.0                              59.0                     59.9\n"}
+,{"stream_name":"stdout","time":6332.7211585,"data":"  Fingertip error mean px                                     3.80                              3.80                     3.98\n"}
+,{"stream_name":"stdout","time":6332.721162048,"data":"\n"}
+,{"stream_name":"stdout","time":6332.721274726,"data":"\n"}
+,{"stream_name":"stdout","time":6332.721280905,"data":"8. Efficiency\n"}
+,{"stream_name":"stdout","time":6332.721284457,"data":"-------------\n"}
+,{"stream_name":"stdout","time":6332.922140849,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922164301,"data":"6. Robustness to other people's hands (test with 1-2 pasted distractor hands)\n"}
+,{"stream_name":"stdout","time":6332.922169268,"data":"-----------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":6332.922173833,"data":"  3029 images. Scene accuracy 98.51% (95% CI 98.0-98.9), macro-F1 96.87%, balanced accuracy 96.08%. Gate thresholds hand/pointing/target = 0.50/0.50/0.50.\n"}
+,{"stream_name":"stdout","time":6332.92217773,"data":"  Scene (H P T)        Support  Precision %  Recall %  Recall 95% CI  F1 %\n"}
+,{"stream_name":"stdout","time":6332.922181112,"data":"  -------------------  -------  -----------  --------  -------------  ----\n"}
+,{"stream_name":"stdout","time":6332.922184557,"data":"  No hand                  425         96.6      92.7      89.8-94.8  94.6\n"}
+,{"stream_name":"stdout","time":6332.922188234,"data":"  Non-pointing               0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6332.922191566,"data":"  Pointing, no target        0            -         -              -     -\n"}
+,{"stream_name":"stdout","time":6332.922196839,"data":"  Pointing at target      2604         98.8      99.5      99.1-99.7  99.1\n"}
+,{"stream_name":"stdout","time":6332.922204593,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922206782,"data":"  Ground truth \\ Predicted  No hand  Non-pointing  Pointing, no target  Pointing at target\n"}
+,{"stream_name":"stdout","time":6332.922209234,"data":"  ------------------------  -------  ------------  -------------------  ------------------\n"}
+,{"stream_name":"stdout","time":6332.922211771,"data":"  No hand                       394             0                    0                  31\n"}
+,{"stream_name":"stdout","time":6332.922214141,"data":"  Non-pointing                    0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6332.922216416,"data":"  Pointing, no target             0             0                    0                   0\n"}
+,{"stream_name":"stdout","time":6332.922218636,"data":"  Pointing at target             14             0                    0                2590\n"}
+,{"stream_name":"stdout","time":6332.922229662,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922231966,"data":"  Gate            Images  Positives  Threshold  Accuracy %  Recall %  Missed  False alarms   AUROC      AP\n"}
+,{"stream_name":"stdout","time":6332.922234395,"data":"  --------------  ------  ---------  ---------  ----------  --------  ------  ------------  ------  ------\n"}
+,{"stream_name":"stdout","time":6332.922236677,"data":"  Hand present      3029       2604       0.50        98.5      99.5      14            31  0.9983  0.9997\n"}
+,{"stream_name":"stdout","time":6332.922239051,"data":"  Pointing          2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6332.922241324,"data":"  Target present    2604       2604       0.50       100.0     100.0       0             0       -  1.0000\n"}
+,{"stream_name":"stdout","time":6332.922243585,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922245644,"data":"  Subset                  n  Mean IoU %  Mean 95% CI  Median %  IoU\u003e=0.3 %  IoU\u003e=0.5 %  IoU\u003e=0.7 %  IoU\u003e=0.75 %\n"}
+,{"stream_name":"stdout","time":6332.922250367,"data":"  -------------------  ----  ----------  -----------  --------  ----------  ----------  ----------  -----------\n"}
+,{"stream_name":"stdout","time":6332.922252769,"data":"  Non-pointing            0           -            -         -           -           -           -            -\n"}
+,{"stream_name":"stdout","time":6332.922255051,"data":"  Pointing, no target     0           -            -         -           -           -           -            -\n"}
+,{"stream_name":"stdout","time":6332.92225732,"data":"  Pointing at target   2604        73.7    73.2-74.3      77.2        97.8        92.5        69.8         56.3\n"}
+,{"stream_name":"stdout","time":6332.922259697,"data":"  All hand-present     2604        73.7    73.2-74.3      77.2        97.8        92.5        69.8         56.3\n"}
+,{"stream_name":"stdout","time":6332.922262001,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922264091,"data":"  Ownership                                                    Value\n"}
+,{"stream_name":"stdout","time":6332.922266306,"data":"  -------------------------------------------------------  ---------\n"}
+,{"stream_name":"stdout","time":6332.922268579,"data":"  Hand images with distractors                                  2377\n"}
+,{"stream_name":"stdout","time":6332.922270789,"data":"  Ownership accuracy % (predicted hand nearer the wearer)      99.79\n"}
+,{"stream_name":"stdout","time":6332.922273067,"data":"  Ownership accuracy 95% CI                                99.5-99.9\n"}
+,{"stream_name":"stdout","time":6332.922275281,"data":"  Predicted hand centre inside a distractor %                   0.21\n"}
+,{"stream_name":"stdout","time":6332.922277478,"data":"  Pointing images with distractors                              2377\n"}
+,{"stream_name":"stdout","time":6332.922279655,"data":"  Ownership accuracy on pointing images %                      99.79\n"}
+,{"stream_name":"stdout","time":6332.922281839,"data":"  No-hand images with distractors                                425\n"}
+,{"stream_name":"stdout","time":6332.922284019,"data":"  Still classified \"No hand\" %                                 92.71\n"}
+,{"stream_name":"stdout","time":6332.922286379,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922288455,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922290527,"data":"7. Headline comparison\n"}
+,{"stream_name":"stdout","time":6332.922292697,"data":"----------------------\n"}
+,{"stream_name":"stdout","time":6332.922294867,"data":"  Metric                                 Test (default thresholds)  Test (val-calibrated thresholds)  Test + distractor hands\n"}
+,{"stream_name":"stdout","time":6332.922300289,"data":"  -------------------------------------  -------------------------  --------------------------------  -----------------------\n"}
+,{"stream_name":"stdout","time":6332.922302732,"data":"  Scene accuracy %                                            98.7                              97.5                     98.5\n"}
+,{"stream_name":"stdout","time":6332.922305182,"data":"  Scene macro-F1 %                                            97.2                              94.3                     96.9\n"}
+,{"stream_name":"stdout","time":6332.922307534,"data":"  Missed hand / pointing / target                           13/0/0                             3/0/0                   14/0/0\n"}
+,{"stream_name":"stdout","time":6332.922309822,"data":"  False alarms hand / pointing / target                     27/0/0                            74/0/0                   31/0/0\n"}
+,{"stream_name":"stdout","time":6332.922312428,"data":"  Hand IoU mean % (all hand-present)                          74.0                              74.0                     73.7\n"}
+,{"stream_name":"stdout","time":6332.9223147,"data":"  Hand IoU\u003e=0.5 %                                             92.8                              92.8                     92.5\n"}
+,{"stream_name":"stdout","time":6332.922317067,"data":"  Target IoU mean %                                           53.0                              53.0                     53.4\n"}
+,{"stream_name":"stdout","time":6332.922319367,"data":"  Target IoU\u003e=0.5 %                                           59.0                              59.0                     59.9\n"}
+,{"stream_name":"stdout","time":6332.922321686,"data":"  Fingertip error mean px                                     3.80                              3.80                     3.98\n"}
+,{"stream_name":"stdout","time":6332.922324041,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922326099,"data":"\n"}
+,{"stream_name":"stdout","time":6332.922328167,"data":"8. Efficiency\n"}
+,{"stream_name":"stdout","time":6332.922330332,"data":"-------------\n"}
+,{"stream_name":"stdout","time":6338.435602194,"data":"  Property                                                          Value\n"}
+,{"stream_name":"stdout","time":6338.43563342,"data":"  -------------------------------  --------------------------------------\n"}
+,{"stream_name":"stdout","time":6338.43563924,"data":"  Parameters                                                      722,104\n"}
+,{"stream_name":"stdout","time":6338.43564387,"data":"    backbone / heads                                    143,136 / 578,968\n"}
+,{"stream_name":"stdout","time":6338.435648624,"data":"  Compute per image                                          0.231 GFLOPs\n"}
+,{"stream_name":"stdout","time":6338.435652972,"data":"  Input                                                     160 x 160 RGB\n"}
+,{"stream_name":"stdout","time":6338.435657671,"data":"  Size FP32 / FP16 / INT8                     3064 KB / 1600 KB / 2733 KB\n"}
+,{"stream_name":"stdout","time":6338.435661925,"data":"  Latency CPU, 1 thread, batch 1   24.93 ms median, 26.58 ms p90 (40 FPS)\n"}
+,{"stream_name":"stdout","time":6338.435666175,"data":"  Latency CPU, 4 threads, batch 1  25.29 ms median, 27.99 ms p90 (40 FPS)\n"}
+,{"stream_name":"stdout","time":6338.435670944,"data":"  Latency GPU (Tesla T4), batch 1  15.99 ms median, 16.44 ms p90 (63 FPS)\n"}
+,{"stream_name":"stdout","time":6338.43567549,"data":"\n"}
+,{"stream_name":"stdout","time":6338.436107392,"data":"  CPU: x86_64. Latency is PyTorch eager mode, not an on-device runtime.\n"}
+,{"stream_name":"stdout","time":6338.643430498,"data":"  Property                                                          Value\n"}
+,{"stream_name":"stdout","time":6338.64346297,"data":"  -------------------------------  --------------------------------------\n"}
+,{"stream_name":"stdout","time":6338.643468437,"data":"  Parameters                                                      722,104\n"}
+,{"stream_name":"stdout","time":6338.643472561,"data":"    backbone / heads                                    143,136 / 578,968\n"}
+,{"stream_name":"stdout","time":6338.64347604,"data":"  Compute per image                                          0.231 GFLOPs\n"}
+,{"stream_name":"stdout","time":6338.643481054,"data":"  Input                                                     160 x 160 RGB\n"}
+,{"stream_name":"stdout","time":6338.643489174,"data":"  Size FP32 / FP16 / INT8                     3064 KB / 1600 KB / 2733 KB\n"}
+,{"stream_name":"stdout","time":6338.64349169,"data":"  Latency CPU, 1 thread, batch 1   24.93 ms median, 26.58 ms p90 (40 FPS)\n"}
+,{"stream_name":"stdout","time":6338.643493943,"data":"  Latency CPU, 4 threads, batch 1  25.29 ms median, 27.99 ms p90 (40 FPS)\n"}
+,{"stream_name":"stdout","time":6338.643496336,"data":"  Latency GPU (Tesla T4), batch 1  15.99 ms median, 16.44 ms p90 (63 FPS)\n"}
+,{"stream_name":"stdout","time":6338.643498533,"data":"\n"}
+,{"stream_name":"stdout","time":6338.643500638,"data":"  CPU: x86_64. Latency is PyTorch eager mode, not an on-device runtime.\n"}
+,{"stream_name":"stdout","time":6343.162689549,"data":"\n"}
+,{"stream_name":"stdout","time":6343.162713031,"data":"Saved\n"}
+,{"stream_name":"stdout","time":6343.162717345,"data":"-----\n"}
+,{"stream_name":"stdout","time":6343.162720885,"data":"  metrics.json  every number above, plus validation and CI details\n"}
+,{"stream_name":"stdout","time":6343.162724594,"data":"  summary.md    all tables in Markdown\n"}
+,{"stream_name":"stdout","time":6343.162727944,"data":"  tables/       each table as CSV\n"}
+,{"stream_name":"stdout","time":6343.162731216,"data":"  predictions/  per-image predictions and errors (recompute any metric without the model)\n"}
+,{"stream_name":"stdout","time":6343.162735031,"data":"  figures/      PDF (for the paper) and PNG\n"}
+,{"stream_name":"stdout","time":6343.162738665,"data":"\n"}
+,{"stream_name":"stdout","time":6343.162741799,"data":"  Done in 1m 10s. Results in /kaggle/working/seed_1/evaluation\n"}
+,{"stream_name":"stdout","time":6343.162745287,"data":"\n"}
+,{"stream_name":"stdout","time":6343.364884257,"data":"\n"}
+,{"stream_name":"stdout","time":6343.36491642,"data":"Saved\n"}
+,{"stream_name":"stdout","time":6343.364920543,"data":"-----\n"}
+,{"stream_name":"stdout","time":6343.364924641,"data":"  metrics.json  every number above, plus validation and CI details\n"}
+,{"stream_name":"stdout","time":6343.364936061,"data":"  summary.md    all tables in Markdown\n"}
+,{"stream_name":"stdout","time":6343.364939943,"data":"  tables/       each table as CSV\n"}
+,{"stream_name":"stdout","time":6343.364943709,"data":"  predictions/  per-image predictions and errors (recompute any metric without the model)\n"}
+,{"stream_name":"stdout","time":6343.364947301,"data":"  figures/      PDF (for the paper) and PNG\n"}
+,{"stream_name":"stdout","time":6343.364951037,"data":"\n"}
+,{"stream_name":"stdout","time":6343.364954929,"data":"  Done in 1m 10s. Results in /kaggle/working/seed_1/evaluation\n"}
+,{"stream_name":"stdout","time":6343.364958601,"data":"\n"}
+,{"stream_name":"stderr","time":6346.83860644,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":6346.838641034,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":6346.98061854,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":6346.980661578,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":6347.692035118,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":6347.839543334,"data":"[NbConvertApp] Writing 3154673 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":6350.245421427,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":6350.798761078,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":6350.798871075,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":6350.799301554,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":6350.79954025,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":6350.799815331,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":6350.800730158,"data":"[NbConvertApp] Writing 332762 bytes to __results__.html\n"}
+]

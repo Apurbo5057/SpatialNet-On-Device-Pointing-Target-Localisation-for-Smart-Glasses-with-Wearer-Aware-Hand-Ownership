@@ -1,0 +1,5 @@
+Scene (H P T),Support,Precision %,Recall %,Recall 95% CI,F1 %
+No hand,425,96.7,95.5,93.1-97.1,96.1
+Non-pointing,0,-,-,-,-
+"Pointing, no target",0,-,-,-,-
+Pointing at target,2604,99.3,99.5,99.1-99.7,99.4

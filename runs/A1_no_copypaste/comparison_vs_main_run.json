@@ -1,0 +1,197 @@
+{
+ "reference": "main_run",
+ "run": "A1_no_copypaste",
+ "img_size": 160,
+ "rows": [
+  {
+   "metric": "Target mIoU",
+   "n": 2604,
+   "reference": 53.295676152073725,
+   "run": 52.06919074500768,
+   "diff": -1.2264854070660522,
+   "ci_low": -1.9762665399385562,
+   "ci_high": -0.4344354281874039,
+   "significant": true
+  },
+  {
+   "metric": "Target P@0.3",
+   "n": 2604,
+   "reference": 78.57142857142857,
+   "run": 76.92012288786482,
+   "diff": -1.651305683563748,
+   "ci_low": -3.0337941628264207,
+   "ci_high": -0.30721966205837176,
+   "significant": true
+  },
+  {
+   "metric": "Target P@0.5",
+   "n": 2604,
+   "reference": 58.90937019969278,
+   "run": 58.83256528417819,
+   "diff": -0.07680491551459294,
+   "ci_low": -1.8442780337941629,
+   "ci_high": 1.8049155145929339,
+   "significant": false
+  },
+  {
+   "metric": "Target P@0.7",
+   "n": 2604,
+   "reference": 31.797235023041473,
+   "run": 30.453149001536097,
+   "diff": -1.3440860215053763,
+   "ci_low": -2.9579493087557602,
+   "ci_high": 0.4608294930875576,
+   "significant": false
+  },
+  {
+   "metric": "On-object P@0.5",
+   "n": 1796,
+   "reference": 66.03563474387528,
+   "run": 66.20267260579065,
+   "diff": 0.16703786191536749,
+   "ci_low": -1.8930957683741647,
+   "ci_high": 2.115812917594655,
+   "significant": false
+  },
+  {
+   "metric": "Near P@0.5",
+   "n": 599,
+   "reference": 49.248747913188645,
+   "run": 47.74624373956594,
+   "diff": -1.5025041736227045,
+   "ci_low": -5.175292153589315,
+   "ci_high": 2.1744574290484104,
+   "significant": false
+  },
+  {
+   "metric": "Far P@0.5",
+   "n": 209,
+   "reference": 25.358851674641148,
+   "run": 27.272727272727273,
+   "diff": 1.9138755980861244,
+   "ci_low": -3.349282296650718,
+   "ci_high": 7.655502392344498,
+   "significant": false
+  },
+  {
+   "metric": "Far mIoU",
+   "n": 209,
+   "reference": 29.787752631578947,
+   "run": 29.83037129186603,
+   "diff": 0.04261866028708144,
+   "ci_low": -3.243474389952153,
+   "ci_high": 3.285272918660286,
+   "significant": false
+  },
+  {
+   "metric": "Hand mIoU",
+   "n": 2604,
+   "reference": 73.65234592933948,
+   "run": 73.05457576804916,
+   "diff": -0.5977701612903226,
+   "ci_low": -1.0034830942780337,
+   "ci_high": -0.19502141897081415,
+   "significant": true
+  },
+  {
+   "metric": "Hand P@0.5",
+   "n": 2604,
+   "reference": 92.58832565284179,
+   "run": 91.89708141321044,
+   "diff": -0.6912442396313364,
+   "ci_low": -1.5360983102918586,
+   "ci_high": 0.15360983102918588,
+   "significant": false
+  },
+  {
+   "metric": "Fingertip error (% of side)",
+   "n": 2604,
+   "reference": 2.4301437415994624,
+   "run": 2.3733298852726574,
+   "diff": -0.05681385632680493,
+   "ci_low": -0.14321651240279376,
+   "ci_high": 0.03249321460373464,
+   "significant": false
+  },
+  {
+   "metric": "Direction error (deg)",
+   "n": 2604,
+   "reference": 32.226986846390176,
+   "run": 34.056787414746545,
+   "diff": 1.829800568356375,
+   "ci_low": 0.8846254627496163,
+   "ci_high": 2.7139259991167433,
+   "significant": true
+  },
+  {
+   "metric": "Direction error, far (deg)",
+   "n": 209,
+   "reference": 28.95757776555024,
+   "run": 30.507169411483254,
+   "diff": 1.5495916459330148,
+   "ci_low": -1.6518015742822965,
+   "ci_high": 4.570217474641148,
+   "significant": false
+  },
+  {
+   "metric": "Hand gate: pointing frames missed (%)",
+   "n": 2604,
+   "reference": 0.576036866359447,
+   "run": 0.49923195084485406,
+   "diff": -0.07680491551459294,
+   "ci_low": -0.38402457757296465,
+   "ci_high": 0.19297235023041387,
+   "significant": false
+  },
+  {
+   "metric": "Hand gate: no-hand false alarms (%)",
+   "n": 425,
+   "reference": 6.588235294117647,
+   "run": 6.588235294117647,
+   "diff": 0.0,
+   "ci_low": -2.823529411764706,
+   "ci_high": 2.823529411764706,
+   "significant": false
+  },
+  {
+   "metric": "Ownership accuracy, pasted hands (%)",
+   "n": 2377,
+   "reference": 99.70551114850652,
+   "run": 98.69583508624316,
+   "diff": -1.0096760622633572,
+   "ci_low": -1.430374421539756,
+   "ci_high": -0.6299957930164082,
+   "significant": true
+  },
+  {
+   "metric": "Centre on pasted hand (%)",
+   "n": 2377,
+   "reference": 0.2103491796381994,
+   "run": 1.2200252419015565,
+   "diff": 1.0096760622633572,
+   "ci_low": 0.6310475389145982,
+   "ci_high": 1.430374421539756,
+   "significant": true
+  },
+  {
+   "metric": "No-hand kept with pasted hands (%)",
+   "n": 425,
+   "reference": 91.76470588235294,
+   "run": 86.3529411764706,
+   "diff": -5.411764705882353,
+   "ci_low": -8.941176470588236,
+   "ci_high": -1.8823529411764706,
+   "significant": true
+  },
+  {
+   "metric": "Target P@0.5 with pasted hands",
+   "n": 2604,
+   "reference": 60.13824884792627,
+   "run": 56.06758832565284,
+   "diff": -4.070660522273426,
+   "ci_low": -5.8381336405529956,
+   "ci_high": -2.418394777265746,
+   "significant": true
+  }
+ ]
+}

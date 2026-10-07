@@ -1,6 +1,7 @@
 # Local datasets
 /EgoPoint_dataset/
 /EgoPoint_spatialnet/
+/EgoPoint_spatialnet_320/
 
 # Python bytecode and caches
 __pycache__/
@@ -27,3 +28,10 @@ kaggle.json
 # OS metadata
 .DS_Store
 Thumbs.db
+
+# LaTeX build files
+*.aux
+*.blg
+*.log.tex
+/paper/main.log
+*.out

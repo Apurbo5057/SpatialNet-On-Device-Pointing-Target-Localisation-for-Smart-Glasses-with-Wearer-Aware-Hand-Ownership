@@ -1,0 +1,17 @@
+{
+  "id": "mosharafapurbo/spatialnet-train-320",
+  "title": "SpatialNet Train 320",
+  "code_file": "spatialnet_img320.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": [
+    "mosharafapurbo/egopoint-spatialnet-320",
+    "mosharafapurbo/spatialnet-code"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

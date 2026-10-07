@@ -1,0 +1,17 @@
+{
+  "id": "mosharafapurbo/spatialnet-ablation-a3",
+  "title": "SpatialNet Ablation A3",
+  "code_file": "spatialnet_a3_no_roi_geometry.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": [
+    "mosharafapurbo/egopoint-spatialnet",
+    "mosharafapurbo/spatialnet-code"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

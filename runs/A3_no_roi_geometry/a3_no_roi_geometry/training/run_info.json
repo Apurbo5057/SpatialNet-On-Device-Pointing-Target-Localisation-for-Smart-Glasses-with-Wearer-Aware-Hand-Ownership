@@ -1,0 +1,563 @@
+{
+  "environment": {
+    "python": "3.13.15",
+    "pytorch": "2.11.0+cu128",
+    "platform": "Linux-6.18.48+-x86_64-with-glibc2.39",
+    "cpu": "x86_64",
+    "cpu_threads": 4,
+    "device": "cuda",
+    "gpu": "Tesla T4",
+    "cuda": "12.8"
+  },
+  "dataset": {
+    "train": {
+      "labels": 10669,
+      "images_without_label": 0,
+      "labels_without_image": 0,
+      "scenes": {
+        "No hand": 1535,
+        "Non-pointing": 0,
+        "Pointing, no target": 0,
+        "Pointing at target": 9134
+      },
+      "target_gap": {
+        "on-object": 6511,
+        "near": 1995,
+        "far": 628
+      }
+    },
+    "val": {
+      "labels": 1524,
+      "images_without_label": 0,
+      "labels_without_image": 0,
+      "scenes": {
+        "No hand": 211,
+        "Non-pointing": 0,
+        "Pointing, no target": 0,
+        "Pointing at target": 1313
+      },
+      "target_gap": {
+        "on-object": 922,
+        "near": 297,
+        "far": 94
+      }
+    },
+    "test": {
+      "labels": 3029,
+      "images_without_label": 0,
+      "labels_without_image": 0,
+      "scenes": {
+        "No hand": 425,
+        "Non-pointing": 0,
+        "Pointing, no target": 0,
+        "Pointing at target": 2604
+      },
+      "target_gap": {
+        "on-object": 1796,
+        "near": 599,
+        "far": 209
+      }
+    }
+  },
+  "model": {
+    "params_total": 708999,
+    "params_backbone": 143136,
+    "params_heads": 565863,
+    "size_fp32_mb": 2.7046165466308594,
+    "gflops": 0.220792832,
+    "input": "1x3x160x160",
+    "pretrained_backbone": "./shufflenetv2.pth"
+  },
+  "args": {
+    "data_dir": "/kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet",
+    "output_dir": "/kaggle/working/a3_no_roi_geometry",
+    "resume": null,
+    "epochs": 180,
+    "batch_size": 32,
+    "lr": 0.003,
+    "patience": 25,
+    "grad_clip": 1.0,
+    "mixup_alpha": 0.2,
+    "copy_paste": 0.5,
+    "ownership_weight": 4.0,
+    "teacher_forcing_p0": 0.5,
+    "teacher_forcing_epochs": 20,
+    "seed": 42,
+    "num_workers": 4,
+    "no_amp": false,
+    "log_every": 0,
+    "load_pretrained": true,
+    "backbone_lr_mult": 0.1,
+    "img_size": 160,
+    "no_bifpn": false,
+    "no_coordconv": false,
+    "mixer_depth": 2,
+    "no_anchor_chain": false,
+    "global_softargmax": false,
+    "roi_geometry": "none",
+    "no_ft_box_prior": false,
+    "w_hand": 0.1,
+    "w_fingertip": 0.18,
+    "w_angle": 0.03,
+    "w_roi": 0.45,
+    "w_roi_iou_aux": 0.1,
+    "w_hand_conf": 0.08,
+    "w_point_conf": 0.1,
+    "w_roi_conf": 0.06,
+    "w_ray": 0.08,
+    "w_hand_axis": 0.02,
+    "w_hand_hm": 0.1,
+    "w_ft_hm": 0.1,
+    "w_roi_hm": 0.1,
+    "focal_gamma": 2.0,
+    "fn_penalty": 2.0,
+    "hand_fn_penalty": 3.0,
+    "quantize": true,
+    "edge_limit_mb": 10.0
+  },
+  "loss_weights": {
+    "hand": 0.1,
+    "fingertip": 0.18,
+    "angle": 0.03,
+    "roi": 0.45,
+    "roi_iou_aux": 0.1,
+    "hand_conf": 0.08,
+    "point_conf": 0.1,
+    "roi_conf": 0.06,
+    "ray": 0.08,
+    "hand_axis": 0.02,
+    "hand_hm": 0.1,
+    "ft_hm": 0.1,
+    "roi_hm": 0.1
+  },
+  "config": {
+    "BACKBONE_LR_MULT": 0.1,
+    "BATCH_SIZE": 32,
+    "COND_BOTTLENECK": 48,
+    "CONV_MIXER_DEPTH": 2,
+    "CONV_MIXER_KERNEL": 5,
+    "CP_DECOY_PROB": 0.15,
+    "CP_DONOR_POOL": 512,
+    "CP_FEATHER": 0.12,
+    "CP_MAX_DISTRACTORS": 2,
+    "CP_MAX_OVERLAP": 0.15,
+    "CP_ON_NOHAND_PROB": 0.3,
+    "CP_PROB": 0.5,
+    "CP_REORIENT_PROB": 0.7,
+    "CP_SCALE": [
+      0.45,
+      1.0
+    ],
+    "CP_SELF_PASTE_PROB": 0.3,
+    "CP_TOP_FRACTION": 0.65,
+    "DATA_DIR": "./EgoPoint_spatialnet",
+    "EDGE_MEMORY_LIMIT_MB": 10.0,
+    "EPOCHS": 180,
+    "FN_PENALTY_MULT": 2.0,
+    "FOCAL_GAMMA": 2.0,
+    "FPN_OUT_CHANNELS": 192,
+    "FT_BOX_PRIOR_DILATION": 1.3,
+    "FT_BOX_PRIOR_STRENGTH": 4.0,
+    "GRAD_CLIP": 1.0,
+    "HAND_AXIS_MARGIN_COS": 0.5,
+    "HAND_DESC_DIM": 128,
+    "HAND_FN_PENALTY_MULT": 3.0,
+    "HAND_ROI_EXPAND": 1.15,
+    "HAND_ROI_GRID": 5,
+    "HEAD_DIM": 256,
+    "HEAD_LR_MULT": 1.0,
+    "HEATMAP_SIGMA": {
+      "hand": 1.5,
+      "fingertip": 0.8,
+      "roi": 1.2
+    },
+    "HM_ALPHA": 2.0,
+    "HM_BETA": 4.0,
+    "IMG_SIZE": 160,
+    "LOAD_PRETRAINED": true,
+    "LOCAL_GRID": 3,
+    "LOCAL_PROJ_DIM": 128,
+    "LOSS_WEIGHTS": {
+      "hand": 0.1,
+      "fingertip": 0.18,
+      "angle": 0.03,
+      "roi": 0.45,
+      "roi_iou_aux": 0.1,
+      "hand_conf": 0.08,
+      "point_conf": 0.1,
+      "roi_conf": 0.06,
+      "ray": 0.08,
+      "hand_axis": 0.02,
+      "hand_hm": 0.1,
+      "ft_hm": 0.1,
+      "roi_hm": 0.1
+    },
+    "MAX_LR": 0.003,
+    "MIXUP_ALPHA": 0.2,
+    "NUM_WORKERS": 4,
+    "ONNX_OPSET": 17,
+    "OUTPUT_DIR": "/kaggle/working/outputs_spatialnet",
+    "OWNERSHIP_NEG_WEIGHT": 4.0,
+    "PATIENCE": 25,
+    "PRETRAINED_WEIGHTS": "./shufflenetv2.pth",
+    "SOFTARGMAX_RADIUS": {
+      "hand": 2,
+      "fingertip": 1,
+      "roi": 2
+    },
+    "SOFTARGMAX_TEMP": {
+      "hand": 8.0,
+      "fingertip": 10.0,
+      "roi": 8.0
+    },
+    "TEACHER_FORCING_EPOCHS": 20,
+    "TEACHER_FORCING_P0": 0.5
+  },
+  "setup_table": [
+    [
+      "Input size",
+      "160 x 160"
+    ],
+    [
+      "Epochs (max) / early-stop patience",
+      "180 / 25 epochs on val loss"
+    ],
+    [
+      "Batch size / steps per epoch",
+      "32 / 334"
+    ],
+    [
+      "Optimizer",
+      "AdamW, weight decay 1e-4"
+    ],
+    [
+      "Learning rate",
+      "one-cycle, peak 0.003 (backbone x0.1), 10% warm-up, cosine decay"
+    ],
+    [
+      "Gradient clipping",
+      "1"
+    ],
+    [
+      "MixUp",
+      "alpha 0.2, within same H P T group"
+    ],
+    [
+      "Distractor-hand copy-paste",
+      "p 0.5 (no-hand p 0.3), up to 2 hands"
+    ],
+    [
+      "Anchor forcing",
+      "p 0.5 -> 0 over 20 epochs"
+    ],
+    [
+      "Loss",
+      "13 weighted terms (focal gamma 2, missed-detection weight x2, hand x3)"
+    ]
+  ],
+  "model_table": [
+    [
+      "Backbone",
+      "ShuffleNetV2, ImageNet-pretrained"
+    ],
+    [
+      "Parameters",
+      "708,999 (backbone 143,136, heads 565,863)"
+    ],
+    [
+      "Size (FP32)",
+      "2.70 MB"
+    ],
+    [
+      "Compute",
+      "0.221 GFLOPs per 160x160 image"
+    ]
+  ],
+  "dataset_table": {
+    "headers": [
+      "Split",
+      "Images",
+      "No hand",
+      "Non-pointing",
+      "Pointing, no target",
+      "Pointing at target"
+    ],
+    "rows": [
+      [
+        "train",
+        10669,
+        1535,
+        0,
+        0,
+        9134
+      ],
+      [
+        "val",
+        1524,
+        211,
+        0,
+        0,
+        1313
+      ],
+      [
+        "test",
+        3029,
+        425,
+        0,
+        0,
+        2604
+      ]
+    ]
+  },
+  "result_table": [
+    [
+      "Epochs run",
+      "145 of 180 (early stop: no val-loss improvement for 25 epochs)"
+    ],
+    [
+      "Training time",
+      "2h 09m (median 52 s/epoch)"
+    ],
+    [
+      "best_model.pth",
+      "epoch 120, val loss 0.4081"
+    ],
+    [
+      "best_model_by_metric.pth",
+      "epoch 19, no missed detections on val"
+    ]
+  ],
+  "best_epoch_table": [
+    [
+      "Hand IoU",
+      "0.6681"
+    ],
+    [
+      "Target IoU",
+      "0.4843"
+    ],
+    [
+      "Fingertip error (px)",
+      "3.5276"
+    ],
+    [
+      "Ray angle error (deg)",
+      "28.6706"
+    ],
+    [
+      "Hand gate acc",
+      "0.9889"
+    ],
+    [
+      "Pointing gate acc",
+      "0.8958"
+    ],
+    [
+      "Target gate acc",
+      "0.8958"
+    ],
+    [
+      "Missed hand rate",
+      "0.0065"
+    ],
+    [
+      "Missed pointing rate",
+      "0.0000"
+    ],
+    [
+      "Missed target rate",
+      "0.0000"
+    ],
+    [
+      "Ownership acc",
+      "0.0000"
+    ]
+  ],
+  "timing": {
+    "total_s": 7740.894310712814,
+    "epoch_times_s": [
+      79.28946113586426,
+      53.4569354057312,
+      53.01001501083374,
+      53.10939574241638,
+      53.10262417793274,
+      51.3373863697052,
+      51.38674473762512,
+      51.15386629104614,
+      51.12574768066406,
+      51.26373505592346,
+      51.23327112197876,
+      51.67201852798462,
+      51.4708685874939,
+      51.47526264190674,
+      51.092849254608154,
+      51.251100301742554,
+      51.36195206642151,
+      52.81713008880615,
+      52.11248564720154,
+      51.47534418106079,
+      52.35208868980408,
+      54.533541202545166,
+      55.03786611557007,
+      54.71304202079773,
+      54.120399951934814,
+      53.44141244888306,
+      51.457743644714355,
+      54.16615533828735,
+      53.625412940979004,
+      52.25591468811035,
+      52.47127342224121,
+      52.430290937423706,
+      52.45388865470886,
+      52.2271728515625,
+      51.89371132850647,
+      53.23543429374695,
+      54.768922567367554,
+      53.42126989364624,
+      51.709256649017334,
+      52.10330057144165,
+      51.92587947845459,
+      52.36016273498535,
+      52.476839780807495,
+      52.2006471157074,
+      52.30779528617859,
+      51.76048254966736,
+      51.75551438331604,
+      51.919708251953125,
+      52.59735631942749,
+      52.51402497291565,
+      52.589887619018555,
+      52.053497552871704,
+      51.247334241867065,
+      51.878629207611084,
+      51.59057259559631,
+      51.43078923225403,
+      51.44494390487671,
+      51.793402910232544,
+      51.7467827796936,
+      52.31195783615112,
+      53.21025347709656,
+      53.046398401260376,
+      52.77344059944153,
+      52.84206485748291,
+      52.66781163215637,
+      52.17005467414856,
+      51.64424753189087,
+      51.98068642616272,
+      52.13023567199707,
+      51.35861802101135,
+      52.144705295562744,
+      51.909499168395996,
+      52.042399644851685,
+      52.08994793891907,
+      53.13291573524475,
+      52.84667205810547,
+      53.19440579414368,
+      53.026676654815674,
+      53.36848735809326,
+      52.486891746520996,
+      52.05594992637634,
+      52.260526180267334,
+      51.91006898880005,
+      51.5464870929718,
+      51.43246912956238,
+      51.547873735427856,
+      51.68590497970581,
+      51.23180031776428,
+      51.75236248970032,
+      51.87726306915283,
+      51.43048334121704,
+      51.0445818901062,
+      50.39435029029846,
+      51.741180181503296,
+      54.2666277885437,
+      54.036213397979736,
+      54.6049120426178,
+      53.987168312072754,
+      54.28613305091858,
+      53.700374126434326,
+      53.89543843269348,
+      53.38860774040222,
+      53.58353662490845,
+      52.74993634223938,
+      51.756131172180176,
+      51.744802474975586,
+      52.2508602142334,
+      51.938387870788574,
+      51.65570306777954,
+      51.7405161857605,
+      51.43845868110657,
+      51.75047421455383,
+      51.72172975540161,
+      51.86470603942871,
+      51.78984355926514,
+      51.58081865310669,
+      51.87516450881958,
+      51.93418049812317,
+      51.39144015312195,
+      51.28752827644348,
+      50.862898111343384,
+      50.979089975357056,
+      53.82039523124695,
+      54.49350428581238,
+      54.54224443435669,
+      54.212514877319336,
+      54.846091985702515,
+      54.51139807701111,
+      54.024699449539185,
+      53.36310076713562,
+      53.37036180496216,
+      52.29055070877075,
+      52.5945770740509,
+      51.932777881622314,
+      51.31386351585388,
+      51.70489478111267,
+      51.73256039619446,
+      51.373480558395386,
+      53.757243633270264,
+      56.608450412750244,
+      52.44141149520874,
+      52.38365936279297,
+      52.91139507293701,
+      52.19025707244873,
+      52.33071970939636
+    ]
+  },
+  "best_epoch": 120,
+  "best_val_loss": 0.4080709250411019,
+  "best_metric_epoch": 19,
+  "best_metric_tier": 1,
+  "epochs_run": 145,
+  "stop_reason": "early stop: no val-loss improvement for 25 epochs",
+  "quantized": {
+    "fp32": {
+      "path": "/kaggle/working/a3_no_roi_geometry/model_fp32.pth",
+      "size_kb": 3011.287109375
+    },
+    "fp16": {
+      "path": "/kaggle/working/a3_no_roi_geometry/model_fp16.pth",
+      "size_kb": 1573.287109375
+    },
+    "int8": {
+      "path": "/kaggle/working/a3_no_roi_geometry/model_int8.pth",
+      "size_kb": 2680.5625
+    }
+  },
+  "quantized_table": [
+    [
+      "FP32",
+      "3011",
+      "29% of 10 MB"
+    ],
+    [
+      "FP16",
+      "1573",
+      "15% of 10 MB"
+    ],
+    [
+      "INT8",
+      "2681",
+      "26% of 10 MB"
+    ]
+  ]
+}

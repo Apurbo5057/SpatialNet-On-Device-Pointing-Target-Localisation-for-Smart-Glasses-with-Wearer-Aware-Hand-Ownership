@@ -1,0 +1,10 @@
+Metric,Test (default thresholds),Test (val-calibrated thresholds),Test + distractor hands
+Scene accuracy %,98.8,98.2,98.7
+Scene macro-F1 %,97.6,96.0,97.4
+Missed hand / pointing / target,16/0/0,4/0/0,16/0/0
+False alarms hand / pointing / target,19/0/0,52/0/0,22/0/0
+Hand IoU mean % (all hand-present),76.4,76.4,76.1
+Hand IoU>=0.5 %,92.5,92.5,92.1
+Target IoU mean %,56.5,56.5,57.1
+Target IoU>=0.5 %,65.1,65.1,66.1
+Fingertip error mean px,4.24,4.24,4.46

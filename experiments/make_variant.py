@@ -19,7 +19,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SRC = os.path.join(ROOT, 'notebooks', 'spatialnet_kaggle.ipynb')
 USER = 'mosharafapurbo'
-DATASETS = [f'{USER}/egopoint-spatialnet', f'{USER}/spatialnet-code']
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--name', required=True, help='folder under experiments/ and output folder suffix')
@@ -27,6 +26,7 @@ ap.add_argument('--kernel', required=True, help='Kaggle kernel slug, e.g. spatia
 ap.add_argument('--title', required=True)
 ap.add_argument('--flags', default='', help='extra train.py flags, as one string')
 ap.add_argument('--desc', required=True, help='one line describing the variant')
+ap.add_argument('--data', default='egopoint-spatialnet', help='Kaggle dataset slug with train/ val/ test/')
 args = ap.parse_args()
 
 out_dir = os.path.join(HERE, args.name)
@@ -67,7 +67,7 @@ json.dump(nb, open(os.path.join(out_dir, nb_file), 'w', encoding='utf-8'), inden
 
 meta = {'id': f'{USER}/{args.kernel}', 'title': args.title, 'code_file': nb_file, 'language': 'python',
         'kernel_type': 'notebook', 'is_private': True, 'enable_gpu': True, 'enable_tpu': False,
-        'enable_internet': False, 'dataset_sources': DATASETS, 'competition_sources': [], 'kernel_sources': []}
+        'enable_internet': False, 'dataset_sources': [f'{USER}/{args.data}', f'{USER}/spatialnet-code'], 'competition_sources': [], 'kernel_sources': []}
 json.dump(meta, open(os.path.join(out_dir, 'kernel-metadata.json'), 'w', encoding='utf-8'), indent=2)
 print('wrote', out_dir)
 for i in (2, 6):

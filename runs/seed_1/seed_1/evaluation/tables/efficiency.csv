@@ -1,0 +1,9 @@
+Property,Value
+Parameters,"722,104"
+  backbone / heads,"143,136 / 578,968"
+Compute per image,0.231 GFLOPs
+Input,160 x 160 RGB
+Size FP32 / FP16 / INT8,3064 KB / 1600 KB / 2733 KB
+"Latency CPU, 1 thread, batch 1","24.93 ms median, 26.58 ms p90 (40 FPS)"
+"Latency CPU, 4 threads, batch 1","25.29 ms median, 27.99 ms p90 (40 FPS)"
+"Latency GPU (Tesla T4), batch 1","15.99 ms median, 16.44 ms p90 (63 FPS)"

@@ -1,0 +1,4 @@
+Gate,Images,Positives,Threshold,Accuracy %,Recall %,Missed,False alarms,AUROC,AP
+Hand present,3029,2604,0.50,98.6,99.7,7,34,0.9988,0.9998
+Pointing,2604,2604,0.50,100.0,100.0,0,0,-,1.0000
+Target present,2604,2604,0.50,100.0,100.0,0,0,-,1.0000

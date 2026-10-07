@@ -1,0 +1,5 @@
+Subset,n,Mean IoU %,Mean 95% CI,Median %,IoU>=0.3 %,IoU>=0.5 %,IoU>=0.7 %,IoU>=0.75 %
+Non-pointing,0,-,-,-,-,-,-,-
+"Pointing, no target",0,-,-,-,-,-,-,-
+Pointing at target,2604,73.4,72.8-74.0,77.0,97.4,92.0,69.3,56.2
+All hand-present,2604,73.4,72.8-74.0,77.0,97.4,92.0,69.3,56.2

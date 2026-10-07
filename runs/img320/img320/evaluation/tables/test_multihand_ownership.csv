@@ -1,0 +1,9 @@
+Ownership,Value
+Hand images with distractors,2377
+Ownership accuracy % (predicted hand nearer the wearer),99.79
+Ownership accuracy 95% CI,99.5-99.9
+Predicted hand centre inside a distractor %,0.21
+Pointing images with distractors,2377
+Ownership accuracy on pointing images %,99.79
+No-hand images with distractors,425
+"Still classified ""No hand"" %",94.82
