@@ -1,11 +1,12 @@
 % SpatialNet architecture (TikZ, pseudo-3D extruded tensor slabs).
 % Heatmaps, ray/offset channels, input and output are real inference results of the paper checkpoint
 % on one test image; regenerate them with  python docs/figures/architecture_tikz/make_arch_assets.py
+% Backbone and input/output frames in PlotNeuralNet style (thin channel face, deep spatial face).
 % Build:  pdflatex spatialnet_architecture.tex   (in this folder)
 \documentclass[border=4pt]{standalone}
 \usepackage[T1]{fontenc}
-\usepackage{libertine}
-\usepackage[libertine]{newtxmath}
+\IfFileExists{libertine.sty}{\usepackage{libertine}\usepackage[libertine]{newtxmath}}%
+  {\usepackage{helvet}\usepackage{sfmath}}  % fallback only when Libertine is not installed
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{graphicx}
 \usepackage{tikz}
@@ -14,7 +15,7 @@
 \input{assets/pred.tex}
 
 % ---------------------------------------------------------------- palette
-\definecolor{bbone}{HTML}{8EADD8}    % ShuffleNetV2 backbone
+\definecolor{bbone}{HTML}{E0561F}    % ShuffleNetV2 backbone (deep orange)
 \definecolor{fpn}{HTML}{6FC2B4}      % BiFPN
 \definecolor{coord}{HTML}{E5BE72}    % CoordConv + reduce
 \definecolor{mixer}{HTML}{D492AB}    % ConvMixer
@@ -74,6 +75,64 @@
   \node[anchor=south west, inner sep=0pt] at (#2,#3-#4/2) {\includegraphics[width=#4cm,height=#4cm]{#7}};%
   \draw[#6!50!black, line width=.4pt] (#2,#3-#4/2) rectangle ++(#4,#4);%
 }
+% PlotNeuralNet-style block: thin front face (channels), large oblique side face (H x W) with an n x n grid.
+% {name}{left x}{centre y}{thickness}{height}{depth}{colour}{slices}{grid n}. Defines (name-w/e/n/s).
+\newcommand{\pnbox}[9]{%
+  \pgfmathsetmacro{\pdx}{#6*\EX}\pgfmathsetmacro{\pdy}{#6*\EY}%
+  \pgfmathsetmacro{\pst}{#4/#8}\pgfmathsetmacro{\pyb}{#3-#5/2}\pgfmathsetmacro{\pyt}{#3+#5/2}%
+  \foreach \q in {1,...,#8} {%
+    \pgfmathsetmacro{\pxa}{#2+(\q-1)*\pst}\pgfmathsetmacro{\pxb}{#2+\q*\pst}%
+    \filldraw[fill=#7!40!white, draw=#7!45!black, line width=.35pt, line join=round]
+      (\pxa,\pyt) -- ++(\pdx,\pdy) -- (\pxb+\pdx,\pyt+\pdy) -- (\pxb,\pyt) -- cycle;
+    \filldraw[fill=#7!88!black, draw=#7!45!black, line width=.35pt, line join=round]
+      (\pxb,\pyb) -- ++(\pdx,\pdy) -- (\pxb+\pdx,\pyt+\pdy) -- (\pxb,\pyt) -- cycle;
+    \filldraw[fill=#7!62!white, draw=#7!45!black, line width=.35pt] (\pxa,\pyb) rectangle (\pxb,\pyt);
+  }%
+  \pgfmathsetmacro{\pxr}{#2+#4}%
+  \foreach \q in {1,...,\numexpr#9-1\relax} {%
+    \pgfmathsetmacro{\fr}{\q/#9}%
+    \draw[white, opacity=.32, line width=.2pt] (\pxr+\fr*\pdx,\pyb+\fr*\pdy) -- (\pxr+\fr*\pdx,\pyt+\fr*\pdy);
+    \draw[white, opacity=.32, line width=.2pt] (\pxr,\pyb+\fr*#5) -- (\pxr+\pdx,\pyb+\fr*#5+\pdy);
+  }%
+  \coordinate (#1-w) at (#2,#3);
+  \coordinate (#1-e) at (\pxr+\pdx,#3);
+  \coordinate (#1-n) at (#2+#4/2+\pdx,\pyt+\pdy);
+  \coordinate (#1-s) at (#2+#4/2,\pyb);
+}
+% image lying on the oblique plane (PlotNeuralNet style): {name}{front x}{centre y}{size}{file}
+\newcommand{\imgplane}[5]{%
+  \pgfmathsetmacro{\pdx}{#4*\EX}\pgfmathsetmacro{\pdy}{#4*\EY}%
+  \fill[black, opacity=.12] (#2+0.06,#3-#4/2-0.06) -- ++(\pdx,\pdy) -- ++(0,#4) -- (#2+0.06,#3+#4/2-0.06) -- cycle;
+  \begin{scope}[cm={\EX,\EY,0,1,(#2,#3-#4/2)}]
+    \node[anchor=south west, inner sep=0pt, transform shape] at (0,0) {\includegraphics[width=#4cm,height=#4cm]{#5}};
+    \draw[gray!50!black, line width=.5pt, line join=round] (0,0) rectangle (#4,#4);
+  \end{scope}
+  \coordinate (#1-w) at (#2,#3);
+  \coordinate (#1-e) at (#2+\pdx,#3);
+}
+% small fully connected MLP icon, three layers.
+% \mlpH{left x}{centre y}{layer gap}{node gap}{colour}{n1}{n2}{n3}: flows left -> right
+% \mlpV{centre x}{top y}{layer gap}{node gap}{colour}{n1}{n2}{n3}: flows top -> bottom
+\newcommand{\mlpnode}[2]{\filldraw[fill=white, draw=#2, line width=.7pt] #1 circle (\mlpr);}
+\def\mlpr{0.065}\def\mlppad{0.055}
+\newcommand{\mlpH}[8]{%
+  \foreach \a/\na/\nb in {0/#6/#7, 1/#7/#8}
+    \foreach \i in {1,...,\na} \foreach \j in {1,...,\nb}
+      \draw[#5!45!white, line width=.3pt] (#1+\a*#3,{#2+((\na+1)/2-\i)*#4}) -- (#1+\a*#3+#3,{#2+((\nb+1)/2-\j)*#4});
+  \foreach \a/\na in {0/#6, 1/#7, 2/#8} {
+    \draw[#5!55!white, line width=.6pt] ({#1+\a*#3-\mlpr-\mlppad},{#2-(\na-1)/2*#4-\mlpr-\mlppad}) rectangle ({#1+\a*#3+\mlpr+\mlppad},{#2+(\na-1)/2*#4+\mlpr+\mlppad});
+    \foreach \i in {1,...,\na} {\mlpnode{(#1+\a*#3,{#2+((\na+1)/2-\i)*#4})}{#5}}
+  }
+}
+\newcommand{\mlpV}[8]{%
+  \foreach \a/\na/\nb in {0/#6/#7, 1/#7/#8}
+    \foreach \i in {1,...,\na} \foreach \j in {1,...,\nb}
+      \draw[#5!45!white, line width=.3pt] ({#1+(\i-(\na+1)/2)*#4},#2-\a*#3) -- ({#1+(\j-(\nb+1)/2)*#4},#2-\a*#3-#3);
+  \foreach \a/\na in {0/#6, 1/#7, 2/#8} {
+    \draw[#5!55!white, line width=.6pt] ({#1-(\na-1)/2*#4-\mlpr-\mlppad},#2-\a*#3-\mlpr-\mlppad) rectangle ({#1+(\na-1)/2*#4+\mlpr+\mlppad},#2-\a*#3+\mlpr+\mlppad);
+    \foreach \i in {1,...,\na} {\mlpnode{({#1+(\i-(\na+1)/2)*#4},#2-\a*#3)}{#5}}
+  }
+}
 % small icon of the shared map S: {name}{left x}{centre y}
 \newcommand{\Stoken}[3]{%
   \slab{#1}{#2}{#3}{0.62}{0.62}{0.3}{shared}%
@@ -111,60 +170,71 @@
 \begin{tikzpicture}[line cap=round]
 
 % ================================================================= TRUNK (y = 0 is the trunk axis)
-% ---- input frame
-\imgslab{in}{0}{0}{2.6}{0.12}{gray}{input.png}
-\node[dims, below] at (1.3,-1.33) {$3\times160\times160$ RGB};
+% Backbone and BiFPN are drawn as a staircase: each coarser scale sits one step up and to the right
+% (further "back"), so the three scales line up row by row with the lateral 1x1 projections.
+\def\Ya{0}      % row of the 20x20 scale (stride 8)
+\def\Yb{2.0}    % row of the 10x10 scale (stride 16)
+\def\Yc{3.7}    % row of the  5x5 scale (stride 32)
 
-% ---- ShuffleNetV2 0.5x: stem and the three stage outputs (strides 8, 16, 32), in line
-\tensor{stem}{3.1}{0}{1.9}{0.23}{bbone}{40}{2}
-\node[dims, below] at (4.05,-0.98) {$24\times40\times40$};
-\node[op, below] at (4.05,-1.3) {conv$3{\times}3$/2, pool};
-\tensor{s2}{5.55}{0}{1.45}{0.32}{bbone}{20}{2}
-\node[dims, below] at (6.27,-0.98) {$48\times20\times20$};
-\tensor{s3}{7.55}{0}{0.95}{0.46}{bbone}{10}{3}
-\node[dims, below] at (8.02,-0.98) {$96\times10\times10$};
-\tensor{s4}{9.1}{0}{0.6}{0.65}{bbone}{5}{4}
-\node[dims, above] at (9.45,0.62) {$192\times5\times5$};
+% ---- input frame, lying on the oblique plane (as in PlotNeuralNet)
+\imgplane{in}{0.55}{0}{3.2}{input.png}
+\node[dims, below] at (1.25,-1.64) {$3\times160\times160$ RGB};
+
+% ---- ShuffleNetV2 0.5x: stem, then stages 2-4 climbing one step (\St) back per halving of resolution
+%      \pnbox{name}{left x}{centre y}{thickness}{height}{depth}{colour}{slices}{grid}
+\def\St{1.1}    % horizontal step between rows, shared by backbone and BiFPN so both staircases align
+\def\Xb{4.7}    % left x of stage 2
+\def\Xf{7.9}    % left x of the first BiFPN layer
+\def\Xg{11.3}   % left x of the second BiFPN layer
+\pnbox{stem}{2.74}{\Ya}{0.26}{2.2}{2.2}{bbone}{2}{40}
+\node[dims, below] at (3.62,-1.16) {$24\times40\times40$};
+\node[op, below] at (3.62,-1.47) {conv$3{\times}3$/2, pool};
+\pnbox{s2}{\Xb}{\Ya}{0.36}{1.5}{1.5}{bbone}{2}{20}
+\node[dims, below] at (\Xb+0.5,-0.82) {$48\times20\times20$};
+\pnbox{s3}{\Xb+\St}{\Yb}{0.5}{1.0}{1.0}{bbone}{3}{10}
+\node[dims, below] at (\Xb+\St+1.0,\Yb-0.55) {$96\times10\times10$};
+\pnbox{s4}{\Xb+2*\St}{\Yc}{0.64}{0.65}{0.65}{bbone}{4}{5}
+\node[dims, below] at (\Xb+2*\St+0.45,\Yc-0.37) {$192\times5\times5$};
 \draw[arr] (in-e) -- (stem-w);
 \draw[arr] (stem-e) -- (s2-w);
-\draw[arr] (s2-e) -- (s3-w);
-\draw[arr] (s3-e) -- (s4-w);
+\draw[arr, rounded corners=4pt] (s2-n) |- (s3-w);
+\draw[arr, rounded corners=4pt] (s3-n) |- (s4-w);
 
-% ---- BiFPN x2 (192 channels): P3 (5x5) on the axis, P2 (10x10) and P1 (20x20) above
-\foreach \L/\cx in {a/11.35, b/14.1} {
-  \tensor{\L3}{\cx-0.3}{0}{0.6}{0.65}{fpn}{5}{4}
-  \tensor{\L2}{\cx-0.475}{1.5}{0.95}{0.65}{fpn}{10}{4}
-  \tensor{\L1}{\cx-0.725}{3.4}{1.45}{0.65}{fpn}{20}{4}
-  % top-down path P3 -> P2 -> P1 (left) and bottom-up path P1 -> P2 -> P3 (right)
-  \draw[thinarr] (\cx-0.3,0.18) to[out=160,in=200,looseness=1.4] (\cx-0.475,1.22);
-  \draw[thinarr] (\cx-0.475,1.78) to[out=160,in=200,looseness=1.4] (\cx-0.725,3.0);
-  \draw[thinarr] (\cx+1.05,2.95) to[out=-20,in=20,looseness=1.4] (\cx+0.8,2.02);
-  \draw[thinarr] (\cx+0.8,1.32) to[out=-20,in=20,looseness=1.4] (\cx+0.625,0.4);
+% ---- BiFPN x2 (192 channels): P1 (20x20) on the axis, P2 and P3 one and two steps up and back
+% round loops: top-down P3 -> P2 -> P1 on the left, bottom-up P1 -> P2 -> P3 on the right
+\tikzset{loop/.style={-{Stealth[length=1.8mm,width=1.3mm]}, line width=.6pt, ink}}
+\foreach \L/\ox in {a/\Xf, b/\Xg} {
+  \tensor{\L1}{\ox}{\Ya}{1.45}{0.65}{fpn}{20}{4}
+  \tensor{\L2}{\ox+\St}{\Yb}{0.95}{0.65}{fpn}{10}{4}
+  \tensor{\L3}{\ox+2*\St}{\Yc}{0.6}{0.65}{fpn}{5}{4}
+  \draw[loop] (\ox+2.2,\Yc-0.2) .. controls (\ox+1.15,\Yc-0.2) and (\ox+0.62,\Yb+0.3) .. (\ox+1.1,\Yb+0.3);
+  \draw[loop] (\ox+1.1,\Yb-0.25) .. controls (\ox+0.0,\Yb-0.25) and (\ox-0.62,\Ya+0.4) .. (\ox,\Ya+0.4);
+  \draw[loop] (\ox+1.66,\Ya+0.6) .. controls (\ox+2.75,\Ya+0.6) and (\ox+2.9,\Yb-0.22) .. (\ox+2.22,\Yb-0.22);
+  \draw[loop] (\ox+2.27,\Yb+0.6) .. controls (\ox+3.35,\Yb+0.6) and (\ox+3.5,\Yc-0.12) .. (\ox+3.0,\Yc-0.12);
 }
-% lateral 1x1 projections, one per backbone scale
-\draw[arr] (s4-e) -- node[op, above] {$1{\times}1$} (a3-w);
-\draw[arr, rounded corners=4pt] (8.2,0.66) |- node[op, above, pos=0.75] {$1{\times}1$} (a2-w);
-\draw[arr, rounded corners=4pt] (6.4,0.86) |- node[op, above, pos=0.8] {$1{\times}1$} (a1-w);
+% lateral 1x1 projections, one per backbone scale (each stays on its own row)
+\draw[arr] (s4-e) -- node[op, above, pos=0.45] {$1{\times}1$} (a3-w);
+\draw[arr] (s3-e) -- node[op, above, pos=0.45] {$1{\times}1$} (a2-w);
+\draw[arr] (s2-e) -- node[op, above, pos=0.5] {$1{\times}1$} (a1-w);
 \draw[arr] (a1-e) -- (b1-w);
-\draw[arr] (a2-e) -- (b2-w);
-\draw[arr] (a3-e) -- (b3-w);
-% only the 20x20 level leaves the BiFPN
-\node[dims, anchor=west] at (15.98,2.55) {$192\times20\times20$};
+\draw[arr] ($(a2-e)+(0,0.18)$) -- ($(b2-w)+(0,0.18)$);
+\draw[arr] ($(a3-e)+(0,0.16)$) -- ($(b3-w)+(0,0.16)$);
 
-% ---- CoordConv: append x, y channels, then reduce to 256
-\node[circle, draw=ink, line width=.8pt, fill=white, inner sep=1.2pt, font=\scriptsize] (cat) at (15.85,0) {$\Vert$};
-\draw[arr, rounded corners=4pt] (b1-e) -| (cat);
-\imgslab{cx}{15.2}{-1.05}{0.5}{0.08}{gray}{coord_x.png}
-\imgslab{cy}{15.85}{-1.05}{0.5}{0.08}{gray}{coord_y.png}
-\node[lbl, anchor=north] at (15.45,-1.32) {$x$};
-\node[lbl, anchor=north] at (16.1,-1.32) {$y$};
-\draw[thinarr] (15.47,-0.78) -- (cat);
-\draw[thinarr] (16.12,-0.78) -- (cat);
+% ---- CoordConv: append x, y channels (from above), then reduce to 256
+\node[circle, draw=ink, line width=.8pt, fill=white, inner sep=1.2pt, font=\scriptsize] (cat) at (15.48,0) {$\Vert$};
+% only the 20x20 level leaves the BiFPN
+\draw[arr] (b1-e) -- (cat);
+\node[dims, below] at (\Xg+0.85,-0.82) {$192\times20\times20$};
+\imgslab{cx}{14.58}{1.7}{1.1}{0.1}{gray}{coord_x.png}
+\imgslab{cy}{15.85}{1.7}{1.1}{0.1}{gray}{coord_y.png}
+\node[lbl, anchor=south] at (15.13,2.31) {$x$};
+\node[lbl, anchor=south] at (16.4,2.31) {$y$};
+\draw[thinarr] (15.13,1.15) -- (cat);
+\draw[thinarr] (16.4,1.15) -- (cat);
 \tensor{red}{16.55}{0}{1.45}{0.75}{coord}{20}{5}
 \draw[arr] (cat) -- node[op, below, pos=0.45] {194} (red-w);
 \node[dims, below] at (17.27,-0.98) {$256\times20\times20$};
 \node[op, below] at (17.27,-1.3) {dw$3{\times}3$, $1{\times}1$};
-
 % ---- ConvMixer block (x2): two residual depthwise-separable steps
 \tensor{mxa}{19.0}{0}{1.45}{0.75}{mixer}{20}{5}
 \node[circle, draw=ink, line width=.8pt, fill=white, inner sep=0.6pt, font=\scriptsize] (pa) at (21.2,0) {$+$};
@@ -191,26 +261,18 @@
 \draw[arr] (pb) -- (S-w);
 \facegrid{24.2}{-1.5}{3.0}{20}{white, opacity=.38, line width=.25pt}
 \begin{scope}[shift={(24.2,1.5)}, x={(0.15cm,0)}, y={(0,-0.15cm)}]
-  % hand RoI (b_h enlarged 1.15) with its 5x5 RoIAlign lattice
-  \pgfmathsetmacro{\rw}{0.575*\HandW}\pgfmathsetmacro{\rh}{0.575*\HandH}
-  \draw[white, line width=1.6pt] (\HandCx+.5-\rw,\HandCy+.5-\rh) rectangle (\HandCx+.5+\rw,\HandCy+.5+\rh);
-  \draw[hand, line width=1pt, dash pattern=on 2.4pt off 1.4pt] (\HandCx+.5-\rw,\HandCy+.5-\rh) rectangle (\HandCx+.5+\rw,\HandCy+.5+\rh);
-  \foreach \i in {-1,-0.5,0,0.5,1} \foreach \j in {-1,-0.5,0,0.5,1}
-    \fill[hand, draw=white, line width=.3pt] (\HandCx+.5+\i*\rw,\HandCy+.5+\j*\rh) circle (1.05pt);
-  % 3x3 neighbourhoods at c_h, p, c_t
-  \filldraw[fill=hand, draw=white, line width=.8pt, fill opacity=.9] (\HandCx-1,\HandCy-1) rectangle (\HandCx+2,\HandCy+2);
-  \filldraw[fill=tip, draw=white, line width=.8pt, fill opacity=.95] (\TipX-1,\TipY-1) rectangle (\TipX+2,\TipY+2);
-  \filldraw[fill=tgt!85!cyan, draw=white, line width=.8pt] (\TgtCx-1,\TgtCy-1) rectangle (\TgtCx+2,\TgtCy+2);
-  \coordinate (Soh) at (\HandCx+.5-\rw,\HandCy+.5+\rh);
-  \coordinate (Sop) at (\TipX+2.3,\TipY+2);
-  \coordinate (Sot) at (\TgtCx+.5,\TgtCy+2);
+  % cells the heads read: hand centre c_h, fingertip p, target centre c_t (real predictions)
+  \coordinate (Soh) at (\HandCx+.5,\HandCy+.5);
+  \coordinate (Sop) at (\TipX+.5,\TipY+.5);
+  \coordinate (Sot) at (\TgtCx+.5,\TgtCy+.5);
 \end{scope}
 \node[font=\bfseries\Large, ink, anchor=base east] at (25.35,2.15) {$S$};
 \node[dims, font=\small, anchor=base west] at (25.45,2.15) {$256\times20\times20$};
 
 % ---- stage brackets (coloured by stage)
-\foreach \a/\b/\t/\c in {3.1/10.0/ShuffleNetV2 0.5$\times$/bbone, 10.45/15.0/BiFPN $\times$2/fpn,
-                         15.12/18.4/CoordConv/coord, 18.55/23.95/ConvMixer block $\times$2/mixer} {
+\foreach \a/\b/\t/\c in {0.45/2.4/Input/gray, 2.74/7.75/ShuffleNetV2 0.5$\times$/bbone, 7.9/14.85/BiFPN $\times$2/fpn,
+                         14.98/18.4/CoordConv/coord, 18.55/23.95/ConvMixer block $\times$2/mixer,
+                         24.15/27.65/Shared map $S$/shared} {
   \draw[line width=1.6pt, \c!80!black] (\a,4.82) -- (\a,5.0) -- (\b,5.0) -- (\b,4.82);
   \node[stage, above] at ({(\a+\b)/2},5.02) {\t};
 }
@@ -227,31 +289,33 @@
 \begin{scope}[shift={(0,0)}]
   \Stoken{hS}{0.3}{-4.55}
   \imgslab{hmh}{1.35}{-4.55}{2.0}{0.12}{hmbase}{hm_hand.png}
-  \begin{scope}[shift={(1.35,-3.55)}, x={(0.1cm,0)}, y={(0,-0.1cm)}]
-    \draw[white, line width=.7pt] (\HandPkC-2,\HandPkR-2) rectangle (\HandPkC+3,\HandPkR+3);
-    \fill[hand, draw=white, line width=.6pt] (\HandCx+.5,\HandCy+.5) circle (2pt);
-  \end{scope}
   \draw[arr] (hS-e) -- (hmh-w);
   \node[lbl, anchor=south] at (2.35,-3.52) {$H^h$};
   \node[dims, below] at (2.35,-5.57) {$1\times20\times20$};
   % size: 3x3 sample of S at c_h -> collapse -> MLP -> (w_h, h_h)
-  \slab{hc3}{4.15}{-4.2}{0.55}{0.55}{0.75}{shared}
-  \facegrid{4.15}{-4.475}{0.55}{3}{white, opacity=.5, line width=.25pt}
-  \node[op, anchor=east] at (4.12,-4.2) {$3{\times}3$};
+  \slab{hc3}{4.15}{-4.02}{0.55}{0.55}{0.75}{shared}
+  \facegrid{4.15}{-4.295}{0.55}{3}{white, opacity=.5, line width=.25pt}
+  \node[op, anchor=east] at (4.12,-4.02) {$3{\times}3$};
+  % size MLP: 128 -> 64 -> 2 (Linear, SiLU, Linear, sigmoid)
+  \mlpV{4.425}{-4.6}{0.37}{0.21}{hand}{4}{3}{2}
+  \node[op, anchor=west] at (4.8,-4.97) {MLP};
   % descriptor: RoIAlign 5x5 lattice of S over b_h
   \slab{hroi}{5.55}{-4.2}{0.8}{0.8}{0.75}{shared}
   \foreach \i in {0.08,0.24,0.4,0.56,0.72} \foreach \j in {0.08,0.24,0.4,0.56,0.72}
     \fill[hand!25!white] (5.55+\i,-4.6+\j) circle (0.9pt);
   \node[op, anchor=north west, align=left] at (5.93,-4.63) {RoIAlign\\[-1pt]$5{\times}5$};
   % box b_h = (c_h, w_h, h_h) and descriptor v_h = Linear([collapse(RoI); b_h])
-  \boxicon{bh}{(4.43,-5.4)}{hand}
+  \boxicon{bh}{(4.425,-6.0)}{hand}
   \node[lbl, anchor=north] at (bh.south) {$\mathbf b_h$};
   \slab{vh}{6.86}{-5.85}{0.24}{1.1}{0.18}{hand}
   \node[lbl, anchor=east] at (6.84,-6.62) {$\mathbf v_h$};
-  \draw[arr] (hmh-e |- 0,-5.4) -- node[lbl, above, pos=0.42] {$\mathbf c_h$} (bh.west);
-  \draw[thinarr] (hc3-s) -- node[op, right, pos=0.5] {$w_h,h_h$} (bh.north);
-  \draw[thinarr] (bh.east) -- (6.86,-5.4);
-  \draw[thinarr] (5.75,-5.4) -- (5.75,-4.6);
+  \draw[arr, rounded corners=3pt] (hmh-e |- 0,-5.3) -- (3.82,-5.3) |- (bh.west);
+  \node[lbl, anchor=east] at (3.8,-5.68) {$\mathbf c_h$};
+  \draw[thinarr] (hc3-s) -- (4.425,-4.48);
+  \draw[thinarr] (4.425,-5.46) -- (bh.north);
+  \node[op, anchor=west] at (4.68,-5.52) {$w_h,h_h$};
+  \draw[thinarr] (bh.east) -- (6.86,-6.0);
+  \draw[thinarr] (5.75,-6.0) -- (5.75,-4.6);
   \draw[thinarr] (hroi-e) -| (7.0,-5.3);
 \end{scope}
 
@@ -263,13 +327,6 @@
   \imgslab{pd1}{0.3}{-5.49}{0.72}{0.06}{gray}{off_dx.png}
   \node[op, anchor=north] at (0.7,-5.87) {$\mathbf g{-}\mathbf c_h$};
   \imgslab{hmp}{1.65}{-4.55}{2.0}{0.12}{hmbase}{hm_tip.png}
-  \begin{scope}[shift={(1.65,-3.55)}, x={(0.1cm,0)}, y={(0,-0.1cm)}]
-    \clip (0,0) rectangle (20,20);
-    \pgfmathsetmacro{\bw}{0.65*\HandW}\pgfmathsetmacro{\bh}{0.65*\HandH}
-    \draw[hand, line width=1pt, dash pattern=on 2.4pt off 1.4pt] (\HandCx+.5-\bw,\HandCy+.5-\bh) rectangle (\HandCx+.5+\bw,\HandCy+.5+\bh);
-    \draw[white, line width=.7pt] (\TipPkC-1,\TipPkR-1) rectangle (\TipPkC+2,\TipPkR+2);
-    \fill[tip, draw=white, line width=.6pt] (\TipX+.5,\TipY+.5) circle (2pt);
-  \end{scope}
   \node[lbl, anchor=south] at (2.65,-3.52) {$H^p\;\textcolor{hand!85!black}{+\,B(\mathbf b_h)}$};
   \draw[arr] (pS-e) -- (1.65,-3.95);
   \draw[arr] (pd2-e |- 0,-5.2) -- (1.65,-5.2);
@@ -288,19 +345,15 @@
   \slab{dvp}{0.32}{-5.55}{0.24}{0.95}{0.18}{tip}
   \node[lbl, anchor=south] at (0.45,-3.65) {$\mathbf v_h$};
   \node[lbl, anchor=north] at (0.45,-6.05) {$\mathbf v_p$};
-  \slab{m1}{1.0}{-4.85}{0.24}{2.0}{0.18}{dirc}
-  \slab{m2}{1.5}{-4.85}{0.24}{1.3}{0.18}{dirc}
-  \slab{m3}{2.0}{-4.85}{0.24}{0.42}{0.18}{dirc}
-  \draw[thinarr] (dvh-e) -- (1.0,-4.15);
-  \draw[thinarr] (dvp-e) -- (1.0,-5.55);
-  \draw[thinarr] (m1-e) -- (m2-w);
-  \draw[thinarr] (m2-e) -- (m3-w);
-  \node[lbl, text=dirc!80!black, anchor=south] at (1.55,-3.72) {MLP};
-  \node[op, anchor=north] at (1.68,-5.92) {$256{\to}128{\to}2$};
+  \mlpH{1.08}{-4.85}{0.52}{0.29}{dirc}{5}{4}{2}
+  \draw[thinarr] (dvh-e) -- (0.95,-4.32);
+  \draw[thinarr] (dvp-e) -- (0.95,-5.38);
+  \node[lbl, text=dirc!80!black, anchor=south] at (1.6,-3.98) {MLP};
+  \foreach \x/\t in {1.08/256, 1.6/128, 2.12/2} \node[op, anchor=north] at (\x,-5.6) {\t};
   % unit direction u = (cos theta, sin theta), drawn at the predicted angle (image y points down)
-  \draw[-{Triangle[length=2.6mm,width=2.6mm]}, line width=2.6pt, dirc] (2.38,-4.6) -- ++({0.62*cos(\ThetaDeg)},{-0.62*sin(\ThetaDeg)});
-  \node[lbl, anchor=south] at (2.55,-4.55) {$\mathbf u$};
-  \node[op, anchor=north] at (2.62,-5.15) {$\theta{=}\pgfmathprintnumber[fixed,precision=0]{\ThetaDeg}^{\circ}$};
+  \draw[-{Triangle[length=2.4mm,width=2.4mm]}, line width=2.4pt, dirc] (2.33,-4.62) -- ++({0.55*cos(\ThetaDeg)},{-0.55*sin(\ThetaDeg)});
+  \node[lbl, anchor=south west] at (2.42,-4.6) {$\mathbf u$};
+  \node[op, anchor=north] at (2.62,-5.08) {$\theta{=}\pgfmathprintnumber[fixed,precision=0]{\ThetaDeg}^{\circ}$};
 \end{scope}
 
 % ---------------------------------------------------------------- Target head
@@ -311,24 +364,20 @@
     \pgfmathsetmacro{\rx}{0.3+(5-\k)*0.14}\pgfmathsetmacro{\ry}{-5.75+(5-\k)*0.106}
     \imgslab{r\k}{\rx}{\ry}{0.72}{0.05}{gray}{\f.png}
   }
-  \node[op, anchor=north] at (0.66,-6.15) {$R(\mathbf p,\theta)\!: 6{\times}20{\times}20$};
+  \node[op, anchor=north west] at (0.14,-6.18) {$R(\mathbf p,\theta)\!: 6{\times}20{\times}20$};
   \imgslab{hmt}{2.2}{-4.55}{2.0}{0.12}{hmbase}{hm_target.png}
-  \begin{scope}[shift={(2.2,-3.55)}, x={(0.1cm,0)}, y={(0,-0.1cm)}]
-    \clip (0,0) rectangle (20,20);
-    \draw[white, line width=.9pt, dash pattern=on 2.4pt off 1.6pt] (\TipX+.5,\TipY+.5) -- ++({30*cos(\ThetaDeg)},{30*sin(\ThetaDeg)});
-    \fill[tip, draw=white, line width=.6pt] (\TipX+.5,\TipY+.5) circle (1.8pt);
-    \draw[white, line width=.7pt] (\TgtPkC-2,\TgtPkR-2) rectangle (\TgtPkC+3,\TgtPkR+3);
-    \fill[tgt, draw=white, line width=.6pt] (\TgtCx+.5,\TgtCy+.5) circle (2pt);
-  \end{scope}
   \draw[arr] (tS-e) -- (2.2,-3.95);
   \draw[arr] (r0-e |- 0,-5.2) -- (2.2,-5.2);
   \node[lbl, anchor=south] at (3.2,-3.52) {$H^t$};
   \node[dims, below] at (3.2,-5.57) {$1\times20\times20$};
   \slab{tc3}{4.75}{-4.55}{0.5}{0.5}{0.75}{shared}
   \facegrid{4.75}{-4.8}{0.5}{3}{white, opacity=.5, line width=.25pt}
-  \draw[arr] (hmt-e) -- node[lbl, above] {$\mathbf c_t$} (tc3-w);
-  \boxicon{bt}{(5.0,-6.1)}{tgt}
-  \draw[thinarr] (tc3-s) -- node[op, right] {MLP} (bt.north);
+  \draw[arr] (hmt-e) -- node[lbl, above, pos=0.3] {$\mathbf c_t$} (tc3-w);
+  \mlpV{5.0}{-5.1}{0.34}{0.18}{tgt}{4}{3}{2}
+  \node[op, anchor=west] at (5.42,-5.44) {MLP};
+  \boxicon{bt}{(5.0,-6.45)}{tgt}
+  \draw[thinarr] (tc3-s) -- (5.0,-4.97);
+  \draw[thinarr] (5.0,-5.9) -- (bt.north);
   \node[lbl, anchor=east] at (bt.west) {$\mathbf b_t$};
 \end{scope}
 
@@ -339,12 +388,15 @@
 
 % ---------------------------------------------------------------- S read at the predicted cells (dashed)
 \begin{scope}[sample, hand]
-  \draw[-] (Soh) -- (Soh |- 0,-1.85) -- (5.3,-1.85) -- (5.3,-3.38);
-  \draw[rounded corners=2pt] (5.3,-3.38) -| (hc3-n);
-  \draw[rounded corners=2pt] (5.3,-3.38) -| (hroi-n);
+  \draw[-] (Soh) -- (Soh |- 0,-1.75) -- (5.3,-1.75) -- (5.3,-3.22);
+  \draw[rounded corners=2pt] (5.3,-3.22) -| (hc3-n);
+  \draw[rounded corners=2pt] (5.3,-3.22) -| (hroi-n);
 \end{scope}
-\draw[sample, tip] (Sop) -- (Sop |- 0,-2.0) -- (12.47,-2.0) -- (pc3-n);
-\draw[sample, tgt] (Sot) -- (Sot |- 0,-2.15) -- (22.19,-2.15) -- (tc3-n);
+\draw[sample, tip] (Sop) -- ++(0.3,0) |- (12.47,-1.9) -- (pc3-n);
+% (no S read-out for the direction head: it is an MLP on [v_h; v_p] only)
+\draw[sample, tgt] (Sot) |- (22.19,-2.2) -- (tc3-n);
+% read-out points on S
+\foreach \c/\k in {Soh/hand, Sop/tip, Sot/cyan!75!tgt} \filldraw[fill=\k, draw=white, line width=.7pt] (\c) circle (2.3pt);
 
 % ================================================================= GATES + OUTPUT
 \newcommand{\gtext}[3]{{\bfseries\small #1}\\[-1pt]{\scriptsize $#2$}\\[-1pt]{\scriptsize $p{=}\pgfmathprintnumber[fixed,fixed zerofill,precision=2]{#3}$}}
@@ -359,11 +411,11 @@
 \draw[arr, tgt] (23.0,-6.47) -- (g3.west |- 0,-6.47);
 
 % output frame with the predictions of this single pass
-\imgslab{out}{26.4}{-4.95}{2.2}{0.12}{gray}{output.png}
+\imgslab{out}{26.45}{-4.95}{2.3}{0.12}{gray}{output.png}
 \draw[line width=.8pt, ink] (g1.east) -- ++(0.15,0) |- (g3.east);
 \draw[arr] (26.07,-4.95) -- (out-w);
-\node[dims, below, align=center] at (27.5,-6.05) {$\mathbf b_h,\ \mathbf p,\ \mathbf u,\ \mathbf b_t$};
-\node[op, below, align=center] at (27.5,-6.45) {single pass, \pgfmathprintnumber[fixed,precision=2]{\NParams}\,M params};
+\node[dims, below, align=center] at (27.6,-6.12) {$\mathbf b_h,\ \mathbf p,\ \mathbf u,\ \mathbf b_t$};
+\node[op, below, align=center] at (27.6,-6.52) {single pass, \pgfmathprintnumber[fixed,precision=2]{\NParams}\,M params};
 
 \end{tikzpicture}
 \end{document}

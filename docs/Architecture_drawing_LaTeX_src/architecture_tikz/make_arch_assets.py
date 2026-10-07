@@ -89,7 +89,7 @@ def summary(name, o):
                 p_target=torch.sigmoid(o['roi_conf']).item())
 
 
-def draw_output(img, o, size=480):
+def draw_output(img, o, size=480, gt=None):
     S3 = 3 * size
     im = Image.fromarray(img).resize((S3, S3), Image.LANCZOS)
     d = ImageDraw.Draw(im)
@@ -103,6 +103,15 @@ def draw_output(img, o, size=480):
     sin, cos = o['angle'][0].tolist()
     box(hand, HAND)
     box(roi, TARGET)
+    if gt is not None:  # ground-truth boxes, white dashed
+        for g in (gt['hand'], gt['roi']):
+            x0_, y0_, x1_, y1_ = px(g[0] - g[2] / 2), px(g[1] - g[3] / 2), px(g[0] + g[2] / 2), px(g[1] + g[3] / 2)
+            for (ax, ay, bx, by) in ((x0_, y0_, x1_, y0_), (x1_, y0_, x1_, y1_), (x1_, y1_, x0_, y1_), (x0_, y1_, x0_, y0_)):
+                n = max(1, int(max(abs(bx - ax), abs(by - ay)) // 30))
+                for i in range(0, n, 2):
+                    t0, t1 = i / n, min((i + 1) / n, 1)
+                    d.line([ax + (bx - ax) * t0, ay + (by - ay) * t0, ax + (bx - ax) * t1, ay + (by - ay) * t1],
+                           fill=(255, 255, 255), width=10)
     # direction arrow from the fingertip along the predicted unit vector
     L = max(0.12, 0.8 * float(np.hypot(roi[0] - tip[0], roi[1] - tip[1])))
     x0, y0 = px(tip[0]), px(tip[1])
@@ -123,7 +132,7 @@ def export(name, m):
     o = run(m, img)
     G = o['hand_hm'].shape[-1]
     Image.fromarray(img).resize((480, 480), Image.LANCZOS).save(os.path.join(OUT, 'input.png'))
-    draw_output(img, o).save(os.path.join(OUT, 'output.png'))
+    draw_output(img, o, gt=parse_annotation(os.path.join(TEST, 'labels', name + '.txt'))).save(os.path.join(OUT, 'output.png'))
 
     for key, fn in (('hand_hm', 'hm_hand'), ('ft_hm', 'hm_tip'), ('roi_hm', 'hm_target')):
         colorize(torch.sigmoid(o[key])[0, 0].numpy(), 'turbo', 0.0, 1.0).save(os.path.join(OUT, fn + '.png'))
@@ -188,7 +197,7 @@ def preview(names, m, path):
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('--name', default='img_0010965')
+    ap.add_argument('--name', default='img_0011638')
     ap.add_argument('--preview', default='', help='comma-separated image names; writes a heatmap contact sheet only')
     ap.add_argument('--preview_out', default='arch_candidates.png')
     a = ap.parse_args()

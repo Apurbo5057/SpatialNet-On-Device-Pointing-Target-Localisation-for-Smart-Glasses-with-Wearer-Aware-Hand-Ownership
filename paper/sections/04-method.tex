@@ -2,18 +2,12 @@
 
 Figure~\ref{fig:arch} shows the complete network. A shared trunk turns the frame into one feature map. Four heads then run in a fixed order (wearer's hand, fingertip, pointing direction, pointed target), and each head reads the shared map \emph{at the location that the previous head predicted}. We call these heads \emph{instance-anchored}: the fingertip is searched for around the hand that was found, the direction is computed from features of that hand and fingertip, and the target is searched for along the resulting ray. Three small gates decide which outputs are valid. Everything is a single forward pass; there is no external hand detector, no language input, and no hand box at test time.
 
-% Landscape figure page. The rotated block spans 0.92\textheight so that it fills a float page
-% (acmart's \floatpagefraction is 0.9); the image height leaves room for the caption.
-\setlength{\archh}{0.85\textwidth}
-\begin{figure}[p]
+\begin{figure}[t]
   \centering
-  \rotatebox{90}{\begin{minipage}{0.92\textheight}
-  \centering
-  \includegraphics[height=\archh]{figures/architecture}
-  \caption{SpatialNet. The trunk (top) builds one shared map $S$. Four heads (middle) run in order, each reading $S$ where the previous one predicted: hand centre and box $\cH,\bH$; descriptors $\vH,\vP$; fingertip and direction $\tip,\theta$. Bottom: presence gates, the ray coordinates of Eq.~\ref{eq:raycoords}, and training-only mechanisms. Head panels give parameter counts; thumbnails show ground-truth labels of one test image.}
-  \Description{Block diagram. A shared trunk of ShuffleNetV2, two BiFPN layers, CoordConv with channel reduction and two ConvMixer blocks produces a shared feature map. Four coloured panels show the heads in sequence: wearer hand (heatmap, local soft-argmax, size regression, RoIAlign descriptor), fingertip (heatmap with a term conditioned on the hand centre and a prior that keeps it inside the hand box), pointing direction (an MLP on the hand and fingertip descriptors giving a unit vector), and pointed target (six ray-coordinate maps feeding a zero-initialised geometry branch added to the visual heatmap). Below are the presence gates with their cascade, an inset defining the along-ray and across-ray distances, and a list of training-only mechanisms.}
+  \includegraphics[width=\textwidth]{figures/architecture}
+  \caption{SpatialNet. The trunk (top) turns one $160\times160$ frame into the shared map $S$ ($256\times20\times20$): ShuffleNetV2 stages at strides 8, 16 and 32, two BiFPN layers, CoordConv with reduction to 256 channels, and two ConvMixer blocks. Four heads (middle) run in order. Dashed lines mark where a head samples $S$ at the location the previous head predicted: the hand centre $\cH$, the fingertip $\tip$ and the target centre $\cT$. The direction head reads only the descriptors $\vH,\vP$. Right: the presence gates and the decoded output. Heatmaps, offset and ray-coordinate maps, gate probabilities and the output are real outputs of the trained model on one test image.}
+  \Description{Block diagram drawn as three-dimensional tensor slabs. The input frame passes through a ShuffleNetV2 backbone whose three scales feed two BiFPN layers by 1x1 projections; the 20x20 output gets two coordinate channels, is reduced to 256 channels and passes two ConvMixer blocks to give the shared map S. Four coloured panels show the heads in sequence: wearer hand (heatmap, 3x3 sample and MLP for the box size, RoIAlign descriptor), fingertip (heatmap from S and offset channels to the hand centre plus a hand-box prior, 3x3 sample giving the fingertip descriptor), pointing direction (an MLP on the hand and fingertip descriptors giving a unit vector), and pointed target (six ray-coordinate maps and S giving the target heatmap, 3x3 sample and MLP giving the box). Dashed lines from S show where each head samples it. On the right, three presence gates list their inputs and probabilities, and the output frame shows the predicted hand box, fingertip, direction and target box.}
   \label{fig:arch}
-  \end{minipage}}
 \end{figure}
 
 \subsection{Shared Trunk}\label{sec:trunk}

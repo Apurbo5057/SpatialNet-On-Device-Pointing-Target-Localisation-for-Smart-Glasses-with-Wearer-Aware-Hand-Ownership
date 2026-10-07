@@ -9,7 +9,7 @@ Figure~\ref{fig:architecture} summarises the architecture. Its central design ch
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/architecture.pdf}
-\caption{Compact instance-conditioned prediction. All heads read the shared visual map. The selected hand supplies a box descriptor and fingertip-relative coordinates; hand and fingertip descriptors predict direction. A learned appearance-and-ray branch adds to the target heatmap, rather than restricting it to a hard cone. Local sampled features predict hand and target sizes. Distractor supervision is used only during training.}
+\caption{Compact instance-conditioned prediction. The hand, fingertip and target heads read the shared visual map at the previously predicted location (dashed). The selected hand supplies a box descriptor and fingertip-relative coordinates; hand and fingertip descriptors predict direction. A learned appearance-and-ray branch adds to the target heatmap, rather than restricting it to a hard cone. Local sampled features predict hand and target sizes. Distractor supervision is used only during training.}
 \label{fig:architecture}
 \end{figure*}
 
