@@ -1,0 +1,17 @@
+{
+  "id": "mosharafapurbo/spatialnet-train-224",
+  "title": "SpatialNet Train 224",
+  "code_file": "spatialnet_kaggle_224.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": [
+    "mosharafapurbo/egopoint-spatialnet",
+    "mosharafapurbo/spatialnet-code"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

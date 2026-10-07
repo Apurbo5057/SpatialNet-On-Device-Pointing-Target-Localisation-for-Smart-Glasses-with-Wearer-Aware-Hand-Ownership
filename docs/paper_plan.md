@@ -1,230 +1,284 @@
 # IMWUT paper plan: SpatialNet
 
-No plan guarantees acceptance. This one covers what IMWUT reviewers check, with the least extra work.
+Status on 2026-10-07.
 
-## 1. Positioning
+- Draft: `paper/main.pdf`.
+- Map of every red placeholder to its source: `paper/README.md`.
+- Each task below lists its goal, the steps, what to record, where it goes in the paper, and when it is done.
 
-**Title idea:** *SpatialNet: On-Device Pointing-Target Localisation for Smart Glasses with Wearer-Aware Hand Ownership*
+---
 
-**Contributions, in priority order:**
+## 0. Where things stand
 
-| # | Contribution | Why it is novel |
-|---|---|---|
-| C1 | **Pointing-target localisation from one egocentric frame**: fingertip → ray → target box, with geometric conditioning, a ray-alignment loss and the anchor chain | The core novelty. It finds *what* is pointed at, not just the hand |
-| C2 | **Wearer-aware hand ownership**: ignores other people's hands (distractor copy-paste + ownership penalty) | Bystander hands are a real problem for glasses |
-| C3 | **A complete on-device pipeline**: 722K parameters, 0.23 GFLOPs, 1.6 MB (FP16), running on Samsung WearOS glasses | Contrast with VLMs: cloud, seconds, gigabytes |
-| C4 | **Evaluation protocol**: fingertip–target distance strata, ownership test, confidence intervals | Makes far-target pointing measurable |
+### Claim of the paper
 
-**Phrase "first" carefully:** say "to our knowledge, the first single-stage, on-device model that…" and back it with the related-work table.
+- Input: one RGB image only (no text, no hand box, no depth, no external pose model).
+- Model: a single forward pass of a 0.72M-parameter CNN without self-attention (0.23 GFLOPs, 1.6 MB in FP16).
+- Runs on smart-glasses hardware.
+- Accuracy is reported as a trade-off against cost, never as superiority.
+- Wearer-ownership is a secondary contribution.
 
-**Do not claim:** 4-scene recognition, pointing or target gate accuracy (EgoPoint has no negatives for them), robustness to real bystanders unless task T5 is done.
+### Done
 
-## 2. Section by section
+- Main run at 160 px, seed 42, `runs/main_run/`, checkpoint `best_model.pth`. Its numbers are already in the paper:
+  - target P@0.5 58.9, P@0.3 78.6, P@0.7 31.8, mIoU 53.3;
+  - far targets: P@0.5 25.4;
+  - hand P@0.5 92.6;
+  - fingertip error 3.9 px;
+  - median direction error 18.6°.
+- Table 4: published numbers checked against the PDFs in `Literature review/` (VistaRef, PointVG-R, EgoPoint-Ground).
+- The own VLM benchmark (former T1) is dropped; the published zero-shot results are used instead.
+- Figures done: architecture (Canva), teaser, qualitative results, ownership examples.
 
-| Section | Must contain | Data source | Highlight |
+### Postponed
+
+- **224 px input run** (`experiments/img224/`, kernel `spatialnet-train-224`). Stopped on purpose; add it later if time allows.
+
+---
+
+## 1. Decide the training recipe (do this first)
+
+**Problem.** The main run stopped at epoch 125 through early stopping, before its 180-epoch learning-rate schedule finished.
+
+**Rule.** The main run, the ablations and the seeds must all use the same recipe.
+
+**Option A: keep the current recipe.**
+
+- No re-run needed; the existing main run is reused.
+- Ablations and seeds use the default settings.
+
+**Option B: complete the schedule.**
+
+- Use `--epochs 120 --patience 200`.
+- Re-run the main model first, then update every main-run number in the paper.
+- Costs one extra run (about 2 h), probably for a small accuracy gain.
+
+**Decision (2026-10-07): Option A.** Keep the current recipe and do not re-run the main model. The ablations and seeds use the default settings, adding only their own flags.
+
+---
+
+## 2. T2: on-glasses measurements (most important)
+
+**Goal.** Real latency, memory and energy on the glasses. The efficiency claim depends on this.
+
+### Steps
+
+1. **Export the model** (on your PC):
+   - `python export_onnx.py --model_path runs/main_run/outputs_spatialnet/best_model.pth --out spatialnet.onnx --verify_image <any test image>`
+   - Check that it prints parity OK.
+   - Note the file size.
+2. **Check operator support first:**
+   - The model uses `grid_sample` (ONNX opset 17).
+   - Convert with the glasses' runtime (e.g. QNN / SNPE / TFLite / ONNX Runtime Mobile).
+   - Record whether it runs on the NPU, the GPU, or falls back to the CPU.
+   - If `grid_sample` is not supported: run on the CPU and say so in the paper. Do not change the model now.
+3. **Implement the same preprocessing as training:**
+   - RGB, squash-resize to 160×160, divide by 255.
+   - Normalise with mean (0.485, 0.456, 0.406) and std (0.229, 0.224, 0.225).
+   - Input tensor `[1, 3, 160, 160]`, float32 (or FP16 if the runtime uses it).
+4. **Decode the outputs:**
+   - Boxes and fingertip are normalised 0–1.
+   - The gates are logits; apply a sigmoid and a 0.5 threshold.
+   - The scene cascade is hand → pointing → target.
+5. **Measure model latency:**
+   - 20 warm-up runs, then 200 timed runs.
+   - Record the median and the 90th percentile in ms.
+6. **Measure end-to-end latency:**
+   - From camera frame captured to result available or shown.
+   - At least 100 frames; record the median and the 90th percentile.
+7. **Measure sustained throughput:** run continuously for 60 s and record frames per second.
+8. **Measure memory:** peak memory of the app (Android Studio profiler or `dumpsys meminfo`).
+9. **Measure battery:**
+   - 10 minutes of continuous inference.
+   - Record the battery % drop, or the average current from BatteryManager.
+10. **Check accuracy parity:**
+    - Run 100 test images on the glasses and save the outputs.
+    - Compare with PyTorch: share of images with the same scene, and the mean IoU of the target boxes between device and PyTorch.
+11. **Take one photo** of the glasses running it, or a screenshot of the output (optional figure).
+
+### Record
+
+| Item | Value |
+|---|---|
+| Device, SoC, OS version | |
+| Runtime, compute unit, precision | |
+| Model latency, median / p90 | |
+| End-to-end latency, median / p90 | |
+| Throughput | |
+| Peak memory | |
+| Battery per 10 min | |
+| Parity (same scene %, box IoU) | |
+
+**Goes to:** §6.2 (pipeline paragraph), Table 8, abstract, introduction, conclusion.
+
+**Done when:** every row of Table 8 has a number and §6.2 describes the pipeline.
+
+---
+
+## 3. T3: ablations (4 runs, one seed each)
+
+**Goal.** Show that each design part matters.
+
+- A4 is the important one: it is the same-size baseline without the anchored design.
+- A3 decides whether the ray contribution can be claimed.
+
+### Runs
+
+| Run | `OUTPUT_DIR` | Extra train flags | Tests |
 |---|---|---|---|
-| Abstract | Problem → method → 4 numbers | `evaluation/summary.md`, device table | Target IoU@0.5, far-target result, on-glasses latency, vs-VLM gap |
-| 1 Introduction | Pointing on glasses ("what is that?"), VLMs too slow and cloud-bound, the bystander-hand problem, C1–C4, teaser figure | Qualitative figure | One sentence each for C1–C3, and the latency gap to VLMs |
-| 2 Related work | Egocentric hands and pointing, referring and pointing-target datasets (EgoPoint), VLM grounding, efficient detectors | Literature | **Comparison table**: method × target output × on-device × wearer-aware × latency |
-| 3 Method | Architecture figure; H P T output; heads; **target head in detail** (ray, conditioning, anchor chain); losses; copy-paste with example figure | `model.py`, `docs/training.md` | Spend the most space on the target branch (C1) |
-| 4 Dataset | EgoPoint, conversion rules, 232 dropped records and why, statistics, label examples | `docs/dataset_egopoint.md`, figures | Honesty about the drops (reviewers like it) |
-| 5 Implementation | Hyper-parameters, T4 GPU, training time, seeds | `training/run_info.json` | — |
-| 6 Experiments | 6.1 Metrics · 6.2 **Target localisation vs VLMs** · 6.3 Distance strata · 6.4 Ablations · 6.5 Wearer ownership · 6.6 On-device efficiency · 6.7 Qualitative and failures | `evaluation/`, VLM results, ablation runs, device logs | Lead with 6.2 and 6.3 (C1) |
-| 7 User study (optional, see T6) | Task success, time, SUS, interviews | Study logs | Real use on the glasses |
-| 8 Discussion | Failure modes (from `predictions.csv`), design implications, limitations | Failure analysis | Turn the limitations into future work |
-| 9 Ethics and privacy | Bystanders, on-device = no frames leave the glasses, data license | Text | On-device is a privacy advantage |
+| A1 | `ablation_A1_no_copypaste` | `--copy_paste 0 --ownership_weight 0` | Ownership training |
+| A2 | `ablation_A2_no_geometry_loss` | `--w_ray 0 --w_hand_axis 0` | Ray and hand-axis losses |
+| A3 | `ablation_A3_no_roi_geometry` | `--roi_geometry none` | Ray conditioning of the target (main idea) |
+| A4 | `ablation_A4_no_anchor_chain` | `--no_anchor_chain` | Anchored heads against a plain small model |
 
-**Figures:** teaser · architecture · copy-paste examples · IoU success curve · target IoU by distance · ownership examples · on-glasses photo or screenshot · qualitative successes and failures.
+### Steps for each run
 
-**Tables:** related-work comparison · dataset · main results vs VLMs · ablations · ownership · efficiency on GPU and on glasses.
+1. Copy `experiments/img224/` to a new folder, e.g. `experiments/A1/`.
+2. In `make_notebook.py`, change:
+   - the title and description in cell 0;
+   - `OUTPUT_DIR` in cell 2;
+   - the `cmd` line in cell 6: remove `--img_size`, add the flags from the table.
+3. In `kernel-metadata.json`, set a new `id` (e.g. `mosharafapurbo/spatialnet-ablation-a1`), a new title, and the new notebook file name.
+4. Run `python experiments/A1/make_notebook.py`.
+5. Push with the `docs/kaggle.json` credentials only: `kaggle kernels push -p experiments/A1`.
+6. Check `kaggle kernels status ...`.
+   - If it fails with `ERRORED_MOUNTING_DATASET`, push again. That is a Kaggle-side error.
+7. When it is complete: `kaggle kernels output ... -p runs/A1`.
+8. Check the log for errors, and the training summary for the epoch count.
 
-## 3. Claims and how to defend them
+### After all four are done
 
-| Claim | Evidence | Likely reviewer objection → answer |
-|---|---|---|
-| Accurate target localisation | Target IoU mean with CI, ≥0.3/0.5/0.7, by distance | "Mean IoU is low" → report the success rates; far targets are hard for every method, including VLMs (show it) |
-| Better than VLMs for this task | Same test images, same metrics | "Unfair, VLMs aren't tuned" → VLMs are the only general alternative; document prompts and versions; add latency and cost |
-| Geometry matters | Ablations A2 and A3 (below) | "Gains are noise" → seeds (T4) or bootstrap CIs |
-| Wearer-aware | Ownership accuracy, synthetic + real frames (T5) | "Synthetic distractors only" → real-frame check (T5) |
-| Runs on glasses | Device table (T2) | "Desktop numbers" → measured on the glasses |
-| Practical | User study (T6) or deployment observations | "No users" → small study, or state it as future work |
+- Give the `runs/` folders to Claude. Claude computes:
+  - target mIoU, P@0.5, far P@0.5, hand mIoU, fingertip px and ownership accuracy;
+  - **paired bootstrap** 95% intervals of the difference against the full model, over the same test images.
+- Fill in Table 6 and write one sentence per row, only as strong as its interval.
+- **If A3 is not clearly worse than the full model:** weaken the ray claim in the abstract, introduction and discussion.
+- **If A4 is close to the full model:** the design adds little. Say so honestly and lean on the efficiency claim.
 
-## 4. Remaining tasks: minimal versions
+**Goes to:** Table 6, §7.3, §9 ("What the design contributes").
 
-### T1 Baselines (VLMs, already benchmarked): make the comparison valid
+**Budget:** about 2 h per run, so about 8 GPU-hours in total.
 
-- [ ] Re-run on **the same EgoPoint test split** (3,029 images, or a fixed random 500 with CIs if cost is a problem).
-- [ ] Convert VLM output to a box → the same metrics (target IoU mean, ≥0.3/0.5/0.7). If a VLM returns only a point: "point inside the target box" accuracy, for both methods.
-- [ ] Record: model name and version, date, prompt (in the appendix), output parsing, failure rate (unparseable answers).
-- [ ] Add **latency per image** and **cost or size** for each VLM, next to SpatialNet's.
-- [ ] Report by fingertip–target distance as well (on-object / near / far).
+---
 
-### T2 On-device (Samsung WearOS glasses): minimal data
+## 4. T4: seeds (2 runs)
 
-| Measure | How |
-|---|---|
-| Device | SoC, RAM, OS version; call it a developer test unit |
-| Runtime and format | e.g. ONNX Runtime or TFLite, CPU/GPU/NNAPI delegate, FP32 or FP16 |
-| Model latency | Median and p90 over ≥200 frames after 20 warm-up frames (model call only) |
-| End-to-end latency | Camera frame → result shown; median over ≥100 frames |
-| Throughput | Sustained FPS over 60 s |
-| Memory | Peak app memory (Android Studio profiler or `dumpsys meminfo`) |
-| Model file size | The deployed file |
-| Accuracy parity | Run ~100 test images on the glasses and compare with PyTorch outputs (mean box difference, or same-scene agreement %) |
-| *Optional* energy | Battery % drop over 10 min of continuous inference, or the BatteryManager current average |
+**Goal.** Show that the main result is stable.
 
-One table plus one photo of the glasses running it is enough.
+### Steps
 
-### T3 Ablations: 3 runs are necessary and sufficient
+1. Same procedure as T3, with `OUTPUT_DIR` set to `seed_1` and `seed_2`, and flags `--seed 1` and `--seed 2`.
+2. Use the same recipe as the main run (see section 1).
+3. Download to `runs/seed_1/` and `runs/seed_2/`.
+4. Claude computes the mean ± std over seeds 42, 1 and 2 for every column of Table 4.
 
-| Run | Flags added to `train.py` | Tests |
-|---|---|---|
-| A1 No distractor copy-paste | `--copy_paste 0 --ownership_weight 0` | C2: ownership drop on the multi-hand test |
-| A2 No geometric losses | `--w_ray 0 --w_hand_axis 0` | C1: target IoU, especially far targets |
-| A3 No target conditioning | `--roi_geometry none` | C1: the target branch design |
+**Goes to:** Table 4 ("± std over 3 seeds" row); headline numbers can stay seed 42 or become the mean (decide then).
 
-- Same seed and settings as the main run; evaluation runs automatically in the same notebook run.
-- Report: target IoU (mean, ≥0.5), far-gap target IoU, ownership accuracy, hand IoU.
-- Optional fourth run if compute allows: `--no_anchor_chain`.
-- **Loss weights:** no weight search is needed. A2 covers the novel loss terms; the other 10 are standard (CIoU, Wing, focal), so cite them. Put all 13 weights in an appendix table, with one true sentence on how they were set (validation only). Optional sensitivity check: `--w_ray 0.04` and `--w_ray 0.16` (2 runs).
+**Budget:** about 4 GPU-hours.
 
-#### How to run each extra run (ablations, seeds, sensitivity)
+---
 
-Every extra run is one new version of the `spatialnet-train` notebook on Kaggle, with two small edits. Training and evaluation both run inside it.
+## 5. T5: real frames with other people's hands
 
-| Run | `OUTPUT_DIR` name (cell 1) | Extra flags (cell 3) |
-|---|---|---|
-| Main (already running) | `outputs_spatialnet` | none |
-| A1 No copy-paste | `ablation_A1_no_copypaste` | `'--copy_paste', '0', '--ownership_weight', '0'` |
-| A2 No geometric losses | `ablation_A2_no_geometry_loss` | `'--w_ray', '0', '--w_hand_axis', '0'` |
-| A3 No target conditioning | `ablation_A3_no_roi_geometry` | `'--roi_geometry', 'none'` |
-| Seed 1 | `seed_1` | `'--seed', '1'` |
-| Seed 2 | `seed_2` | `'--seed', '2'` |
-| *Optional* w_ray ×0.5 | `sens_wray_0.04` | `'--w_ray', '0.04'` |
-| *Optional* w_ray ×2 | `sens_wray_0.16` | `'--w_ray', '0.16'` |
+**Goal.** Replace "synthetic only" ownership evidence with a real check. The current 99.7% is weak evidence.
 
-**Steps** (one run at a time; wait until the main run has finished):
+### Steps
 
-1. On Kaggle, open `spatialnet-train` → **Edit**.
-2. **Cell 1**: keep `QUICK_RUN = False`, and change the output folder:
+1. **Record 3–5 short clips with the glasses** in which:
+   - another person's hand is visible (some clips with that person also pointing);
+   - you, the wearer, point at objects.
+2. **Consent:** get consent from everyone filmed, avoid faces, and keep the data private.
+3. **Sample 100–150 frames**, spread over the clips, then run SpatialNet on them.
+4. **Save each frame with the predicted hand box, fingertip and target drawn on it.** Claude can write this script on request.
+5. **Two people rate every frame independently** (no box drawing needed):
+   - **correct:** the predicted hand is the wearer's;
+   - **ownership error:** the predicted hand is the other person's;
+   - **missed:** no hand predicted although the wearer's hand is visible.
+6. Claude computes:
+   - ownership accuracy with a 95% Wilson interval;
+   - agreement between the two raters (Cohen's κ).
+7. **Choose 6 frames for the figure:** 4 correct, at least 1 ownership error, and 1 other failure.
 
-   ```python
-   OUTPUT_DIR = '/kaggle/working/ablation_A1_no_copypaste'   # name from the table
-   ```
+**Goes to:** Table 7 (last row), Fig. 5, §7.4, ethics (consent sentence).
 
-3. **Cell 3**: add the run's flags to the train command:
+**Effort:** about one day.
 
-   ```python
-   cmd = [sys.executable, 'train.py', '--data_dir', DATA_DIR, '--output_dir', OUTPUT_DIR, '--quantize',
-          '--copy_paste', '0', '--ownership_weight', '0']   # flags from the table
-   ```
+---
 
-4. **Save Version → Save & Run All (Commit)**, with the GPU accelerator on.
-5. When it finishes: open the version → **Output** → download the folder. Do this before the next run, because each new version shows only its own output.
-6. Undo both edits (or set them for the next run) and repeat.
+## 6. T6: user study (optional but strong)
 
-**Checks:**
+**Goal.** Show that the system is useful to real people on the glasses.
 
-- The training log's "Training setup" block shows the change: copy-paste `off`, or 13 loss terms with the changed weight.
-- Ablation checkpoints evaluate correctly automatically, because the architecture flags are stored in each checkpoint.
+### Steps
 
-**Building the ablation table:** put each downloaded run folder side by side (e.g. `runs/outputs_spatialnet`, `runs/ablation_A1_no_copypaste`, …), then run:
+1. **Ethics:** get institutional approval or an exemption, and prepare the consent form.
+2. **Participants:** 12 people. Record age, gender, handedness, and prior AR or smart-glasses use.
+3. **Setup:** 10–15 everyday objects, some near (under 1 m) and some far (2–4 m).
+4. **Task:** the experimenter names an object, the participant points, and the glasses show or speak the detected target.
+5. **Trials:** 20 per participant (10 near, 10 far) in counterbalanced order.
+6. **Log per trial:** named object, detected object, correct (yes/no), and time from the start of pointing to the result.
+7. **After the trials:**
+   - SUS (10 items);
+   - raw NASA-TLX (6 items);
+   - a 5-question interview.
+8. **Report:**
+   - success rate with a Wilson CI, near and far;
+   - median response time;
+   - SUS score against the benchmark of 68;
+   - TLX scores;
+   - 3–4 interview themes with quotes.
 
-```python
-import json, os
-rows = []
-for run in sorted(os.listdir('runs')):
-    m = json.load(open(f'runs/{run}/evaluation/metrics.json'))
-    loc = m['test']['localisation']
-    own = m.get('test_multihand', {}).get('ownership', {})
-    rows.append([run,
-                 100 * loc['target_iou']['All']['mean'], 100 * loc['target_iou']['All']['@0.5'],
-                 100 * loc['target_iou']['Gap far'].get('@0.5', float('nan')),
-                 100 * loc['hand_iou']['All hand-present']['mean'],
-                 loc['fingertip_px']['All pointing']['mean'],
-                 100 * (own.get('ownership_accuracy') or float('nan'))])
-print('run | target IoU | target IoU>=0.5 | far target IoU>=0.5 | hand IoU | tip err px | ownership %')
-for r in rows:
-    print(f'{r[0]} | ' + ' | '.join(f'{v:.1f}' for v in r[1:]))
-```
+**Goes to:** §8.
 
-For seeds: average the main run, `seed_1` and `seed_2` for each column (mean ± std).
+**If skipped:** delete §8, add a short "deployment observations" paragraph to §9, and list the user study as future work.
 
-**Compute:** each run is one full training (several hours on a T4). Kaggle gives about 30 GPU-hours per week, so 5 extra runs take about 1–2 weeks. Start A1–A3 first; seeds next; sensitivity only if time remains.
+**Effort:** about one week.
 
-### T4 Seeds: minimal
+---
 
-- [ ] Train the **full model** 2 more times (`--seed 1`, `--seed 2`; runbook in T3) → report **mean ± std over 3 seeds** for the main table.
-- [ ] Ablations: 1 seed each, stated in the paper.
-- If compute runs out: keep 1 seed, report the bootstrap CIs already produced, and list it as a limitation (weaker, but common).
+## 7. Label audit (small)
 
-**Compute:** Kaggle gives about 30 GPU-hours per week. Main run + 2 seeds + 3 ablations = 6 runs, so spread them over 2 weeks.
+**Goal.** Know how many failures are label problems rather than model errors.
 
-### T5 Real multi-person check: the cheap version
+### Steps
 
-You cannot fully skip it, but you can keep it small:
+1. Claude samples 50 random test images with target IoU below 0.3 and saves them with predicted and labelled boxes.
+2. You mark each one:
+   - model error;
+   - questionable label;
+   - both plausible.
+3. Report the share of questionable labels in one sentence.
 
-1. Record 3–5 short clips with the glasses (or phone at eye level) where **another person's hand is visible**, and sometimes pointing too. Get consent; avoid faces.
-2. Sample **100–150 frames**.
-3. Run the model and save each frame with the predicted hand box drawn.
-4. Two people label each frame by eye:
-   - "predicted hand = wearer's hand" (correct);
-   - "predicted hand on the other person's hand" (ownership error);
-   - "missed".
-5. Report: ownership accuracy with a 95% CI (Wilson), the agreement between the two labellers, and a figure of 6 examples.
+**Goes to:** §7.6.
 
-No box labelling is needed. About one day of work. This turns "synthetic only" into "synthetic + real check".
+**Effort:** about one hour.
 
-### T6 User study: what it is and the minimum
+---
 
-**What:** real people use the system on the glasses for real tasks, and you measure how well it works for them.
+## 8. Before submission (checklist)
 
-**Minimum viable study:**
+- [ ] Every red `\tbd`, `xx.x` and placeholder figure in `paper/` is filled; build with `pdflatex main && bibtex main && pdflatex main && pdflatex main`.
+- [ ] Device: confirm what may be published about the glasses (the spec sheet looks internal), and anonymise it for review.
+- [ ] Dataset: state the EgoPoint licence; keep the Kaggle dataset private.
+- [ ] Split: ask the EgoPoint-Ground authors how the release (10,837 / 1,546 / 3,072) relates to their 7:2:1 split, and how the published works score no-hand test images.
+- [ ] CCS concepts: regenerate the XML at <https://dl.acm.org/ccs>.
+- [ ] Delete the draft macros in `main.tex`, so that forgotten placeholders break the build.
+- [ ] Anonymise all code and data links.
+- [ ] Every number comes from `metrics.json`, the run logs, or a cited paper.
 
-| Item | Choice |
-|---|---|
-| Participants | 12 (common IMWUT minimum); record age, gender, handedness, glasses/AR experience |
-| Ethics | Institutional approval or exemption, consent form; no recording of bystanders' faces |
-| Setup | A room with 10–15 everyday objects at near (<1 m) and far (2–4 m) distances |
-| Task | The experimenter names an object → the participant points → the glasses highlight or speak the detected target |
-| Trials | 20 per participant (10 near, 10 far) |
-| Conditions | SpatialNet on glasses. Optional but strong: the same task with a VLM baseline (cloud) |
-| Logged per trial | Target object, predicted object, correct (yes/no), time from pointing to result |
-| After the session | SUS (10 items), NASA-TLX raw (6 items), 5-question interview |
-| Session length | About 30 min per person |
+---
 
-**Report:**
-- task success rate with CI, near vs far;
-- median response time;
-- SUS score against the benchmark of 68;
-- TLX scores;
-- with 2 conditions, a paired Wilcoxon test;
-- 3–4 interview themes with quotes.
+## 9. Order and budget
 
-**Effort:** about 1 week (prototype ready + 12 sessions + analysis).
+| Order | Task | GPU-hours | Your time |
+|---|---|---|---|
+| 1 | Decide the recipe (section 1) | 0–2 | 5 min |
+| 2 | T2 on the glasses | — | 1–2 days |
+| 3 | T3 ablations A1–A4 | about 8 | about 1 h of setup |
+| 4 | T4 seeds | about 4 | about 30 min |
+| 5 | T5 real frames | — | about 1 day |
+| 6 | Label audit | — | about 1 h |
+| 7 | T6 user study (optional) | — | about 1 week |
+| 8 | 224 px run (optional, later) | about 3 | — |
 
-**If there's no time:** IMWUT does accept strong systems papers without a user study, if the on-device deployment is real (T2) and the evaluation is thorough. Then write a "deployment observations" paragraph (what worked and what failed while using it) and put the study under future work. **This is the riskiest gap; do it if at all possible.**
-
-## 5. Priority order (if time is short, stop from the bottom)
-
-1. Main training run (running) → main results.
-2. **T1** VLM comparison on the same split.
-3. **T2** on-glasses table.
-4. **T3** three ablations.
-5. **T5** real multi-person check (1 day).
-6. **T4** extra seeds.
-7. **T6** user study.
-
-## 6. Three-and-a-half-week schedule (November 1)
-
-| Week | Do | Write |
-|---|---|---|
-| 1 | Main run finishes; start A1–A3 on Kaggle; re-run VLMs on the EgoPoint test split | Method, Dataset, Implementation |
-| 2 | Seeds 1 and 2; on-glasses measurements (T2); real multi-person clips (T5) | Related work, Experiments 6.1–6.3 |
-| 3 | User study sessions (T6) if possible; failure analysis from `predictions.csv` | Experiments 6.4–6.7, Discussion, Ethics |
-| 4 (partial) | Figures and tables final | Abstract, Introduction, proofreading, anonymisation |
-
-**Before submitting:**
-- [ ] Anonymise the paper and code links.
-- [ ] Check that EgoPoint's license allows sharing the converted data.
-- [ ] Make sure every number in the paper comes from `metrics.json`.
+The Kaggle quota is about 30 GPU-hours a week, so T3 and T4 fit in one week.
