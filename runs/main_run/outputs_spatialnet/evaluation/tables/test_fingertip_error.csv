@@ -1,0 +1,4 @@
+Subset,n,Mean px,Mean 95% CI,Median px,P90 px,<5 px %,<10 px %
+"Pointing, no target",0,-,-,-,-,-,-
+Pointing at target,2604,3.89,3.73-4.06,3.32,5.69,82.8,97.6
+All pointing,2604,3.89,3.73-4.06,3.32,5.69,82.8,97.6
