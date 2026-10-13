@@ -28,7 +28,8 @@
 
 \begin{document}
 
-\title[SpatialNet]{SpatialNet: Locating Pointed-At Objects from a Single Image with a 0.7M-Parameter CNN on Smart Glasses}
+\title[SpatialNet]{SpatialNet: Compact Pointing-Target Localisation
+for Smart Glasses with Wearer-Aware Hand Ownership}
 
 \author{Anonymous Author(s)}
 \affiliation{%
@@ -40,9 +41,9 @@ Pointing is the most direct way to ask smart glasses about something in view (``
 
 SpatialNet takes nothing but one 2D RGB frame: no text, no hand box, no depth, no external hand or pose model. In a single forward pass of a compact convolutional network without self-attention (0.72M parameters, 0.23 GFLOPs, 1.6\,MB in FP16), it outputs the wearer's hand, the fingertip, the pointing direction and the box of the pointed-at object. To make this possible at that size, its heads form an instance-anchored chain: each stage reads a shared feature map where the previous stage predicted, so the hand, fingertip, direction and target stay on one hand.
 
-On the EgoPoint test split, SpatialNet finds the wearer's hand with a P@0.5 of 92.6\% (share of frames with IoU $\geq$ 0.5) and localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%; 58.9--59.0\% across three training seeds). This is comparable to zero-shot 7--8B multimodal LLMs reported on the same split (44.5--49.8\% P@0.5) and below models of 226M--7B parameters trained on EgoPoint (63.6--93.9\%). It drops to 25.4\% for objects far from the fingertip. Ablations and a resolution study show what matters at this scale:
+On the EgoPoint test split, SpatialNet finds the wearer's hand with a P@0.5 of 92.6\% (share of frames with IoU $\geq$ 0.5) and localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%; 58.9--59.0\% across three training seeds). This is comparable to zero-shot 7--8B multimodal LLMs reported on the same split (44.5--49.8\% P@0.5) and below models of 226M--7B parameters trained on EgoPoint (63.6--93.9\%). It drops to 25.4\% for objects far from the fingertip. Compact detectors that we trained on the same data at the same compute (YOLO26n, NanoDet-Plus-m; 1.6--3.5 times the parameters) draw tighter boxes and reach 59.9--67.6\% P@0.5. SpatialNet places the box centre on the right object slightly more often (84.8\% against 81.6--82.9\%), and it is the only model whose accuracy does not drop when other hands are pasted into view. Ablations and a resolution study show what matters at this scale:
 \begin{itemize}
-\item the anchoring keeps boxes and direction precise (without it, P@0.7 drops by 2.8 points and the direction error rises by 3.4$^\circ$);
+\item the anchoring keeps the hand box and direction precise (without it, hand mIoU drops by 1.8 points and the direction error rises by 3.4$^\circ$);
 \item input resolution is the largest lever (65.1\% at 320\,px with the same parameters);
 \item a learned prior from explicit ray geometry, which we also test, collapses into a fingertip-proximity prior on EgoPoint's touch-dominated data.
 \end{itemize}
@@ -57,9 +58,9 @@ On an engineering unit of a pair of smart glasses, the 160\,px model runs in 60-
 
 \begin{teaserfigure}
   \centering
-  \includegraphics[width=\textwidth]{figures/teaser}
-  \caption{SpatialNet's predictions from one frame of the glasses' camera: the wearer's hand, the fingertip, the pointing direction and the pointed-at object (white dashed: labelled object). Objects touched (a) and near (b) are found. The far dog among similar dogs (c) is a typical failure: the box is far too large. The model follows the wearer's hand when other hands are in view (d; these hands are synthetic, pasted as in Section~\ref{sec:ownership}). EgoPoint test images.}
-  \Description{Four egocentric photos with predicted boxes. A vase touched by the finger is boxed correctly; a bird near the finger is boxed with an offset; for a dog far from the finger among several dogs, the predicted box covers most of the image instead of the far dog; a remote control on a desk is boxed correctly although two pasted hands of other people, marked by red dashed boxes, are in view.}
+  \includegraphics[width=\textwidth]{figures/teaser_successes}
+  \caption{SpatialNet's predictions from a single frame: the wearer's hand (blue), the fingertip (orange) and the pointed-at object (green); white dashed: labelled object. The examples cover a touched target (a), a near target (b), a far target (c) and a small, far target (d). Boxes, points and IoUs are the saved predictions of the 160\,px model on EgoPoint test images. These are deliberately selected successes, not average accuracy; complex failures are shown in Figure~\ref{fig:failures}.}
+  \Description{Four egocentric photos with predicted boxes that match the labelled boxes: a banana touched by the finger (IoU 0.85), a truck near the fingertip (IoU 0.97), a traffic light far from the fingertip (IoU 0.86), and a small key on a wall (IoU 0.85).}
   \label{fig:teaser}
 \end{teaserfigure}
 

@@ -18,6 +18,15 @@ Four ablations remove: (A1) hand pasting and distractor-negative weighting toget
 
 The 224- and 320-pixel experiments retain the full architecture and seed 42. The 160/224 runs use a 224-pixel converted dataset; the 320 run is regenerated from source images at 320 pixels. The latter is therefore an increase in available image detail as well as model input resolution, not an upsampled-input experiment. No 224/320 device timings are available.
 
+\paragraph{Compact detectors at matched compute.}
+To compare with models of similar cost under exactly our protocol, we trained two compact detectors on the same training split: YOLO26n~\cite{ultralytics2026yolo26} at 128 pixels (0.225 GFLOPs), from COCO~\cite{lin2014coco}, ImageNet~\cite{deng2009imagenet} or random initialisation, plus COCO-initialised 160- and 192-pixel runs; and NanoDet-Plus-m~\cite{rangilyu2021nanodet} at 160 pixels (0.218 GFLOPs, COCO-initialised, inference parameters only). \tbd{State the detector training recipe: classes, epochs, augmentation, and how one hand box and one target box are selected per image.} All models are scored by the same evaluation code on the same images, and GFLOPs use the same counter. Sizes are serialised state dictionaries for SpatialNet and exported ONNX files for the detectors.
+
+\paragraph{End-to-end score.}
+Target metrics ignore gating. We therefore also report an end-to-end score over all 3,029 test images: a positive is correct if the hand gate fires, the model predicts a target and its box has IoU${}\geq0.5$; a negative is correct if the model reports no hand. For this score only, each model's hand threshold is tuned on validation by a common rule.
+
+\paragraph{Duplicate check.}
+141 test images (4.7\%) are byte-identical to a training or validation image, and 362 have an exact or near copy. We repeat the comparisons without the 141 duplicates and state where a conclusion changes. The reference model's \pacc{0.5} moves from 58.9 to 57.2\%, inside its interval.
+
 Paired image bootstrap intervals use 1,000 resamples of predictions matched by image identifier; reported 95\% percentile intervals describe test-image sampling for fixed checkpoints. They do not account for training randomness, and no multiplicity correction is applied to the exploratory comparisons. We show the three-seed full-model spread as context, not as a substitute for repeated ablation training. Published methods are listed separately because they use different inputs and incompletely specified evaluation populations.
 
 \subsection{Synthetic hand-interference test}

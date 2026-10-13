@@ -31,6 +31,7 @@ We also give the target head the geometry of the predicted ray, as six ray-coord
 \begin{itemize}
 \item accuracy by fingertip--target distance, which matters because about 70\% of targets are touched by the fingertip;
 \item comparisons with published results of state-of-the-art models and zero-shot multimodal LLMs on the same test split, and with simple fingertip-based references;
+\item comparisons with compact detectors (YOLO26n and NanoDet-Plus-m) that we trained on the same split, at the same compute, and scored with the same code;
 \item ablations of each component;
 \item behaviour when other people's hands are in view (pasted and real);
 \item latency, memory and battery drain on an engineering unit of a pair of smart glasses.
@@ -39,6 +40,7 @@ We also give the target head the geometry of the predicted ray, as six ray-coord
 \begin{itemize}
 \item SpatialNet finds the wearer's hand reliably (P@0.5 of 92.6\%, the share of test frames with IoU${\geq}0.5$) and the fingertip precisely (3.9\,px mean error at $160\times160$).
 \item It localises the pointed-at object with a P@0.5 of 58.9\% (mIoU 53.3\%). That is comparable to zero-shot 7--8B multimodal LLMs reported on the same test split (44.5--49.8\%), close to a 7B model fine-tuned on EgoPoint (63.6\%), and far below VistaRef (93.9\%) and PointVG-R (83.6\%).
+\item At the same compute, compact detectors with 1.6--3.5 times the parameters draw tighter boxes (P@0.5 59.9--67.6\%), but SpatialNet places the target centre on the right object at least as often (84.8\% against 81.6--82.9\%), and only SpatialNet keeps its accuracy when other hands are pasted into view.
 \item It drops to 25.4\% for far targets. Trained at higher input resolution, with no new parameters, the same model reaches 62.4\% at 224\,px (far: 35.9\%) and 65.1\% at 320\,px (Section~\ref{sec:resolution}).
 \item It runs in 60--80\,ms per frame on the glasses. Running it continuously costs less battery (9\% per minute on the test unit) than streaming frames to a phone at 0.5\,fps (16\%).
 \end{itemize}
@@ -53,18 +55,18 @@ We present this as an operating point, with its limits measured, not as a replac
   \end{itemize}
 \item \emph{Instance-anchored heads that keep a sub-million-parameter model precise.} Against a plain model of the same size, the anchoring improves:
   \begin{itemize}
-  \item P@0.7, by 2.8 points;
   \item the hand box, by 1.8 points of mIoU;
   \item the direction, by 3.4$^\circ$;
+  \item P@0.7, by 2.8 points (1.7 on the test split without duplicates, where the interval reaches zero);
   \item small targets, by 11.3 points.
   \end{itemize}
-  Each gain exceeds the variation between training seeds (Sections~\ref{sec:heads} and~\ref{sec:ablations}).
+  The first two gains are well beyond the variation between training seeds; the last two are supporting evidence (Sections~\ref{sec:heads} and~\ref{sec:ablations}).
 \item \emph{An analysis of what limits pointing localisation at this scale.}
   \begin{itemize}
   \item Input resolution is the largest lever, at no parameter cost.
   \item Distractor pasting makes the model robust to other hands at no cost on clean images.
   \item A prior learned from explicit ray geometry collapses into a fingertip-proximity prior when most targets are touched. This explains why far targets stay hard, and indicates how future models should constrain the ray (Sections~\ref{sec:resolution}--\ref{sec:own}).
   \end{itemize}
-\item \emph{An evaluation that places accuracy next to cost.} It compares with published models that are 300 to 10{,}000 times larger, stratifies by fingertip--target distance, and decomposes the errors (Section~\ref{sec:results}).
+\item \emph{An evaluation that places accuracy next to cost.} It compares with published models that are 300 to 10{,}000 times larger and with compact detectors re-trained at the same compute, stratifies by fingertip--target distance, and decomposes the errors (Section~\ref{sec:results}).
 \end{enumerate}
 Distractor pasting is treated as a supporting result rather than a headline contribution. Its effect is clear (Section~\ref{sec:ablations}), but its test distractors are synthetic.

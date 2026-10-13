@@ -1,4 +1,4 @@
-\begin{thebibliography}{35}
+\begin{thebibliography}{41}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -275,5 +275,49 @@ Leslie~N. Smith and Nicholay Topin.
 \newblock In \emph{Artificial Intelligence and Machine Learning for
   Multi-Domain Operations Applications}, volume 11006 of \emph{Proceedings of
   SPIE}, 2019.
+
+\bibitem[Jocher and Qiu(2026)]{ultralytics2026yolo26}
+Glenn Jocher and Jing Qiu.
+\newblock Ultralytics {YOLO26}.
+\newblock \url{https://github.com/ultralytics/ultralytics}, 2026.
+\newblock Software, AGPL-3.0.
+
+\bibitem[Lin et~al.(2014)Lin, Maire, Belongie, Hays, Perona, Ramanan,
+  Doll{\'a}r, and Zitnick]{lin2014coco}
+Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva
+  Ramanan, Piotr Doll{\'a}r, and C.~Lawrence Zitnick.
+\newblock Microsoft {COCO}: Common objects in context.
+\newblock In \emph{Computer Vision -- ECCV 2014}, pages 740--755. Springer,
+  2014.
+
+\bibitem[Deng et~al.(2009)Deng, Dong, Socher, Li, Li, and
+  Fei-Fei]{deng2009imagenet}
+Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, and Li~Fei-Fei.
+\newblock {ImageNet}: A large-scale hierarchical image database.
+\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition (CVPR)}, pages 248--255, 2009.
+
+\bibitem[RangiLyu(2021)]{rangilyu2021nanodet}
+RangiLyu.
+\newblock {NanoDet-Plus}: Super fast and high accuracy lightweight anchor-free
+  object detection model.
+\newblock \url{https://github.com/RangiLyu/nanodet}, 2021.
+
+\bibitem[Howard et~al.(2019)Howard, Sandler, Chu, Chen, Chen, Tan, Wang, Zhu,
+  Pang, Vasudevan, Le, and Adam]{howard2019mobilenetv3}
+Andrew Howard, Mark Sandler, Grace Chu, Liang-Chieh Chen, Bo~Chen, Mingxing
+  Tan, Weijun Wang, Yukun Zhu, Ruoming Pang, Vijay Vasudevan, Quoc~V. Le, and
+  Hartwig Adam.
+\newblock Searching for {MobileNetV3}.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision (ICCV)}, pages 1314--1324, 2019.
+
+\bibitem[Qin et~al.(2024)Qin, Leichner, Delakis, Fornoni, Luo, Yang, Wang,
+  Banbury, Ye, Akin, Aggarwal, Zhu, Moro, and Howard]{qin2024mobilenetv4}
+Danfeng Qin, Chas Leichner, Manolis Delakis, Marco Fornoni, Shixin Luo, Fan
+  Yang, Weijun Wang, Colby Banbury, Chengxi Ye, Berkin Akin, Vaibhav Aggarwal,
+  Tenghui Zhu, Daniele Moro, and Andrew Howard.
+\newblock {MobileNetV4}: Universal models for the mobile ecosystem.
+\newblock In \emph{Computer Vision -- ECCV 2024}, pages 78--96. Springer, 2024.
 
 \end{thebibliography}

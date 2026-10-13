@@ -35,6 +35,35 @@ As a diagnostic reference, we place a box with mean training-set width and heigh
 \paragraph{Published accuracy context.}
 PointVG-R reports substantially higher localisation under its protocol. The comparison also reveals why a single IoU threshold is insufficient: the zero-shot Qwen row is lower than SpatialNet at \pacc{0.5}, but higher at \pacc{0.7}. These observations motivate precision analysis; they do not establish relative superiority. The published works list a 3,072-image test split, while our conversion excludes 43 test positives and our target denominator excludes 425 negatives. Their no-target scoring is not explicit; the hand-box-assisted rows additionally use different inputs and an unstated subset. We therefore make no parity claim and do not construct a cross-hardware speedup ratio. The experimentally supported claim is the measured operating point of our own model.
 
+\subsection{Compact detectors at matched compute}\label{sec:detectors}
+Table~\ref{tab:detectors} compares SpatialNet with compact detectors trained and scored under our protocol. At 0.22--0.23 GFLOPs, the detectors reach 59.9--67.6\% \pacc{0.5}, against 58.9\%. Their advantage grows with the demand on box quality: 7.3--17.7 points at \pacc{0.7}, 6.2--15.3 on large-gap targets, and 6.9--7.9 points of hand mIoU. Pretraining explains part of it: YOLO26n falls from 65.0\% with COCO initialisation to 63.2\% with ImageNet initialisation, the same pretraining as our backbone, and to 59.9\% from scratch. At equal pretraining, the gap is 4.3 points of \pacc{0.5}, concentrated at \pacc{0.7} (10.6) and on large-gap targets (11.4). These differences are point estimates for the 160-pixel reference model.
+
+\begin{table*}[t]
+\centering
+\caption{SpatialNet and compact detectors trained on the same split and scored by the same code. Accuracy entries are percentages on the 2,604 target-positive test images, except \emph{End-to-end}, which covers all 3,029 test images and also counts missed hands and false alarms (Section~\ref{sec:protocol}). \emph{Centre in}: predicted target centre inside the annotated box. \emph{Pasted}: change in target \pacc{0.5} under the synthetic interference test. FP16 size: SpatialNet state dictionary; detectors, exported ONNX at half precision. The upper block has matched computation.}
+\label{tab:detectors}
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\begin{tabular}{llrrrrrrrrrrr}
+\toprule
+Model & Initialisation & Input & Params & FP16 MB & GFLOPs & \pacc{0.5} & \pacc{0.7} & Large gap & Hand mIoU & Centre in & Pasted & End-to-end\\
+\midrule
+\textbf{SpatialNet} & ImageNet & 160 & \textbf{0.72M} & \textbf{1.6} & 0.231 & 58.9 & 31.8 & 25.4 & 73.7 & \textbf{84.8} & \textbf{$+$1.2} & 63.6\\
+YOLO26n & scratch & 128 & 2.50M & 4.8 & 0.225 & 59.9 & 39.1 & 31.6 & 80.6 & 81.6 & $-$4.6 & 63.8\\
+YOLO26n & ImageNet & 128 & 2.50M & 4.8 & 0.225 & 63.2 & 42.4 & 36.8 & 81.1 & 82.3 & $-$3.6 & 67.4\\
+YOLO26n & COCO & 128 & 2.50M & 4.8 & 0.225 & 65.0 & 47.0 & 39.7 & \textbf{81.6} & 82.2 & $-$4.0 & 68.9\\
+NanoDet-Plus-m & COCO & 160 & 1.17M & 2.4 & \textbf{0.218} & \textbf{67.6} & \textbf{49.5} & \textbf{40.7} & 81.5 & 82.9 & $-$4.5 & \textbf{71.1}\\
+\midrule
+SpatialNet & ImageNet & 224 & 0.72M & 1.6 & 0.453 & 62.4 & 37.1 & 35.9 & 74.9 & 83.7 & $+$1.5 & 66.8\\
+SpatialNet & ImageNet & 320 & 0.72M & 1.6 & 0.923 & 65.1 & 40.3 & 34.9 & -- & -- & -- & 69.3\\
+YOLO26n & COCO & 160 & 2.50M & 4.8 & 0.352 & 66.9 & 48.8 & 42.1 & 82.1 & 83.5 & $-$3.0 & 70.8\\
+YOLO26n & COCO & 192 & 2.50M & 4.8 & 0.507 & 69.9 & 53.3 & 43.5 & 82.9 & 84.7 & $-$2.6 & 73.6\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The comparison also shows where the compact model is competitive. Its predicted target centre falls inside the annotated box in 84.8\% of images, against 81.6--82.9\% for the matched-compute detectors and up to 84.7\% at higher compute. Its weakness is therefore mainly box extent rather than target choice. Under synthetic hand interference, its \pacc{0.5} changes by $+$1.2 points, whereas every detector loses 2.6--4.6 points. Only SpatialNet was trained with pasted hands, however, and without that training (A1) it also loses 2.7 points; the result reflects the training package, not the architecture alone. The end-to-end score preserves the ranking: counting the gate costs each model 0.5--1.3 points, and SpatialNet's 63.6\% matches YOLO26n from scratch (63.8\%) but trails the pretrained detectors (67.4--71.1\%). The duplicate-free split gives the same order. SpatialNet remains the smallest model, with 1.6--3.5 times fewer parameters. Detector latency was not measured on the glasses, so we make no speed comparison.
+
 \subsection{Resolution and image-plane separation}\label{sec:resolution}
 Figure~\ref{fig:resolution} shows the clearest accuracy lever. At fixed parameter count, increasing input from 160 to 224 pixels raises \pacc{0.5} by 3.5 points (95\% paired interval [1.8, 5.1]); 320 pixels raises it by 6.2 points [4.4, 8.0], reaching 65.1\%. Stricter precision improves more: \pacc{0.7} rises from 31.8 to 37.1 and 40.3\%. Counted computation grows from 0.23 to 0.45 and 0.92 GFLOPs. Resolution therefore exchanges computation for accuracy without requiring more stored parameters.
 
@@ -53,7 +82,7 @@ Direction also requires careful interpretation. The reference model's median ang
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.93\textwidth]{figures/ablations.pdf}
-\caption{Benefits are specific rather than universal. Positive values favour the full model; negative values favour removal of the component. Intervals use paired test images for the saved checkpoints, not repeated training. Distractor training helps the synthetic stress test, instance conditioning helps stricter box precision, and removing the ray branch improves that same precision metric.}
+\caption{Benefits are specific rather than universal. Positive values favour the full model; negative values favour removal of the component. Intervals use paired test images for the saved checkpoints, not repeated training. Distractor training helps the synthetic stress test, instance conditioning helps stricter box precision, and removing the ray branch improves that same precision metric. Both \pacc{0.7} effects lose significance when duplicated test images are removed.}
 \label{fig:ablations}
 \end{figure*}
 Table~\ref{tab:ablations} reports every ablation's clean target \pacc{0.5} and \pacc{0.7}; Figure~\ref{fig:ablations} highlights selected mechanism-specific effects. All four changes lie within 1.1 points of the full model at \pacc{0.5}, and their paired intervals include zero. We therefore do not claim that any one component is necessary for the headline accuracy. Their differences appear in precision, auxiliary geometry and interference.
@@ -78,23 +107,26 @@ A4: no instance conditioning & 0.709 & 58.6 & 29.0\\
 \end{table}
 
 \paragraph{Instance conditioning supports precise localisation.}
-A4 reduces \pacc{0.7} by 2.8 points (full-minus-ablation interval [1.1, 4.3]) and hand mIoU by 1.8 points. Its mean direction error increases by 3.4 degrees. The reduction in target precision is larger than the 0.8-point largest \pacc{0.7} change observed between the reference and the other full-model seeds. This supports instance conditioning as a useful inductive bias under the tested recipe. It does not prove that every part of the bundled pathway is needed. A4 selected epoch 54 rather than 100, so the effect includes the training trajectory induced by that intervention.
+A4 reduces \pacc{0.7} by 2.8 points (full-minus-ablation interval [1.1, 4.3]) and hand mIoU by 1.8 points. Its mean direction error increases by 3.4 degrees. The reduction in target precision is larger than the 0.8-point largest \pacc{0.7} change observed between the reference and the other full-model seeds, but it is not robust to the duplicate check: without the 141 duplicated test images it shrinks to 1.7 points [0.0, 3.5]. The hand-box and direction effects remain. This supports instance conditioning as a useful inductive bias under the tested recipe. It does not prove that every part of the bundled pathway is needed. A4 selected epoch 54 rather than 100, so the effect includes the training trajectory induced by that intervention.
 
 Small targets provide supporting, less stable evidence. For boxes occupying less than 3\% of image area ($n=309$), \pacc{0.5} falls from 36.9 to 25.6\% in A4. However, the full-model seeds span 27.8--36.9\%, making this metric much more training-sensitive than the headline score. We accordingly place greater weight on the broader high-IoU and hand-box results.
 
 \paragraph{Better direction does not imply a better target box.}
 A2 removes both geometric consistency losses. Large-gap mean direction error increases by 5.6 degrees [2.1, 9.4], yet target \pacc{0.5} does not decline. This establishes a separation between improving the supervised direction and using that improvement for localisation. It provides no evidence that these losses improve the target box.
 
-A3 offers stronger counterevidence to the original ray-conditioning hypothesis. Retraining without the target ray branch yields 59.6\% \pacc{0.5} and improves \pacc{0.7} by 1.9 points [0.2, 3.6]. The branch therefore earns no accuracy claim here. A3 selects a later checkpoint (epoch 120), and only one retraining is available, so the result should not be generalised into a universal claim against geometry.
+A3 offers stronger counterevidence to the original ray-conditioning hypothesis. Retraining without the target ray branch yields 59.6\% \pacc{0.5} and improves \pacc{0.7} by 1.9 points [0.2, 3.6]; without duplicated test images this becomes 1.6 points [$-$0.2, 3.3]. The branch therefore earns no accuracy claim here, and we do not claim that it costs precision either. A3 selects a later checkpoint (epoch 120), and only one retraining is available, so the result should not be generalised into a universal claim against geometry.
 
-Diagnostic interventions help interpret this outcome. On a fixed test subset, removing the branch \emph{only at inference} lowers localisation in the full trained model, whereas retraining A3 compensates for its absence. Spatial probes of the learned branch show a stronger association with proximity to the fingertip than with the signed forward ray coordinate. These findings are consistent with a proximity cue that the visual pathway can also learn. They do not prove that dataset imbalance caused this behaviour: the conditioning branch also receives appearance features, and the probe is observational. The 69\% overlap prevalence makes this a plausible explanation to investigate, not a demonstrated causal mechanism.
+Diagnostic interventions help interpret this outcome. On the full test split, removing the branch \emph{only at inference} lowers the trained model's \pacc{0.5} from 58.9 to 50.6\%, whereas retraining A3 compensates for its absence. On large-gap targets the same removal raises \pacc{0.5} by 2.0 points. Spatial probes of the learned branch show a stronger association with proximity to the fingertip ($\rho=-0.38$) than with proximity to the ray line ($-0.27$), and little with the signed forward ray coordinate. These findings are consistent with a proximity cue that the visual pathway can also learn. They do not prove that dataset imbalance caused this behaviour: the conditioning branch also receives appearance features, and the probe is observational. The 69\% overlap prevalence makes this a plausible explanation to investigate, not a demonstrated causal mechanism.
+
+\paragraph{The backbone is not the bottleneck.}
+Replacing ShuffleNetV2 0.5$\times$ with MobileNetV3-Small~\cite{howard2019mobilenetv3} or MobileNetV4-Conv-Small~\cite{qin2024mobilenetv4}, with the recipe otherwise unchanged, gives 58.1 and 59.8\% \pacc{0.5}; both paired intervals include zero ([$-$2.7, 1.0] and [$-$0.9, 2.8]). The larger backbones use 1.57M and 1.99M parameters and 0.255 and 0.398 GFLOPs. They show a non-significant tendency on large-gap targets (31.1 and 30.1\% against 25.4\%) and a lower fingertip error (3.5 against 3.9 pixels). Both runs stopped earlier (best epoch 64), so these single-seed results may be slightly conservative. At this scale, ShuffleNetV2 0.5$\times$ remains the efficient choice.
 
 
 
 \subsection{Synthetic hand interference}
 A1 isolates the combined effect of distractor pasting and its heatmap-negative weighting. In the synthetic stress condition, the full model reaches 60.1\% target \pacc{0.5}, compared with 56.1\% without this training. The 4.1-point paired difference has interval [2.4, 5.8]. On the 425 no-wearer-hand frames containing pasted hands, correct rejection improves from 86.4 to 91.8\%, a 5.4-point difference [1.9, 8.9]. The clean \pacc{0.5} difference is only 0.1 point, with an interval crossing zero. These results support robustness to the tested interference without a detected clean accuracy penalty.
 
-Two cautions constrain this conclusion. First, a higher stress-test score than clean score does not mean other hands intrinsically help localisation; the transformation changes the image, and its clean-to-stress contrast is not the controlled training intervention. Second, A4 shows no clear ownership deterioration, so the evidence attributes synthetic robustness to the distractor-training package, not necessarily to instance-conditioned gates. The limited crop positions and shared train/test augmentation family also allow positional shortcuts. Real multi-hand generalisation remains unestablished.
+Two cautions constrain this conclusion. First, a higher stress-test score than clean score does not mean other hands intrinsically help localisation; the transformation changes the image, and its clean-to-stress contrast is not the controlled training intervention. Second, A4 shows no clear ownership deterioration, so the evidence attributes synthetic robustness to the distractor-training package, not necessarily to instance-conditioned gates. The limited crop positions and shared train/test augmentation family also allow positional shortcuts. Third, the compact detectors of Table~\ref{tab:detectors} lose 2.6--4.6 points under the same interference, but they were not trained with pasted hands; a detector trained with the same augmentation is needed to separate recipe from architecture. Real multi-hand generalisation remains unestablished.
 
 \begin{quote}\begin{minipage}{\linewidth}\small
 \tFive{Insert the real smart-glasses multi-hand check here: participant/frame counts and capture conditions; consent or ethics status and image-retention policy; wearer/target annotation and handling of disagreements; target localisation and no-wearer-hand rejection with denominators and uncertainty; and representative successes and failures. Distinguish repeated frames from independent scenes. Replace this block with the observed results and update the corresponding scope statements. No real multi-hand result is claimed in this version.}

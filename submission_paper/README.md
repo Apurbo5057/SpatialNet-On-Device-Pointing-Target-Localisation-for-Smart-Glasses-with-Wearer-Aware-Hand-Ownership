@@ -13,7 +13,7 @@ A complete 10-page, venue-neutral two-column revision, including references. The
 - scripts/: audit, figure and document-building utilities.
 - qa/: local build logs and rendered pages; not part of the submission.
 
-T5 is the only red manuscript placeholder. It covers the real multi-hand evaluation and its data/consent description. No user study is required or proposed as a missing submission item.
+T5 and the detector training recipe (protocol section) are the red manuscript placeholders. It covers the real multi-hand evaluation and its data/consent description. No user study is required or proposed as a missing submission item.
 
 ## Build the manuscript
 

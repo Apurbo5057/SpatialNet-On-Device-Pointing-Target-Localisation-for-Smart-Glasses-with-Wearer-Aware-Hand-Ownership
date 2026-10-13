@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{41}
+\begin{thebibliography}{46}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -195,6 +195,21 @@
 \newblock
 
 
+\bibitem[Howard et~al\mbox{.}(2019)]%
+        {howard2019mobilenetv3}
+\bibfield{author}{\bibinfo{person}{Andrew Howard}, \bibinfo{person}{Mark
+  Sandler}, \bibinfo{person}{Grace Chu}, \bibinfo{person}{Liang-Chieh Chen},
+  \bibinfo{person}{Bo Chen}, \bibinfo{person}{Mingxing Tan},
+  \bibinfo{person}{Weijun Wang}, \bibinfo{person}{Yukun Zhu},
+  \bibinfo{person}{Ruoming Pang}, \bibinfo{person}{Vijay Vasudevan},
+  \bibinfo{person}{Quoc~V. Le}, {and} \bibinfo{person}{Hartwig Adam}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Searching for {MobileNetV3}}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the IEEE/CVF International
+  Conference on Computer Vision (ICCV)}}. \bibinfo{pages}{1314--1324}.
+\newblock
+
+
 \bibitem[Huang et~al\mbox{.}(2016)]%
         {huang2016pointing}
 \bibfield{author}{\bibinfo{person}{Yichao Huang}, \bibinfo{person}{Xiaorui
@@ -217,6 +232,18 @@
 \newblock \bibinfo{howpublished}{AAAI 2019 Workshop on Plan, Activity, and
   Intent Recognition. arXiv:1904.09843}.
 \newblock
+
+
+\bibitem[Jocher and Qiu(2026)]%
+        {ultralytics2026yolo26}
+\bibfield{author}{\bibinfo{person}{Glenn Jocher} {and} \bibinfo{person}{Jing
+  Qiu}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{Ultralytics {YOLO26}}.
+\newblock
+  \bibinfo{howpublished}{\url{https://github.com/ultralytics/ultralytics}}.
+\newblock
+\newblock
+\shownote{Software, AGPL-3.0}.
 
 
 \bibitem[Law and Deng(2018)]%
@@ -301,6 +328,19 @@
 \newblock \showarticletitle{Focal Loss for Dense Object Detection}. In
   \bibinfo{booktitle}{\emph{Proceedings of the IEEE International Conference on
   Computer Vision (ICCV)}}. \bibinfo{pages}{2980--2988}.
+\newblock
+
+
+\bibitem[Lin et~al\mbox{.}(2014)]%
+        {lin2014coco}
+\bibfield{author}{\bibinfo{person}{Tsung-Yi Lin}, \bibinfo{person}{Michael
+  Maire}, \bibinfo{person}{Serge Belongie}, \bibinfo{person}{James Hays},
+  \bibinfo{person}{Pietro Perona}, \bibinfo{person}{Deva Ramanan},
+  \bibinfo{person}{Piotr Doll{\'a}r}, {and} \bibinfo{person}{C.~Lawrence
+  Zitnick}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Microsoft {COCO}: Common Objects in Context}. In
+  \bibinfo{booktitle}{\emph{Computer Vision -- ECCV 2014}}.
+  \bibinfo{publisher}{Springer}, \bibinfo{pages}{740--755}.
 \newblock
 
 
@@ -404,6 +444,31 @@
   \bibinfo{volume}{22} (\bibinfo{year}{2018}).
 \newblock
 \href{https://doi.org/10.1007/s00779-017-1100-7}{doi:\nolinkurl{10.1007/s00779-017-1100-7}}
+
+
+\bibitem[Qin et~al\mbox{.}(2024)]%
+        {qin2024mobilenetv4}
+\bibfield{author}{\bibinfo{person}{Danfeng Qin}, \bibinfo{person}{Chas
+  Leichner}, \bibinfo{person}{Manolis Delakis}, \bibinfo{person}{Marco
+  Fornoni}, \bibinfo{person}{Shixin Luo}, \bibinfo{person}{Fan Yang},
+  \bibinfo{person}{Weijun Wang}, \bibinfo{person}{Colby Banbury},
+  \bibinfo{person}{Chengxi Ye}, \bibinfo{person}{Berkin Akin},
+  \bibinfo{person}{Vaibhav Aggarwal}, \bibinfo{person}{Tenghui Zhu},
+  \bibinfo{person}{Daniele Moro}, {and} \bibinfo{person}{Andrew Howard}.}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{{MobileNetV4}: Universal Models for the Mobile
+  Ecosystem}. In \bibinfo{booktitle}{\emph{Computer Vision -- ECCV 2024}}.
+  \bibinfo{publisher}{Springer}, \bibinfo{pages}{78--96}.
+\newblock
+
+
+\bibitem[RangiLyu(2021)]%
+        {rangilyu2021nanodet}
+\bibfield{author}{\bibinfo{person}{RangiLyu}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \bibinfo{title}{{NanoDet-Plus}: Super Fast and High Accuracy
+  Lightweight Anchor-Free Object Detection Model}.
+\newblock \bibinfo{howpublished}{\url{https://github.com/RangiLyu/nanodet}}.
+\newblock
 
 
 \bibitem[Shan et~al\mbox{.}(2020)]%

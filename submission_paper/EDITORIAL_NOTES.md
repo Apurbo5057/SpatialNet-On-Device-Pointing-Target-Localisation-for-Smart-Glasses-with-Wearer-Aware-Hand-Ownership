@@ -71,3 +71,14 @@ The abstract and introduction now open with visual grounding and embodied refere
 - Sub-million precedent on glasses: TinyissimoYOLO (ECCV 2024 Workshops) does generic detection, not reference resolution.
 
 The comparison with large models still frames published numbers as context for the accuracy regime, not as a controlled ranking. PointVG-R's higher accuracy (83.6 vs 59.0 P@0.5; 74.5 vs 31.5 P@0.7) is stated explicitly. With the longer introduction and eight new references, the manuscript now runs 11 pages. The \balance trigger moved to huang2016pointing.
+
+## Benchmark additions (October 2026)
+
+Source: `docs/BENCHMARK_RESULTS (2).md` (status 2026-10-11). Its raw result folders are not in this repository, so these numbers are not reconstructed by the audit script or recorded in evidence.json.
+- Added: compact detectors at matched compute (YOLO26n with COCO, ImageNet and no pretraining; NanoDet-Plus-m), the end-to-end score, the duplicate check, the backbone swap, and the full-test ray-branch probe.
+- The benchmark's "SpatialNet v2" (wider size window plus box refiner) is deliberately not reported, at the author's request. The 160-pixel v1 checkpoint stays the reference.
+- The benchmark's paired intervals against detectors are all for v2. SpatialNet-vs-detector differences are therefore point estimates, and no significance is claimed for them.
+- Pasted-hand no-hand rejection is not compared across models, because the benchmark reports it only for v2, with val-tuned thresholds.
+- Duplicate check: the A3 and A4 P@0.7 effects lose significance and are now qualified in the text.
+- New red placeholder: the detector training recipe and per-image box-selection rule (protocol section).
+- New references: YOLO26 and NanoDet-Plus are cited as software repositories. Verify the YOLO26 author list and year against the Ultralytics citation file before submission.

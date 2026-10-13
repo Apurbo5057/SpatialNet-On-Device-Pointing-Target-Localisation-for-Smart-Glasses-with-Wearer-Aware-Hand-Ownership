@@ -43,6 +43,7 @@ Find them all with `grep -n "tbd\|\\\\xx\|phfig" main.tex sections/*.tex`. Delet
 | T2 on-glasses measurements | §6.2 pipeline and measurement; Table 8; abstract latency |
 | T3 ablations A1–A3 (`docs/paper_plan.md` runbook) | Table 6 with paired-bootstrap intervals; §7.3 text; then revise the claims in §9 |
 | T4 seeds 1 and 2 | **Filled in:** Table 4 "mean ± std, 3 seeds" row; Table 7 "Retraining" row; Fig. 5 bands; §7 intro |
+| Benchmarks (`docs/BENCHMARK_RESULTS (2).md`, 2026-10-11) | **Filled in (v1 only; the benchmark's "v2" is deliberately not reported):** §5 end-to-end score, detector protocol and duplicate check; §7.2 and Tables 5–6 (YOLO26n, NanoDet-Plus-m); A3/A4 duplicate caveats and full-test ray probe in §7.4; backbone swap (Table 10); §7.5 detectors under pasted hands; abstract, introduction, discussion, conclusion. One red `\tbd` remains in §5: the detector training recipe and box-selection rule. Paired intervals against detectors exist only for v2, so v1-vs-detector differences are reported as point estimates. |
 | T5 real multi-person frames | Table 7 last row; Fig. 5; §7.4 |
 
 ## Before submission

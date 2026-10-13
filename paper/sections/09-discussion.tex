@@ -3,7 +3,7 @@
 \paragraph{What a single-image, single-pass CNN can and cannot do.} The results separate the task into two parts.
 \begin{itemize}
 \item \emph{Easy at this size.} Finding the wearer's hand, the fingertip and whether a hand is present works well: hand P@0.5 of 92.6\%, 3.9\,px fingertip error, and AUROC 0.998.
-\item \emph{Hard at this size.} Deciding which object the finger refers to, and how far that object extends, is what the large models do much better. Our errors split about evenly between wrong extent, wrong direction and wrong object (Section~\ref{sec:qual}).
+\item \emph{Hard at this size.} Deciding which object the finger refers to, and how far that object extends, is what the large models do much better. Compact detectors of the same compute pick the object about as often as SpatialNet (Section~\ref{sec:detectors}), but draw its extent better. Our errors split about evenly between wrong extent, wrong direction and wrong object (Section~\ref{sec:qual}).
 \end{itemize}
 A 0.72M CNN at $160\times160$ therefore makes a good always-on front end: it can trigger and crop for a heavier model, but should not be expected to reach large-model accuracy alone.
 
@@ -12,6 +12,7 @@ A 0.72M CNN at $160\times160$ therefore makes a good always-on front end: it can
 \item \emph{Input resolution.} It gives the largest gains (P@0.5 +6.2, far targets +10.5) at no parameter cost, only compute. For a device that can afford it, resolution is the first knob to turn.
 \item \emph{Instance anchoring.} It is what keeps boxes precise (P@0.7, small targets, hand box, direction). A plain model of the same size reaches the same P@0.5, but not the same precision.
 \item \emph{Distractor pasting.} It is cheap robustness to other people's hands, with no cost on clean images.
+\item \emph{The backbone.} Larger mobile backbones (MobileNetV3/V4) do not change P@0.5, at two to three times the parameters.
 \item \emph{Explicit ray geometry.} As used here, it is not a lever: the learned prior settles on fingertip proximity. Far targets need either a better direction estimate or a ray prior that is constrained to point forward.
 \end{enumerate}
 
@@ -36,7 +37,9 @@ A 0.72M CNN at $160\times160$ therefore makes a good always-on front end: it can
 \item \emph{Single frames.} The model has no temporal context. Detecting a pointing \emph{event}, as opposed to a pointing frame, and smoothing the target over a short window are left to the application.
 \item \emph{Dataset coverage.} Results come from one dataset with mostly landscape, partly synthetic images and unknown demographic coverage (for example, skin tone and handedness). Flip augmentation covers left hands only geometrically. Evaluation on real, diverse glasses footage is the most important next step.
 \item \emph{Interaction.} We measure the model on a benchmark and on the device, not the interaction. How wearers respond to its errors, and which confirmation designs suit them, need a study with participants wearing the glasses; we leave it to future work.
-\item \emph{Baselines.} We copied the published state-of-the-art results instead of re-running those models, and two of them use different inputs or subsets, or average over test images without a target. We did not re-run any multimodal LLM under our exact protocol. Large grounding models are clearly more accurate. Our claim is the operating point, with accuracy reported next to its cost, not superiority.
+\item \emph{Baselines.} We copied the published state-of-the-art results instead of re-running those models, and two of them use different inputs or subsets, or average over test images without a target. We did not re-run any multimodal LLM under our exact protocol. Large grounding models are clearly more accurate. We did re-train compact detectors under our protocol: at the same compute they draw better boxes, and NanoDet-Plus-m is 8.7 points ahead in P@0.5. Our claim is the operating point, with accuracy reported next to its cost, not superiority.
+\item \emph{Robustness to other hands.} The detectors' drop under pasted hands, and SpatialNet's stability, are measured on synthetic distractors, and only SpatialNet was trained with them. A detector trained with the same pasting, and real multi-person footage, are needed to attribute this robustness to the architecture.
+\item \emph{Duplicates.} 141 test images (4.7\%) also occur in training or validation. Our conclusions hold without them, except the P@0.7 effects of ablations A3 and A4, which we therefore report as supporting evidence only.
 \end{itemize}
 
 \paragraph{Implications for glasses interfaces.} A model of this size can run continuously and act as a gate for more expensive components:

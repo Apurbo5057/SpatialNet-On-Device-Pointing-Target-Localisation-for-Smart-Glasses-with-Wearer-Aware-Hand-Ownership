@@ -1,8 +1,9 @@
 \section{Results}\label{sec:results}
 
-We answer five questions:
+We answer six questions:
 \begin{enumerate}
 \item How well does SpatialNet find the pointed-at object, compared with published results of state-of-the-art and zero-shot models and with simple references (Section~\ref{sec:main})?
+\item How does it compare with compact detectors trained on the same data, at the same compute (Section~\ref{sec:detectors})?
 \item Where does it fail, by distance and by head (Section~\ref{sec:heads-results})?
 \item Which design choices matter (Section~\ref{sec:ablations})?
 \item Does it follow the wearer's hand when other hands are visible (Section~\ref{sec:own})?
@@ -84,6 +85,70 @@ We use this spread to calibrate the single-run comparisons below (Sections~\ref{
 \item \emph{These comparisons are indicative only.} The published rows count IoU${>}\tau$, include no-hand test images scored in a way the papers do not state, and in one case use an unstated subset.
 \item \emph{Cost.} VistaRef reports 22.9 images/s on a GPU, and the multimodal LLMs need billions of parameters. SpatialNet runs on the glasses in 60--80\,ms per frame (Section~\ref{sec:ondevice}).
 \end{itemize}
+
+\subsection{Compact Detectors at Matched Compute}\label{sec:detectors}
+
+The published models above are 300 to 10{,}000 times larger and were not re-run. Table~\ref{tab:detectors} therefore compares SpatialNet with YOLO26n and NanoDet-Plus-m, compact detectors that we trained on the same split and scored with the same code (Section~\ref{sec:metrics}). At 0.22--0.23 GFLOPs, all of them cost about the same compute as SpatialNet at 160\,px.
+
+\begin{table}[t]
+  \caption{SpatialNet against compact detectors trained on EgoPoint and scored by the same code. Target metrics in \%, on the 2,604 test images with a target. \emph{Far}: P@0.5 on the 209 far targets. \emph{Centre in}: predicted target centre inside the labelled box. \emph{Pasted}: change in target P@0.5 when one or two hands are pasted into each test image (Section~\ref{sec:own}). FP16 size: SpatialNet state dict; detectors, exported ONNX file at half precision. Start: pretraining of the backbone. The first block has matched compute.}
+  \label{tab:detectors}
+  \footnotesize
+  \setlength{\tabcolsep}{2.1pt}
+  \begin{tabular}{llrrrrrrrrrrr}
+    \toprule
+    Model & Start & Input & Params & FP16 & GFLOPs & P@0.5 & P@0.7 & mIoU & Far & Hand mIoU & Centre in & Pasted \\
+    & & (px) & & (MB) & & & & & & & & \\
+    \midrule
+    \textbf{SpatialNet} & ImageNet & 160 & \textbf{0.72M} & \textbf{1.6} & 0.231 & 58.9 & 31.8 & 53.3 & 25.4 & 73.7 & \textbf{84.8} & \textbf{$+$1.2} \\
+    YOLO26n & scratch & 128 & 2.50M & 4.8 & 0.225 & 59.9 & 39.1 & 54.7 & 31.6 & 80.6 & 81.6 & $-$4.6 \\
+    YOLO26n & ImageNet & 128 & 2.50M & 4.8 & 0.225 & 63.2 & 42.4 & 56.8 & 36.8 & 81.1 & 82.3 & $-$3.6 \\
+    YOLO26n & COCO & 128 & 2.50M & 4.8 & 0.225 & 65.0 & 47.0 & 58.6 & 39.7 & \textbf{81.6} & 82.2 & $-$4.0 \\
+    NanoDet-Plus-m & COCO & 160 & 1.17M & 2.4 & \textbf{0.218} & \textbf{67.6} & \textbf{49.5} & \textbf{59.8} & \textbf{40.7} & 81.5 & 82.9 & $-$4.5 \\
+    \midrule
+    SpatialNet & ImageNet & 224 & 0.72M & 1.6 & 0.453 & 62.4 & 37.1 & 54.8 & 35.9 & 74.9 & 83.7 & $+$1.5 \\
+    SpatialNet & ImageNet & 320 & 0.72M & 1.6 & 0.923 & 65.1 & 40.3 & 56.5 & 34.9 & -- & -- & -- \\
+    YOLO26n & COCO & 160 & 2.50M & 4.8 & 0.352 & 66.9 & 48.8 & 60.3 & 42.1 & 82.1 & 83.5 & $-$3.0 \\
+    YOLO26n & COCO & 192 & 2.50M & 4.8 & 0.507 & 69.9 & 53.3 & 62.8 & 43.5 & 82.9 & 84.7 & $-$2.6 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[t]
+  \caption{End-to-end score (\%) over all 3,029 test images: a target image is correct if the hand gate fires, the model predicts ``pointing at target'' and the target IoU is ${\geq}0.5$; a no-hand image is correct if the model says ``no hand''. Hand-gate thresholds are tuned on validation by the same rule for every model. \emph{Dup.-free}: the test split without the 141 images duplicated in training or validation.}
+  \label{tab:e2e}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Model (input) & GFLOPs & P@0.5 & P@0.5 with gate & No hand correct & \textbf{End-to-end} & Dup.-free \\
+    & & (2,604) & (2,604) & (425) & (3,029) & \\
+    \midrule
+    SpatialNet (160) & 0.231 & 58.9 & 58.2 & 97.2 & 63.6 & 62.4 \\
+    YOLO26n, scratch (128) & 0.225 & 59.9 & 58.6 & 95.3 & 63.8 & 62.9 \\
+    YOLO26n, ImageNet (128) & 0.225 & 63.2 & 62.6 & 96.9 & 67.4 & 66.6 \\
+    YOLO26n, COCO (128) & 0.225 & 65.0 & 64.2 & 97.9 & 68.9 & 67.9 \\
+    NanoDet-Plus-m, COCO (160) & 0.218 & 67.6 & 66.9 & 96.5 & 71.1 & 70.1 \\
+    \midrule
+    SpatialNet (224) & 0.453 & 62.4 & 61.9 & 96.5 & 66.8 & 65.7 \\
+    SpatialNet (320) & 0.923 & 65.1 & 64.5 & 98.4 & 69.3 & 68.4 \\
+    YOLO26n, COCO (160) & 0.352 & 66.9 & 66.4 & 97.7 & 70.8 & 69.9 \\
+    YOLO26n, COCO (192) & 0.507 & 69.9 & 69.6 & 98.1 & 73.6 & 72.6 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Results.} Tables~\ref{tab:detectors} and~\ref{tab:e2e} give five findings.
+\begin{itemize}
+\item \emph{At the same compute, the detectors draw better boxes.} Their P@0.5 is 1.0 (YOLO26n from scratch) to 8.7 points (NanoDet-Plus-m) higher than SpatialNet's. The gap grows with the demand on box quality: 7.3--17.7 points at P@0.7, 6.2--15.3 points on far targets, and 6.9--7.9 points of hand mIoU. The same holds at higher compute: YOLO26n at 160\,px (0.35 GFLOPs) is above SpatialNet at 320\,px (0.92 GFLOPs).
+\item \emph{Pretraining explains part of the gap.} YOLO26n falls from 65.0\% to 63.2\% with an ImageNet start and to 59.9\% from scratch. SpatialNet's backbone is ImageNet-pretrained, so the like-for-like comparison is YOLO26n with an ImageNet start: 4.3 points of P@0.5 ahead, mostly in tight boxes (P@0.7 +10.6) and far targets (+11.4).
+\item \emph{SpatialNet picks the right object at least as often.} Its predicted target centre lies inside the labelled box in 84.8\% of images, against 81.6--82.9\% for the detectors at matched compute and 83.5--84.7\% at higher compute. These are point estimates, but they agree with the error analysis of Section~\ref{sec:heads-results}: SpatialNet's main weakness is box extent, not target choice.
+\item \emph{Only SpatialNet's accuracy does not drop with other hands in view.} With one or two pasted hands, its P@0.5 changes by $+$1.2 points, against $-$2.6 to $-$4.6 for every detector. The test is synthetic, and only SpatialNet was trained with pasted hands. Without that training (ablation A1), SpatialNet itself drops by 2.7 points, so much of this robustness comes from the training recipe and not from the architecture (Section~\ref{sec:own}).
+\item \emph{The end-to-end score tells the same story.} Counting the hand gate costs every model 0.5--1.3 points, and no model misses many hands, so the ranking does not change: SpatialNet reaches 63.6\%, on a par with YOLO26n from scratch (63.8\%) and below the pretrained detectors (67.4--71.1\%). The duplicate-free test split gives the same order.
+\end{itemize}
+\paragraph{Size.} SpatialNet is the smallest model in the comparison: 0.72M parameters and 1.6\,MB in FP16, against 1.17M and 2.4\,MB for NanoDet-Plus-m and 2.50M and 4.8\,MB for YOLO26n. We did not measure the detectors' latency on the glasses, so we make no speed comparison.
+
+The detectors are therefore the stronger choice when only the target box matters and a COCO-pretrained model is acceptable. SpatialNet trades some box precision for a smaller model, a single pass that also returns the fingertip and direction, and stability when other hands are in view.
 
 \subsection{Per-Head Accuracy and Target Distance}\label{sec:heads-results}
 
@@ -179,7 +244,7 @@ Each component of SpatialNet was added for a specific purpose. We report every a
 Each ablation was trained once, and we test each difference in two ways. A paired bootstrap over test images (resampling the images and recomputing the difference on the same images) gives a 95\% confidence interval for test-sample variation. Retraining the full model with two more seeds gives the training variation: a difference counts only if it exceeds the largest change that retraining alone produced (Table~\ref{tab:ablation}, second row).
 
 \begin{table}[t]
-  \caption{Ablations at 160\,px (one seed each). First row: the full model's values; other rows: difference from the full model (points, or degrees for the direction error, where positive means worse). \emph{Retraining}: the largest difference of seeds 1 and 2 from seed 42, i.e.\ what retraining the full model alone changes. Bold: the 95\% paired-bootstrap interval excludes 0 and the difference exceeds the retraining row. \emph{Small}: targets under 3\% of the image (309 images). \emph{With other hands}: test images with one or two pasted hands (Section~\ref{sec:own}).}
+  \caption{Ablations at 160\,px (one seed each). First row: the full model's values; other rows: difference from the full model (points, or degrees for the direction error, where positive means worse). \emph{Retraining}: the largest difference of seeds 1 and 2 from seed 42, i.e.\ what retraining the full model alone changes. Bold: the 95\% paired-bootstrap interval excludes 0 and the difference exceeds the retraining row. $^\S$\,Not significant on the duplicate-free test split (Section~\ref{sec:data}). \emph{Small}: targets under 3\% of the image (309 images). \emph{With other hands}: test images with one or two pasted hands (Section~\ref{sec:own}).}
   \label{tab:ablation}
   \footnotesize
   \setlength{\tabcolsep}{3pt}
@@ -194,8 +259,8 @@ Each ablation was trained once, and we test each difference in two ways. A paire
     \midrule
     A1 no hand pasting & \textbf{$-$1.2} & $-$0.1 & $-$1.3 & $+$1.9 & $-$3.9 & \textbf{$-$0.6} & \textbf{$+$1.8} & \textbf{$-$4.1} & \textbf{$-$5.4} \\
     A2 no ray / axis losses & $-$0.5 & $+$1.1 & $+$0.6 & $+$3.3 & $-$0.6 & $-$0.4 & \textbf{$+$1.5} & 0.0 & $-$1.2 \\
-    A3 no ray conditioning & $+$0.2 & $+$0.7 & \textbf{$+$1.9} & $+$5.3 & $+$1.0 & 0.0 & \textbf{$-$1.3} & $+$1.0 & $+$1.2 \\
-    A4 no anchor chain & \textbf{$-$1.4} & $-$0.3 & \textbf{$-$2.8} & $+$0.5 & \textbf{$-$11.3} & \textbf{$-$1.8} & \textbf{$+$3.4} & $-$0.5 & 0.0 \\
+    A3 no ray conditioning & $+$0.2 & $+$0.7 & \textbf{$+$1.9}$^\S$ & $+$5.3 & $+$1.0 & 0.0 & \textbf{$-$1.3} & $+$1.0 & $+$1.2 \\
+    A4 no anchor chain & \textbf{$-$1.4} & $-$0.3 & \textbf{$-$2.8}$^\S$ & $+$0.5 & \textbf{$-$11.3} & \textbf{$-$1.8} & \textbf{$+$3.4} & $-$0.5 & 0.0 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -212,12 +277,12 @@ Each ablation was trained once, and we test each difference in two ways. A paire
 
 \paragraph{A4, instance anchoring: precision in a small model.} Against a plain model of the same size, the anchored chain improves everything that requires precision:
 \begin{itemize}
-\item P@0.7: +2.8 [+1.1, +4.3], against at most 0.8 between seeds;
+\item P@0.7: +2.8 [+1.1, +4.3], against at most 0.8 between seeds. On the duplicate-free test split this shrinks to +1.7 [0.0, +3.5], so we treat it as supporting evidence only;
 \item hand mIoU: +1.8 [+1.4, +2.2], against at most 0.3;
 \item direction error: 3.4$^\circ$ lower [2.4, 4.5], against at most 1.2$^\circ$;
 \item small targets: +11.3 points [+6.5, +16.5]. The plain model's 25.6\% is below all three seeds of the full model (27.8--36.9\%), and its small boxes are drawn 2.4 instead of 1.9 times too large.
 \end{itemize}
-A plain model of the same size thus finds the right region as often (P@0.5 unchanged), but cannot draw precise boxes or handle small objects. That is the role of the anchoring. A4 stopped training earliest (best epoch 54, against 100). Shorter training could widen its gaps, but it would be expected to lower P@0.5 as well; instead, the losses are confined to the precision metrics.
+A plain model of the same size thus finds the right region as often (P@0.5 unchanged), but draws less precise hand boxes and directions, and handles small objects worse. That is the role of the anchoring. A4 stopped training earliest (best epoch 54, against 100). Shorter training could widen its gaps, but it would be expected to lower P@0.5 as well; instead, the losses are confined to the precision metrics.
 
 \paragraph{A1, distractor pasting: robustness to other people's hands.} With other hands in view, the model trained with pasting:
 \begin{itemize}
@@ -236,11 +301,11 @@ The ownership-accuracy metric itself barely moves (99.7\% against 98.7\%), becau
 \item The losses do not change target-box accuracy ($+$1.1 P@0.5, n.s.), because the target head does not draw on the predicted direction (A3 below).
 \end{itemize}
 
-\paragraph{A3, explicit ray geometry: what a small model learns from it.} We gave the target head the predicted ray as explicit geometry and asked whether a small model uses it to find far targets. Removing the branch $G^t$ changes P@0.5 by less than one point ($+$0.7, n.s.). P@0.7 is 1.9 points higher [+0.2, +3.6] and the direction error 1.3$^\circ$ lower; both lie outside the seed spread (P@0.7 31.0--31.8\%, direction 32.2--33.5$^\circ$), so the branch, as trained, costs a little precision, and A3 also trained 20\% longer (best epoch 120). Probing the trained full model on 500--800 test images explains this:
+\paragraph{A3, explicit ray geometry: what a small model learns from it.} We gave the target head the predicted ray as explicit geometry and asked whether a small model uses it to find far targets. Removing the branch $G^t$ changes P@0.5 by less than one point ($+$0.7, n.s.). P@0.7 is 1.9 points higher [+0.2, +3.6] and the direction error 1.3$^\circ$ lower; both lie outside the seed spread (P@0.7 31.0--31.8\%, direction 32.2--33.5$^\circ$). The P@0.7 gain is not robust, however: on the duplicate-free test split it is +1.6 [$-$0.2, +3.3]. The branch, as trained, may therefore cost a little precision, and A3 also trained 20\% longer (best epoch 120). Probing the trained full model explains this:
 \begin{itemize}
-\item \emph{The model relies on the branch.} Its output is as large as the visual term (median ratio of spreads 0.86), and switching it off at inference costs 9.0 points of P@0.5.
-\item \emph{It has learned proximity, not direction.} The branch's output correlates with closeness to the fingertip ($\rho=-0.35$) and to the ray's line ($-0.33$), but hardly with being in front of the fingertip ($+0.04$). The same holds for far targets.
-\item \emph{So it helps only near the finger.} Switching it off costs 11 points of P@0.5 on touched targets and 9.5 on near ones, and none on far ones.
+\item \emph{The model relies on the branch.} Its output is as large as the visual term (median ratio of spreads 0.86 on 500--800 test images), and switching it off at inference lowers P@0.5 on the whole test split from 58.9\% to 50.6\%.
+\item \emph{It has learned proximity more than direction.} On the whole test split, the branch's output correlates more with closeness to the fingertip ($\rho=-0.38$) than with closeness to the ray's line ($-0.27$). On the probe subset it hardly correlates with being in front of the fingertip ($+0.04$).
+\item \emph{So it helps only near the finger.} On the probe subset, switching it off costs 11 points of P@0.5 on touched targets and 9.5 on near ones. On far targets of the whole test split, P@0.5 even rises by 2.0 points without it.
 \end{itemize}
 With 70\% of targets touched and 7\% far, the training signal rewards a ``near the fingertip'' prior. The visual head can learn that prior by itself, so a model trained without the branch reaches the same accuracy.
 
@@ -251,10 +316,35 @@ The finding carries over to other pointing models: on touch-dominated data, givi
 \paragraph{Robustness of these conclusions.}
 \begin{itemize}
 \item Each ablation is a single run. Every difference we report as an effect is significant under the paired bootstrap \emph{and} larger than the change produced by retraining the full model with another seed (Table~\ref{tab:ablation}).
+\item Test images duplicated in training or validation (Section~\ref{sec:data}) do not change the conclusions, with two exceptions: the P@0.7 effects of A3 and A4 lose significance on the duplicate-free split. Anchoring's hand-box and direction gains remain.
 \item The effects differ in margin. The anchoring's P@0.7, hand and direction gains and pasting's other-hands gains are several times the retraining spread, and A2's far-target direction gain is well beyond it. The small-target gain of anchoring (11.3 against 9.1) and the overall direction changes of A1--A3 (1.3--1.8$^\circ$ against 1.2$^\circ$) are close to it, and we treat them as supporting evidence only.
 \item We draw no conclusions from P@0.5 differences: retraining moves it by 0.1 points, and no ablation moves it by more than 1.1.
 \item The loss weights were not searched (Appendix~\ref{app:weights}). A2 covers the two non-standard terms, and the remaining eleven are standard box, keypoint, heatmap and focal losses.
 \end{itemize}
+
+\paragraph{Backbone.} We also swapped the ShuffleNetV2 0.5$\times$ backbone for MobileNetV3-Small~\cite{howard2019mobilenetv3} and MobileNetV4-Conv-Small~\cite{qin2024mobilenetv4}, with everything else unchanged (Table~\ref{tab:backbone}).
+\begin{itemize}
+\item Neither changes P@0.5 significantly ($-$0.8 and $+$0.8 points, intervals across 0), while doubling or nearly tripling the parameters.
+\item Both lean better on far targets (+5.7 and +4.8 points, intervals across 0) and on the fingertip (3.5 against 3.9\,px).
+\item Both runs stopped earlier (best epoch 64, against 100), so their numbers may be slightly low.
+\end{itemize}
+ShuffleNetV2 0.5$\times$ is therefore the efficient choice at this scale.
+
+\begin{table}[t]
+  \caption{Backbone swap at 160\,px, main-run recipe otherwise unchanged (one seed each). Target metrics in \%; brackets: 95\% paired-bootstrap interval of the difference from ShuffleNetV2.}
+  \label{tab:backbone}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Backbone & Params & FP16 & GFLOPs & P@0.5 & Far P@0.5 & Fingertip \\
+    \midrule
+    ShuffleNetV2 0.5$\times$ (ours) & 0.72M & 1.6\,MB & 0.231 & 58.9 & 25.4 & 3.9\,px \\
+    MobileNetV3-Small & 1.57M & 3.2\,MB & 0.255 & 58.1 [$-$2.7, +1.0] & 31.1 [$-$0.5, +12.0] & 3.5\,px \\
+    MobileNetV4-Conv-Small & 1.99M & 4.1\,MB & 0.398 & 59.8 [$-$0.9, +2.8] & 30.1 [$-$1.0, +10.5] & 3.5\,px \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{Following the Wearer's Hand}\label{sec:own}
 
@@ -264,6 +354,8 @@ The finding carries over to other pointing models: on touch-dominated data, givi
 \item The ownership metric is easy under that distribution. In the first training epoch, when the hand IoU was only 0.38, ownership accuracy on training batches was already 93\%, because pasted hands sit in the upper part of the frame and the wearer's hand in the lower part.
 \end{itemize}
 The more informative number is that pasted hands rarely turn a no-hand frame into a hand frame: 91.8\% of no-hand frames stay \emph{no hand}, against 93.4\% without pasted hands. Ablation A1 (Section~\ref{sec:ablations}) shows that the training recipe is needed: without it, target P@0.5 with other hands in view drops by 4.1 points and no-hand frames kept drop by 5.4, while clean accuracy is unchanged. Robustness to real other people's hands is tested by the real-frame check below.
+
+\paragraph{Against compact detectors.} Under the same pasted hands, the target P@0.5 of every compact detector of Section~\ref{sec:detectors} drops, by 2.6 to 4.6 points, while SpatialNet's rises by 1.2. The detectors were not trained with pasted hands, and A1 shows that SpatialNet without that training also drops (by 2.7 points). The comparison therefore shows what the training recipe buys, not an advantage of the architecture alone; a detector trained with the same pasting is needed to separate the two.
 
 \paragraph{Real frames.} \tbd{Fill in when T5 is done:}
 \begin{itemize}
@@ -344,6 +436,16 @@ Figure~\ref{fig:qual} shows typical successes and failures. We sorted the 558 te
 \item \emph{Hand missed} (1\%).
 \end{itemize}
 Some labelled targets are ambiguous: in the ``wrong direction'' example, the finger touches the bowl but the label is an apple above it. Such cases count as failures in every metric, so they lower our numbers and those of all compared models alike.
+
+\paragraph{Complex scenes.} Figure~\ref{fig:failures} shows four deliberately selected hard scenes. Repeated tableware and a dense bookshelf create neighbouring look-alike objects, and the model boxes an adjacent stack or book (a, b). In a cluttered garden, the box takes in surrounding plants instead of the small labelled object (c). In a harbour scene with several depth layers, the model boxes a foreground region instead of the labelled boat (d). In all four, the wearer's hand and fingertip are found; the failure lies in deciding which object is meant and how far it extends. These examples illustrate failure types, not how often they occur.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/failures_complex}
+  \caption{Selected complex failures: repeated tableware (a) and a dense bookshelf (b) create look-alike neighbours; foliage complicates the target's extent (c); several depth layers separate the fingertip from the labelled boat (d). Colours as in Figure~\ref{fig:teaser}; boxes, points and IoUs are the saved test predictions of the 160\,px model.}
+  \Description{Four egocentric photos where the predicted target box misses the labelled one: a box on the wrong stack of tableware in a glass cabinet (IoU 0.17), a box on a neighbouring book in a dense bookshelf (IoU 0.10), a box covering plants around a small object in a garden (IoU 0.13), and a foreground box instead of a distant boat in a harbour (IoU 0.00). The wearer's hand and fingertip are found in all four.}
+  \label{fig:failures}
+\end{figure}
 
 \begin{figure}[t]
   \centering
