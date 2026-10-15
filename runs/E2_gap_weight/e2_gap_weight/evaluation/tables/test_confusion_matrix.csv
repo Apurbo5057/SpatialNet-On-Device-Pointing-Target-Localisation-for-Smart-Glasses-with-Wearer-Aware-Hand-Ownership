@@ -1,0 +1,5 @@
+Ground truth \ Predicted,No hand,Non-pointing,"Pointing, no target",Pointing at target
+No hand,403,0,0,22
+Non-pointing,0,0,0,0
+"Pointing, no target",0,0,0,0
+Pointing at target,16,0,0,2588

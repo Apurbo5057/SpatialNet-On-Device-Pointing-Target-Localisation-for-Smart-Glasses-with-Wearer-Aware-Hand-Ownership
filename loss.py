@@ -144,9 +144,10 @@ def distractor_weight_map(boxes, num, H, W, sigma_cells, weight):
     return 1.0 + weight * g
 
 
-def heatmap_focal(logits, target, neg_weight=None, alpha=2.0, beta=4.0):
+def heatmap_focal(logits, target, neg_weight=None, alpha=2.0, beta=4.0, sample_weight=None):
     """CenterNet penalty-reduced focal loss, normalised by the number of
-    positive peaks (>= 1). `neg_weight` multiplies the negative term."""
+    positive peaks (>= 1). `neg_weight` multiplies the negative term;
+    `sample_weight` [B] weights whole samples (normalised by the weighted peak count)."""
     p = torch.sigmoid(logits.float()).clamp(1e-4, 1 - 1e-4)
     target = target.float()
     pos = (target > 0.999).float()
@@ -155,14 +156,20 @@ def heatmap_focal(logits, target, neg_weight=None, alpha=2.0, beta=4.0):
     neg_loss = -torch.log(1 - p) * p ** alpha * (1 - target) ** beta * neg
     if neg_weight is not None:
         neg_loss = neg_loss * neg_weight
+    if sample_weight is not None:
+        sw = sample_weight.float().view(-1, 1, 1, 1)
+        return ((pos_loss + neg_loss) * sw).sum() / (pos * sw).sum().clamp(min=1.0)
     num_pos = pos.sum().clamp(min=1.0)
     return (pos_loss.sum() + neg_loss.sum()) / num_pos
 
 
 class MultiTaskLoss(nn.Module):
     def __init__(self, weights=None, focal_gamma=None, fn_penalty_mult=None,
-                 hand_fn_penalty_mult=None, ownership_neg_weight=None):
+                 hand_fn_penalty_mult=None, ownership_neg_weight=None, gap_weight=1.0):
         super().__init__()
+        # >1 up-weights targets the fingertip does not overlap (gap > 0) in the target-box and
+        # target-heatmap losses; 1.0 reproduces the paper's model
+        self.gap_weight = float(gap_weight)
         self.w = dict(cfg.LOSS_WEIGHTS)
         if weights:
             self.w.update(weights)
@@ -208,10 +215,16 @@ class MultiTaskLoss(nn.Module):
         else:
             hand_loss = hand_iou_m = torch.tensor(0., device=device)
 
+        gap_w = None
+        if self.gap_weight != 1.0 and 'ft_roi_gap' in batch:
+            gap_w = torch.where(batch['ft_roi_gap'].view(-1) > 0,
+                                torch.full_like(roi_m, self.gap_weight), torch.ones_like(roi_m))
+
         if roi_m.sum() > 0:
             siou, riou = compute_siou(preds['roi'], batch['roi_bbox'])
-            roi_loss = self._masked_mean(1 - siou, roi_m)
-            roi_iou_aux = self._masked_mean(1 - riou, roi_m)
+            box_m = roi_m if gap_w is None else roi_m * gap_w
+            roi_loss = self._masked_mean(1 - siou, box_m)
+            roi_iou_aux = self._masked_mean(1 - riou, box_m)
             roi_iou_m = self._masked_mean(riou, roi_m)
         else:
             roi_loss = roi_iou_aux = roi_iou_m = torch.tensor(0., device=device)
@@ -242,7 +255,8 @@ class MultiTaskLoss(nn.Module):
             if ft_m.sum() > 0 else torch.tensor(0., device=device)
 
         roi_t = gaussian_target(batch['roi_bbox'][:, :2], H, W, cfg.HEATMAP_SIGMA['roi'], roi_m)
-        roi_hm_loss = heatmap_focal(preds['roi_hm'], roi_t, None, cfg.HM_ALPHA, cfg.HM_BETA) \
+        roi_hm_loss = heatmap_focal(preds['roi_hm'], roi_t, None, cfg.HM_ALPHA, cfg.HM_BETA,
+                                    sample_weight=gap_w) \
             if roi_m.sum() > 0 else torch.tensor(0., device=device)
 
         w = self.w

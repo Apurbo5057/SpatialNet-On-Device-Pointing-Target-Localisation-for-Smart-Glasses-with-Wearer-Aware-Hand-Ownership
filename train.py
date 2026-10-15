@@ -66,7 +66,9 @@ def build_model(args):
         use_bifpn=not args.no_bifpn, use_coordconv=not args.no_coordconv,
         mixer_depth=args.mixer_depth, anchor_chain=not args.no_anchor_chain,
         local_softargmax=not args.global_softargmax,
-        roi_geometry=args.roi_geometry, ft_box_prior=not args.no_ft_box_prior)
+        roi_geometry=args.roi_geometry, ft_box_prior=not args.no_ft_box_prior,
+        roi_forward_only=getattr(args, 'roi_forward_only', False),
+        roi_size_step=getattr(args, 'roi_size_step', 1.0))
 
 
 def make_anchors(batch, p):
@@ -292,7 +294,8 @@ def train(args):
     criterion = MultiTaskLoss(weights=weights, focal_gamma=args.focal_gamma,
                               fn_penalty_mult=args.fn_penalty,
                               hand_fn_penalty_mult=args.hand_fn_penalty,
-                              ownership_neg_weight=args.ownership_weight)
+                              ownership_neg_weight=args.ownership_weight,
+                              gap_weight=args.gap_weight)
 
     setup_table = [
         ('Input size', f'{args.img_size} x {args.img_size}'),
@@ -494,6 +497,10 @@ def add_model_args(p):
     p.add_argument('--global_softargmax', action='store_true', help='global soft-argmax expectation')
     p.add_argument('--roi_geometry', choices=['additive', 'multiplicative', 'none'], default='additive')
     p.add_argument('--no_ft_box_prior', action='store_true')
+    p.add_argument('--roi_forward_only', action='store_true',
+                   help='experiment: ray prior acts only in front of the fingertip')
+    p.add_argument('--roi_size_step', type=float, default=1.0,
+                   help='experiment: spacing (cells) of the 3x3 target-size sample; 2 = dilated')
     return p
 
 
@@ -530,6 +537,8 @@ def parse_args():
     p.add_argument('--focal_gamma', type=float, default=cfg.FOCAL_GAMMA)
     p.add_argument('--fn_penalty', type=float, default=cfg.FN_PENALTY_MULT)
     p.add_argument('--hand_fn_penalty', type=float, default=cfg.HAND_FN_PENALTY_MULT)
+    p.add_argument('--gap_weight', type=float, default=1.0,
+                   help='experiment: weight of near/large-gap targets in the target-box and heatmap losses')
     p.add_argument('--quantize', action='store_true')
     p.add_argument('--edge_limit_mb', type=float, default=cfg.EDGE_MEMORY_LIMIT_MB)
     return p.parse_args()

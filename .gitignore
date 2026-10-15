@@ -34,4 +34,7 @@ Thumbs.db
 *.blg
 *.log.tex
 /paper/main.log
+/revised_paper/main.log
+/review_paper/main.log
+/docs/Architecture_drawing_LaTeX_src/architecture_tikz/*.log
 *.out

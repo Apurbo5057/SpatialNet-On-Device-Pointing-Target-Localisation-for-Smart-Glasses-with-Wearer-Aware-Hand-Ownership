@@ -1,0 +1,28 @@
+\section{Related Work}\label{sec:related}
+
+\paragraph{Pointing on wearables.} Deictic gestures have been part of multimodal interfaces since \emph{Put-that-there}~\cite{bolt1980put}, and ray-casting is a standard way to select objects in virtual and augmented reality~\cite{argelaguet2013survey}. Studies of mid-air pointing show systematic offsets~\cite{mayer2015modeling} that accounting for the dominant eye~\cite{plaumann2018towards} and visual feedback such as a cursor~\cite{mayer2018effect} reduce. On smart glasses, the small form factor limits the input options~\cite{lee2018interaction}. GazePointAR resolves spoken pronouns from gaze, pointing and conversation history~\cite{lee2024gazepointar}, and EgoPointVQA answers questions about pointed-at objects by feeding hand keypoints from an off-the-shelf estimator to a multimodal LLM~\cite{choi2026hint}. These systems show the value of pointing on wearables; SpatialNet supplies the localisation step they need, at a cost that fits on the glasses.
+
+\paragraph{Hands, fingertips and pointing targets.} EgoFinger finds the hand and fingertip in egocentric video~\cite{huang2016pointing}, GestARLite runs a fingertip and gesture pipeline on a smartphone~\cite{jain2019gestarlite}, on-device trackers estimate hand keypoints on phones and headsets~\cite{zhang2020mediapipe,han2020megatrack}, and DeePoint estimates the 3D pointing direction from third-person video~\cite{nakamura2023deepoint}; none of them localises the object pointed at. Egocentric hand datasets distinguish the wearer's hands from other people's~\cite{bambach2015lending,shan2020understanding}, but pointing datasets contain only the wearer's hand. YouRefIt grounds targets from language and gesture in third-person views~\cite{chen2021yourefit}. For egocentric images, EgoPoint-Ground introduced the 15K-image benchmark we use and an MLLM baseline that reasons from the hand to a ray and then to the target~\cite{egopoint}. PointVG-R trains this chain of thought into a 7B multimodal LLM with reinforcement learning and names latency as a limitation for wearables~\cite{li2026pointvgr}, and VistaRef adds hand-keypoint and ray modules to a BEiT-3 grounding model and is the most accurate published model on EgoPoint~\cite{li2026vistaref}. General multimodal LLMs still struggle with egocentric pointing~\cite{li2026egopointbench}. Explicit ray reasoning is therefore not new; what differs here is the operating point (Table~\ref{tab:related}).
+
+\paragraph{Efficient models.} Our trunk follows efficient detection design~\cite{ma2018shufflenet,tan2020efficientdet}, and our heads predict keypoint heatmaps in the manner of CenterNet~\cite{zhou2019objects} with a differentiable soft-argmax~\cite{sun2018integral}. Tiny networks run on microcontrollers~\cite{lin2020mcunet} and, for generic object detection, on smart glasses~\cite{moosmann2024tinyissimoyolo}. A compact detector such as YOLO26n~\cite{ultralytics2026yolo26} or NanoDet-Plus~\cite{rangilyu2021nanodet}, trained on pointing data to box the pointed-at object, needs no pointing-specific structure, so we use such detectors as baselines at the same compute. Open-vocabulary detectors and multimodal LLMs ground text queries~\cite{liu2024grounding,peng2023kosmos,you2024ferret,bai2025qwen25vl}, but pointing is not text, and their size rules them out for continuous use on glasses.
+
+\begin{table}[t]
+  \caption{Methods that localise pointing or its target. \emph{Hand box}: the ground-truth hand box is an input. Parameter counts as reported; ``$>$1B'': built on a multimodal LLM.}
+  \label{tab:related}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{lllllll}
+    \toprule
+    Method & View & Test-time input & Output & Params & On device & Other hands \\
+    \midrule
+    EgoFinger~\cite{huang2016pointing} & ego & image & fingertip & -- & -- & -- \\
+    GestARLite~\cite{jain2019gestarlite} & ego & frames & fingertip, gesture & 16.3\,MB & phone & -- \\
+    DeePoint~\cite{nakamura2023deepoint} & 3rd & video & pointing, 3D direction & -- & -- & -- \\
+    YouRefIt~\cite{chen2021yourefit} & 3rd & image + language & target box & -- & -- & -- \\
+    SV-CoT (POG)~\cite{egopoint} & ego & image + hand box & target box & $>$1B & -- & -- \\
+    PointVG-R~\cite{li2026pointvgr} & ego & image + instruction & target box & 7B & -- & -- \\
+    VistaRef~\cite{li2026vistaref} & ego & image + fixed prompt & target box, keypoints & $\geq$226M & -- & -- \\
+    \textbf{SpatialNet} & ego & image & hand, tip, ray, target & 0.72M & glasses & trained \\
+    \bottomrule
+  \end{tabular}
+\end{table}

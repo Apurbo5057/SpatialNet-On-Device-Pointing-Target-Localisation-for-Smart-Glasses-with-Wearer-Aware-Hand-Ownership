@@ -59,7 +59,9 @@ def load_model(model_path, args, device):
         anchor_chain=not saved.get('no_anchor_chain', args.no_anchor_chain),
         local_softargmax=not saved.get('global_softargmax', args.global_softargmax),
         roi_geometry=saved.get('roi_geometry', args.roi_geometry),
-        ft_box_prior=not saved.get('no_ft_box_prior', args.no_ft_box_prior))
+        ft_box_prior=not saved.get('no_ft_box_prior', args.no_ft_box_prior),
+        roi_forward_only=saved.get('roi_forward_only', args.roi_forward_only),
+        roi_size_step=saved.get('roi_size_step', args.roi_size_step))
     if ckpt is None:
         raise FileNotFoundError(f'No checkpoint at {model_path}')
     state = ckpt['model_state_dict'] if isinstance(ckpt, dict) and 'model_state_dict' in ckpt else ckpt

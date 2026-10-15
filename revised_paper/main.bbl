@@ -1,0 +1,844 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{63}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter does
+%%% not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+\makeatletter
+\@ifundefined{NAT@parse@date}{}{\let\NAT@parse@date@orig\NAT@parse@date}
+\@ifundefined{NAT@parse@date}{}{\def\NAT@parse@date#1#2#3#4#5#6@@{\NAT@parse@date@orig#1#2#3#4#5#6@@\def\NAT@tempyear{0000}\def\NAT@tempexlab{{?}}\ifx\NAT@year\NAT@tempyear\ifx\NAT@exlab\NAT@tempexlab\def\NAT@date{[n.\,d.]}\else\edef\NAT@date{[n.\,d.]\NAT@exlab}\fi\fi}}
+\makeatother
+
+\bibitem[Argelaguet and Andujar(2013)]%
+        {argelaguet2013survey}
+\bibfield{author}{\bibinfo{person}{Ferran Argelaguet} {and}
+  \bibinfo{person}{Carlos Andujar}.} \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{A Survey of {3D} Object Selection Techniques for
+  Virtual Environments}.
+\newblock \bibinfo{journal}{\emph{Computers \& Graphics}} \bibinfo{volume}{37},
+  \bibinfo{number}{3} (\bibinfo{year}{2013}), \bibinfo{pages}{121--136}.
+\newblock
+\href{https://doi.org/10.1016/j.cag.2012.12.003}{doi:\nolinkurl{10.1016/j.cag.2012.12.003}}
+
+
+\bibitem[Bai et~al\mbox{.}(2025)]%
+        {bai2025qwen25vl}
+\bibfield{author}{\bibinfo{person}{Shuai Bai}, \bibinfo{person}{Keqin Chen},
+  \bibinfo{person}{Xuejing Liu}, \bibinfo{person}{Jialin Wang},
+  \bibinfo{person}{Wenbin Ge}, \bibinfo{person}{Sibo Song},
+  \bibinfo{person}{Kai Dang}, \bibinfo{person}{Peng Wang},
+  \bibinfo{person}{Shijie Wang}, \bibinfo{person}{Jun Tang}, {et~al\mbox{.}}}
+  \bibinfo{year}{2025}\natexlab{}.
+\newblock \bibinfo{title}{{Qwen2.5-VL} Technical Report}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2502.13923}.
+\newblock
+
+
+\bibitem[Bambach et~al\mbox{.}(2015)]%
+        {bambach2015lending}
+\bibfield{author}{\bibinfo{person}{Sven Bambach}, \bibinfo{person}{Stefan Lee},
+  \bibinfo{person}{David~J. Crandall}, {and} \bibinfo{person}{Chen Yu}.}
+  \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{Lending A Hand: Detecting Hands and Recognizing
+  Activities in Complex Egocentric Interactions}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the IEEE International Conference on
+  Computer Vision (ICCV)}}. \bibinfo{pages}{1949--1957}.
+\newblock
+
+
+\bibitem[Bengio et~al\mbox{.}(2015)]%
+        {bengio2015scheduled}
+\bibfield{author}{\bibinfo{person}{Samy Bengio}, \bibinfo{person}{Oriol
+  Vinyals}, \bibinfo{person}{Navdeep Jaitly}, {and} \bibinfo{person}{Noam
+  Shazeer}.} \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{Scheduled Sampling for Sequence Prediction with
+  Recurrent Neural Networks}. In \bibinfo{booktitle}{\emph{Advances in Neural
+  Information Processing Systems (NeurIPS)}}, Vol.~\bibinfo{volume}{28}.
+  \bibinfo{pages}{1171--1179}.
+\newblock
+
+
+\bibitem[Bolt(1980)]%
+        {bolt1980put}
+\bibfield{author}{\bibinfo{person}{Richard~A. Bolt}.}
+  \bibinfo{year}{1980}\natexlab{}.
+\newblock \showarticletitle{``Put-That-There'': Voice and Gesture at the
+  Graphics Interface}. In \bibinfo{booktitle}{\emph{Proceedings of the 7th
+  Annual Conference on Computer Graphics and Interactive Techniques}}
+  \emph{(\bibinfo{series}{SIGGRAPH '80})}. \bibinfo{publisher}{ACM},
+  \bibinfo{pages}{262--270}.
+\newblock
+
+
+\bibitem[Card et~al\mbox{.}(1991)]%
+        {card1991information}
+\bibfield{author}{\bibinfo{person}{Stuart~K. Card}, \bibinfo{person}{George~G.
+  Robertson}, {and} \bibinfo{person}{Jock~D. Mackinlay}.}
+  \bibinfo{year}{1991}\natexlab{}.
+\newblock \showarticletitle{The Information Visualizer, an Information
+  Workspace}. In \bibinfo{booktitle}{\emph{Proceedings of the SIGCHI Conference
+  on Human Factors in Computing Systems}} \emph{(\bibinfo{series}{CHI '91})}.
+  \bibinfo{publisher}{ACM}, \bibinfo{pages}{181--186}.
+\newblock
+\href{https://doi.org/10.1145/108844.108874}{doi:\nolinkurl{10.1145/108844.108874}}
+
+
+\bibitem[Chen et~al\mbox{.}(2021)]%
+        {chen2021yourefit}
+\bibfield{author}{\bibinfo{person}{Yixin Chen}, \bibinfo{person}{Qing Li},
+  \bibinfo{person}{Deqian Kong}, \bibinfo{person}{Yik~Lun Kei},
+  \bibinfo{person}{Song-Chun Zhu}, \bibinfo{person}{Tao Gao},
+  \bibinfo{person}{Yixin Zhu}, {and} \bibinfo{person}{Siyuan Huang}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{YouRefIt}: Embodied Reference Understanding with
+  Language and Gesture}. In \bibinfo{booktitle}{\emph{Proceedings of the
+  IEEE/CVF International Conference on Computer Vision (ICCV)}}.
+\newblock
+
+
+\bibitem[Choi et~al\mbox{.}(2026)]%
+        {choi2026hint}
+\bibfield{author}{\bibinfo{person}{Yura Choi}, \bibinfo{person}{Roy Miles},
+  \bibinfo{person}{Rolandos~Alexandros Potamias}, \bibinfo{person}{Ismail
+  Elezi}, \bibinfo{person}{Jiankang Deng}, {and} \bibinfo{person}{Stefanos
+  Zafeiriou}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \showarticletitle{Do You See What {I} Am Pointing At? Gesture-Based
+  Egocentric Video Question Answering}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the IEEE/CVF Conference on Computer
+  Vision and Pattern Recognition (CVPR)}}.
+\newblock
+
+
+\bibitem[Deng et~al\mbox{.}(2009)]%
+        {deng2009imagenet}
+\bibfield{author}{\bibinfo{person}{Jia Deng}, \bibinfo{person}{Wei Dong},
+  \bibinfo{person}{Richard Socher}, \bibinfo{person}{Li-Jia Li},
+  \bibinfo{person}{Kai Li}, {and} \bibinfo{person}{Li Fei-Fei}.}
+  \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{{ImageNet}: A Large-Scale Hierarchical Image
+  Database}. In \bibinfo{booktitle}{\emph{Proceedings of the IEEE Conference on
+  Computer Vision and Pattern Recognition (CVPR)}}. \bibinfo{pages}{248--255}.
+\newblock
+
+
+\bibitem[Denning et~al\mbox{.}(2014)]%
+        {denning2014situ}
+\bibfield{author}{\bibinfo{person}{Tamara Denning}, \bibinfo{person}{Zakariya
+  Dehlawi}, {and} \bibinfo{person}{Tadayoshi Kohno}.}
+  \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{In Situ with Bystanders of Augmented Reality
+  Glasses: Perspectives on Recording and Privacy-Mediating Technologies}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the SIGCHI Conference on Human
+  Factors in Computing Systems}} \emph{(\bibinfo{series}{CHI '14})}.
+  \bibinfo{publisher}{ACM}, \bibinfo{pages}{2377--2386}.
+\newblock
+\href{https://doi.org/10.1145/2556288.2557352}{doi:\nolinkurl{10.1145/2556288.2557352}}
+
+
+\bibitem[Dwibedi et~al\mbox{.}(2017)]%
+        {dwibedi2017cut}
+\bibfield{author}{\bibinfo{person}{Debidatta Dwibedi}, \bibinfo{person}{Ishan
+  Misra}, {and} \bibinfo{person}{Martial Hebert}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Cut, Paste and Learn: Surprisingly Easy Synthesis
+  for Instance Detection}. In \bibinfo{booktitle}{\emph{Proceedings of the IEEE
+  International Conference on Computer Vision (ICCV)}}.
+  \bibinfo{pages}{1301--1310}.
+\newblock
+
+
+\bibitem[Efron and Tibshirani(1994)]%
+        {efron1994introduction}
+\bibfield{author}{\bibinfo{person}{Bradley Efron} {and}
+  \bibinfo{person}{Robert~J. Tibshirani}.} \bibinfo{year}{1994}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{An Introduction to the Bootstrap}}.
+\newblock \bibinfo{publisher}{Chapman and Hall/CRC}.
+\newblock
+
+
+\bibitem[Feng et~al\mbox{.}(2018)]%
+        {feng2018wing}
+\bibfield{author}{\bibinfo{person}{Zhen-Hua Feng}, \bibinfo{person}{Josef
+  Kittler}, \bibinfo{person}{Muhammad Awais}, \bibinfo{person}{Patrik Huber},
+  {and} \bibinfo{person}{Xiao-Jun Wu}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Wing Loss for Robust Facial Landmark Localisation
+  with Convolutional Neural Networks}. In \bibinfo{booktitle}{\emph{Proceedings
+  of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}}.
+  \bibinfo{pages}{2235--2245}.
+\newblock
+
+
+\bibitem[Gevorgyan(2022)]%
+        {gevorgyan2022siou}
+\bibfield{author}{\bibinfo{person}{Zhora Gevorgyan}.}
+  \bibinfo{year}{2022}\natexlab{}.
+\newblock \bibinfo{title}{{SIoU} Loss: More Powerful Learning for Bounding Box
+  Regression}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2205.12740}.
+\newblock
+
+
+\bibitem[Ghiasi et~al\mbox{.}(2021)]%
+        {ghiasi2021simple}
+\bibfield{author}{\bibinfo{person}{Golnaz Ghiasi}, \bibinfo{person}{Yin Cui},
+  \bibinfo{person}{Aravind Srinivas}, \bibinfo{person}{Rui Qian},
+  \bibinfo{person}{Tsung-Yi Lin}, \bibinfo{person}{Ekin~D. Cubuk},
+  \bibinfo{person}{Quoc~V. Le}, {and} \bibinfo{person}{Barret Zoph}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Simple Copy-Paste Is a Strong Data Augmentation
+  Method for Instance Segmentation}. In \bibinfo{booktitle}{\emph{Proceedings
+  of the IEEE/CVF Conference on Computer Vision and Pattern Recognition
+  (CVPR)}}. \bibinfo{pages}{2918--2928}.
+\newblock
+
+
+\bibitem[Han et~al\mbox{.}(2020)]%
+        {han2020megatrack}
+\bibfield{author}{\bibinfo{person}{Shangchen Han}, \bibinfo{person}{Beibei
+  Liu}, \bibinfo{person}{Randi Cabezas}, \bibinfo{person}{Christopher~D.
+  Twigg}, \bibinfo{person}{Peizhao Zhang}, \bibinfo{person}{Jeff Petkau},
+  \bibinfo{person}{Tsz-Ho Yu}, \bibinfo{person}{Chun-Jung Tai},
+  \bibinfo{person}{Muzaffer Akbay}, \bibinfo{person}{Zheng Wang},
+  \bibinfo{person}{Asaf Nitzan}, \bibinfo{person}{Gang Dong},
+  \bibinfo{person}{Yuting Ye}, \bibinfo{person}{Lingling Tao},
+  \bibinfo{person}{Chengde Wan}, {and} \bibinfo{person}{Robert Wang}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{MEgATrack}: Monochrome Egocentric Articulated
+  Hand-Tracking for Virtual Reality}.
+\newblock \bibinfo{journal}{\emph{ACM Transactions on Graphics}}
+  \bibinfo{volume}{39}, \bibinfo{number}{4}, Article \bibinfo{articleno}{87}
+  (\bibinfo{year}{2020}), \bibinfo{numpages}{13}~pages.
+\newblock
+\href{https://doi.org/10.1145/3386569.3392452}{doi:\nolinkurl{10.1145/3386569.3392452}}
+
+
+\bibitem[He et~al\mbox{.}(2017)]%
+        {he2017mask}
+\bibfield{author}{\bibinfo{person}{Kaiming He}, \bibinfo{person}{Georgia
+  Gkioxari}, \bibinfo{person}{Piotr Doll{\'a}r}, {and} \bibinfo{person}{Ross
+  Girshick}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Mask {R-CNN}}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the IEEE International Conference on
+  Computer Vision (ICCV)}}. \bibinfo{pages}{2961--2969}.
+\newblock
+
+
+\bibitem[Howard et~al\mbox{.}(2019)]%
+        {howard2019mobilenetv3}
+\bibfield{author}{\bibinfo{person}{Andrew Howard}, \bibinfo{person}{Mark
+  Sandler}, \bibinfo{person}{Grace Chu}, \bibinfo{person}{Liang-Chieh Chen},
+  \bibinfo{person}{Bo Chen}, \bibinfo{person}{Mingxing Tan},
+  \bibinfo{person}{Weijun Wang}, \bibinfo{person}{Yukun Zhu},
+  \bibinfo{person}{Ruoming Pang}, \bibinfo{person}{Vijay Vasudevan},
+  \bibinfo{person}{Quoc~V. Le}, {and} \bibinfo{person}{Hartwig Adam}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Searching for {MobileNetV3}}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the IEEE/CVF International
+  Conference on Computer Vision (ICCV)}}. \bibinfo{pages}{1314--1324}.
+\newblock
+
+
+\bibitem[Hoyle et~al\mbox{.}(2014)]%
+        {hoyle2014privacy}
+\bibfield{author}{\bibinfo{person}{Roberto Hoyle}, \bibinfo{person}{Robert
+  Templeman}, \bibinfo{person}{Steven Armes}, \bibinfo{person}{Denise Anthony},
+  \bibinfo{person}{David Crandall}, {and} \bibinfo{person}{Apu Kapadia}.}
+  \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Privacy Behaviors of Lifeloggers Using Wearable
+  Cameras}. In \bibinfo{booktitle}{\emph{Proceedings of the 2014 ACM
+  International Joint Conference on Pervasive and Ubiquitous Computing}}
+  \emph{(\bibinfo{series}{UbiComp '14})}. \bibinfo{publisher}{ACM},
+  \bibinfo{pages}{571--582}.
+\newblock
+\href{https://doi.org/10.1145/2632048.2632079}{doi:\nolinkurl{10.1145/2632048.2632079}}
+
+
+\bibitem[Huang et~al\mbox{.}(2016)]%
+        {huang2016pointing}
+\bibfield{author}{\bibinfo{person}{Yichao Huang}, \bibinfo{person}{Xiaorui
+  Liu}, \bibinfo{person}{Xin Zhang}, {and} \bibinfo{person}{Lianwen Jin}.}
+  \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{A Pointing Gesture Based Egocentric Interaction
+  System: Dataset, Approach and Application}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the IEEE Conference on Computer
+  Vision and Pattern Recognition Workshops (CVPRW)}}.
+\newblock
+
+
+\bibitem[Jain et~al\mbox{.}(2019)]%
+        {jain2019gestarlite}
+\bibfield{author}{\bibinfo{person}{Varun Jain}, \bibinfo{person}{Gaurav Garg},
+  \bibinfo{person}{Ramakrishna Perla}, {and} \bibinfo{person}{Ramya
+  Hebbalaguppe}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{title}{{GestARLite}: An On-Device Pointing Finger Based
+  Gestural Interface for Smartphones and Video See-Through Head-Mounts}.
+\newblock \bibinfo{howpublished}{AAAI 2019 Workshop on Plan, Activity, and
+  Intent Recognition. arXiv:1904.09843}.
+\newblock
+
+
+\bibitem[Jocher and Qiu(2026)]%
+        {ultralytics2026yolo26}
+\bibfield{author}{\bibinfo{person}{Glenn Jocher} {and} \bibinfo{person}{Jing
+  Qiu}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{Ultralytics {YOLO26}}.
+\newblock
+  \bibinfo{howpublished}{\url{https://github.com/ultralytics/ultralytics}}.
+\newblock
+\newblock
+\shownote{Software, AGPL-3.0}.
+
+
+\bibitem[Law and Deng(2018)]%
+        {law2018cornernet}
+\bibfield{author}{\bibinfo{person}{Hei Law} {and} \bibinfo{person}{Jia Deng}.}
+  \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{{CornerNet}: Detecting Objects as Paired
+  Keypoints}. In \bibinfo{booktitle}{\emph{Proceedings of the European
+  Conference on Computer Vision (ECCV)}}. \bibinfo{pages}{734--750}.
+\newblock
+
+
+\bibitem[Lee et~al\mbox{.}(2024)]%
+        {lee2024gazepointar}
+\bibfield{author}{\bibinfo{person}{Jaewook Lee}, \bibinfo{person}{Jun Wang},
+  \bibinfo{person}{Elizabeth Brown}, \bibinfo{person}{Liam Chu},
+  \bibinfo{person}{Sebastian~S. Rodriguez}, {and} \bibinfo{person}{Jon~E.
+  Froehlich}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{{GazePointAR}: A Context-Aware Multimodal Voice
+  Assistant for Pronoun Disambiguation in Wearable Augmented Reality}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 2024 CHI Conference on Human
+  Factors in Computing Systems}} \emph{(\bibinfo{series}{CHI '24})}.
+  \bibinfo{publisher}{ACM}, Article \bibinfo{articleno}{408}.
+\newblock
+\href{https://doi.org/10.1145/3613904.3642230}{doi:\nolinkurl{10.1145/3613904.3642230}}
+
+
+\bibitem[Lee and Hui(2018)]%
+        {lee2018interaction}
+\bibfield{author}{\bibinfo{person}{Lik-Hang Lee} {and} \bibinfo{person}{Pan
+  Hui}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Interaction Methods for Smart Glasses: A Survey}.
+\newblock \bibinfo{journal}{\emph{IEEE Access}}  \bibinfo{volume}{6}
+  (\bibinfo{year}{2018}), \bibinfo{pages}{28712--28732}.
+\newblock
+\href{https://doi.org/10.1109/ACCESS.2018.2831081}{doi:\nolinkurl{10.1109/ACCESS.2018.2831081}}
+
+
+\bibitem[Lesniak and Tang(2026)]%
+        {counterpoint2026aiglasses}
+\bibfield{author}{\bibinfo{person}{George Lesniak} {and} \bibinfo{person}{Flora
+  Tang}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{Global {AI} Glasses Shipments Surge 263\% {YoY} in
+  {H1} 2026, with Display-less {AI} Glasses Accounting for 96\% of Total}.
+\newblock \bibinfo{howpublished}{Counterpoint Research, 21 September 2026}.
+\newblock
+\urldef\tempurl%
+\url{https://counterpointresearch.com/en/insights/global-ai-glasses-shipments-surge-263-percent-yoy-with-display-less-ai-glasses}
+\showURL{%
+\tempurl}
+\newblock
+\shownote{Accessed October 2026}.
+
+
+\bibitem[Li et~al\mbox{.}(2026b)]%
+        {li2026egopointbench}
+\bibfield{author}{\bibinfo{person}{Chentao Li}, \bibinfo{person}{Zirui Gao},
+  \bibinfo{person}{Mingze Gao}, \bibinfo{person}{Yinglian Ren},
+  \bibinfo{person}{Jianjiang Feng}, {and} \bibinfo{person}{Jie Zhou}.}
+  \bibinfo{year}{2026}\natexlab{b}.
+\newblock \bibinfo{title}{Do {MLLMs} Understand Pointing? Benchmarking and
+  Enhancing Referential Reasoning in Egocentric Vision}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2604.21461}.
+\newblock
+
+
+\bibitem[Li et~al\mbox{.}(2026a)]%
+        {li2026vistaref}
+\bibfield{author}{\bibinfo{person}{Ling Li}, \bibinfo{person}{Zhizhen Cai},
+  \bibinfo{person}{Xinkun Wu}, \bibinfo{person}{Ziyu Zhu},
+  \bibinfo{person}{Jiaqing Lyu}, \bibinfo{person}{Bowen Liu}, {and}
+  \bibinfo{person}{Zhidong Deng}.} \bibinfo{year}{2026}\natexlab{a}.
+\newblock \bibinfo{title}{{VistaRef}: Boosting Visual Spatial Orientation
+  Awareness for Pointing-to-Object Detection}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2606.24498}.
+\newblock
+
+
+\bibitem[Li et~al\mbox{.}(2026c)]%
+        {egopoint}
+\bibfield{author}{\bibinfo{person}{Ling Li}, \bibinfo{person}{Bowen Liu},
+  \bibinfo{person}{Zinuo Zhan}, \bibinfo{person}{Peng Jie},
+  \bibinfo{person}{Jianhui Zhong}, \bibinfo{person}{Kenglun Chang}, {and}
+  \bibinfo{person}{Zhidong Deng}.} \bibinfo{year}{2026}\natexlab{c}.
+\newblock \bibinfo{title}{Beyond Language: Grounding Referring Expressions with
+  Hand Pointing in Egocentric Vision}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2603.26646}.
+\newblock
+
+
+\bibitem[Li et~al\mbox{.}(2026d)]%
+        {li2026pointvgr}
+\bibfield{author}{\bibinfo{person}{Ling Li}, \bibinfo{person}{Bowen Liu},
+  \bibinfo{person}{Zinuo Zhan}, \bibinfo{person}{Jianhui Zhong},
+  \bibinfo{person}{Ziyu Zhu}, \bibinfo{person}{Bingcai Wei},
+  \bibinfo{person}{Kenglun Chang}, {and} \bibinfo{person}{Zhidong Deng}.}
+  \bibinfo{year}{2026}\natexlab{d}.
+\newblock \bibinfo{title}{{PointVG-R}: Internalizing Geometric Reasoning in
+  {MLLMs} for Precise Pointing Localization via Visual Chain of Thought}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2606.24539}.
+\newblock
+
+
+\bibitem[Lin et~al\mbox{.}(2020)]%
+        {lin2020mcunet}
+\bibfield{author}{\bibinfo{person}{Ji Lin}, \bibinfo{person}{Wei-Ming Chen},
+  \bibinfo{person}{Yujun Lin}, \bibinfo{person}{John Cohn},
+  \bibinfo{person}{Chuang Gan}, {and} \bibinfo{person}{Song Han}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{MCUNet}: Tiny Deep Learning on {IoT} Devices}. In
+  \bibinfo{booktitle}{\emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}}, Vol.~\bibinfo{volume}{33}. \bibinfo{publisher}{Curran
+  Associates, Inc.}, \bibinfo{pages}{11711--11722}.
+\newblock
+
+
+\bibitem[Lin et~al\mbox{.}(2017)]%
+        {lin2017focal}
+\bibfield{author}{\bibinfo{person}{Tsung-Yi Lin}, \bibinfo{person}{Priya
+  Goyal}, \bibinfo{person}{Ross Girshick}, \bibinfo{person}{Kaiming He}, {and}
+  \bibinfo{person}{Piotr Doll{\'a}r}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Focal Loss for Dense Object Detection}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the IEEE International Conference on
+  Computer Vision (ICCV)}}. \bibinfo{pages}{2980--2988}.
+\newblock
+
+
+\bibitem[Lin et~al\mbox{.}(2014)]%
+        {lin2014coco}
+\bibfield{author}{\bibinfo{person}{Tsung-Yi Lin}, \bibinfo{person}{Michael
+  Maire}, \bibinfo{person}{Serge Belongie}, \bibinfo{person}{James Hays},
+  \bibinfo{person}{Pietro Perona}, \bibinfo{person}{Deva Ramanan},
+  \bibinfo{person}{Piotr Doll{\'a}r}, {and} \bibinfo{person}{C.~Lawrence
+  Zitnick}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Microsoft {COCO}: Common Objects in Context}. In
+  \bibinfo{booktitle}{\emph{Computer Vision -- ECCV 2014}}.
+  \bibinfo{publisher}{Springer}, \bibinfo{pages}{740--755}.
+\newblock
+
+
+\bibitem[Liu et~al\mbox{.}(2018)]%
+        {liu2018coordconv}
+\bibfield{author}{\bibinfo{person}{Rosanne Liu}, \bibinfo{person}{Joel Lehman},
+  \bibinfo{person}{Piero Molino}, \bibinfo{person}{Felipe~Petroski Such},
+  \bibinfo{person}{Eric Frank}, \bibinfo{person}{Alex Sergeev}, {and}
+  \bibinfo{person}{Jason Yosinski}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{An Intriguing Failing of Convolutional Neural
+  Networks and the {CoordConv} Solution}. In \bibinfo{booktitle}{\emph{Advances
+  in Neural Information Processing Systems (NeurIPS)}},
+  Vol.~\bibinfo{volume}{31}.
+\newblock
+
+
+\bibitem[Liu et~al\mbox{.}(2024)]%
+        {liu2024grounding}
+\bibfield{author}{\bibinfo{person}{Shilong Liu}, \bibinfo{person}{Zhaoyang
+  Zeng}, \bibinfo{person}{Tianhe Ren}, \bibinfo{person}{Feng Li},
+  \bibinfo{person}{Hao Zhang}, \bibinfo{person}{Jie Yang},
+  \bibinfo{person}{Qing Jiang}, \bibinfo{person}{Chunyuan Li},
+  \bibinfo{person}{Jianwei Yang}, \bibinfo{person}{Hang Su},
+  \bibinfo{person}{Jun Zhu}, {and} \bibinfo{person}{Lei Zhang}.}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Grounding {DINO}: Marrying {DINO} with Grounded
+  Pre-Training for Open-Set Object Detection}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the European Conference on Computer
+  Vision (ECCV)}}.
+\newblock
+
+
+\bibitem[Loshchilov and Hutter(2019)]%
+        {loshchilov2019decoupled}
+\bibfield{author}{\bibinfo{person}{Ilya Loshchilov} {and}
+  \bibinfo{person}{Frank Hutter}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Decoupled Weight Decay Regularization}. In
+  \bibinfo{booktitle}{\emph{International Conference on Learning
+  Representations (ICLR)}}.
+\newblock
+
+
+\bibitem[Ma et~al\mbox{.}(2018)]%
+        {ma2018shufflenet}
+\bibfield{author}{\bibinfo{person}{Ningning Ma}, \bibinfo{person}{Xiangyu
+  Zhang}, \bibinfo{person}{Hai-Tao Zheng}, {and} \bibinfo{person}{Jian Sun}.}
+  \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{{ShuffleNet V2}: Practical Guidelines for Efficient
+  {CNN} Architecture Design}. In \bibinfo{booktitle}{\emph{Proceedings of the
+  European Conference on Computer Vision (ECCV)}}. \bibinfo{pages}{116--131}.
+\newblock
+
+
+\bibitem[Mayer et~al\mbox{.}(2018)]%
+        {mayer2018effect}
+\bibfield{author}{\bibinfo{person}{Sven Mayer}, \bibinfo{person}{Valentin
+  Schwind}, \bibinfo{person}{Robin Schweigert}, {and} \bibinfo{person}{Niels
+  Henze}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{The Effect of Offset Correction and Cursor on
+  Mid-Air Pointing in Real and Virtual Environments}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 2018 CHI Conference on Human
+  Factors in Computing Systems}} \emph{(\bibinfo{series}{CHI '18})}.
+  \bibinfo{publisher}{ACM}, Article \bibinfo{articleno}{653},
+  \bibinfo{numpages}{13}~pages.
+\newblock
+\href{https://doi.org/10.1145/3173574.3174227}{doi:\nolinkurl{10.1145/3173574.3174227}}
+
+
+\bibitem[Mayer et~al\mbox{.}(2015)]%
+        {mayer2015modeling}
+\bibfield{author}{\bibinfo{person}{Sven Mayer}, \bibinfo{person}{Katrin Wolf},
+  \bibinfo{person}{Stefan Schneegass}, {and} \bibinfo{person}{Niels Henze}.}
+  \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{Modeling Distant Pointing for Compensating
+  Systematic Displacements}. In \bibinfo{booktitle}{\emph{Proceedings of the
+  33rd Annual ACM Conference on Human Factors in Computing Systems}}
+  \emph{(\bibinfo{series}{CHI '15})}. \bibinfo{publisher}{ACM},
+  \bibinfo{pages}{4165--4168}.
+\newblock
+\href{https://doi.org/10.1145/2702123.2702332}{doi:\nolinkurl{10.1145/2702123.2702332}}
+
+
+\bibitem[Miller(1968)]%
+        {miller1968response}
+\bibfield{author}{\bibinfo{person}{Robert~B. Miller}.}
+  \bibinfo{year}{1968}\natexlab{}.
+\newblock \showarticletitle{Response Time in Man-Computer Conversational
+  Transactions}. In \bibinfo{booktitle}{\emph{Proceedings of the December
+  9--11, 1968, Fall Joint Computer Conference, Part I}}
+  \emph{(\bibinfo{series}{AFIPS '68})}. \bibinfo{publisher}{ACM},
+  \bibinfo{pages}{267--277}.
+\newblock
+\href{https://doi.org/10.1145/1476589.1476628}{doi:\nolinkurl{10.1145/1476589.1476628}}
+
+
+\bibitem[Moosmann et~al\mbox{.}(2024)]%
+        {moosmann2024tinyissimoyolo}
+\bibfield{author}{\bibinfo{person}{Julian Moosmann}, \bibinfo{person}{Pietro
+  Bonazzi}, \bibinfo{person}{Yawei Li}, \bibinfo{person}{Sizhen Bian},
+  \bibinfo{person}{Philipp Mayer}, \bibinfo{person}{Luca Benini}, {and}
+  \bibinfo{person}{Michele Magno}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Ultra-Efficient On-Device Object Detection on
+  {AI}-Integrated Smart Glasses with {TinyissimoYOLO}}. In
+  \bibinfo{booktitle}{\emph{European Conference on Computer Vision (ECCV)
+  Workshops}}.
+\newblock
+\newblock
+\shownote{arXiv:2311.01057}.
+
+
+\bibitem[Nakamura et~al\mbox{.}(2023)]%
+        {nakamura2023deepoint}
+\bibfield{author}{\bibinfo{person}{Shu Nakamura}, \bibinfo{person}{Yasutomo
+  Kawanishi}, \bibinfo{person}{Shohei Nobuhara}, {and} \bibinfo{person}{Ko
+  Nishino}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{DeePoint}: Visual Pointing Recognition and
+  Direction Estimation}. In \bibinfo{booktitle}{\emph{Proceedings of the
+  IEEE/CVF International Conference on Computer Vision (ICCV)}}.
+  \bibinfo{pages}{20577--20587}.
+\newblock
+
+
+\bibitem[Peng et~al\mbox{.}(2023)]%
+        {peng2023kosmos}
+\bibfield{author}{\bibinfo{person}{Zhiliang Peng}, \bibinfo{person}{Wenhui
+  Wang}, \bibinfo{person}{Li Dong}, \bibinfo{person}{Yaru Hao},
+  \bibinfo{person}{Shaohan Huang}, \bibinfo{person}{Shuming Ma}, {and}
+  \bibinfo{person}{Furu Wei}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \bibinfo{title}{{Kosmos-2}: Grounding Multimodal Large Language
+  Models to the World}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2306.14824}.
+\newblock
+
+
+\bibitem[Plaumann et~al\mbox{.}(2018)]%
+        {plaumann2018towards}
+\bibfield{author}{\bibinfo{person}{Katrin Plaumann}, \bibinfo{person}{Matthias
+  Weing}, \bibinfo{person}{Christian Winkler}, \bibinfo{person}{Michael
+  M{\"u}ller}, {and} \bibinfo{person}{Enrico Rukzio}.}
+  \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Towards Accurate Cursorless Pointing: The Effects
+  of Ocular Dominance and Handedness}.
+\newblock \bibinfo{journal}{\emph{Personal and Ubiquitous Computing}}
+  \bibinfo{volume}{22} (\bibinfo{year}{2018}).
+\newblock
+\href{https://doi.org/10.1007/s00779-017-1100-7}{doi:\nolinkurl{10.1007/s00779-017-1100-7}}
+
+
+\bibitem[Qin et~al\mbox{.}(2024)]%
+        {qin2024mobilenetv4}
+\bibfield{author}{\bibinfo{person}{Danfeng Qin}, \bibinfo{person}{Chas
+  Leichner}, \bibinfo{person}{Manolis Delakis}, \bibinfo{person}{Marco
+  Fornoni}, \bibinfo{person}{Shixin Luo}, \bibinfo{person}{Fan Yang},
+  \bibinfo{person}{Weijun Wang}, \bibinfo{person}{Colby Banbury},
+  \bibinfo{person}{Chengxi Ye}, \bibinfo{person}{Berkin Akin},
+  \bibinfo{person}{Vaibhav Aggarwal}, \bibinfo{person}{Tenghui Zhu},
+  \bibinfo{person}{Daniele Moro}, {and} \bibinfo{person}{Andrew Howard}.}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{{MobileNetV4}: Universal Models for the Mobile
+  Ecosystem}. In \bibinfo{booktitle}{\emph{Computer Vision -- ECCV 2024}}.
+  \bibinfo{publisher}{Springer}, \bibinfo{pages}{78--96}.
+\newblock
+
+
+\bibitem[Radford et~al\mbox{.}(2021)]%
+        {radford2021clip}
+\bibfield{author}{\bibinfo{person}{Alec Radford}, \bibinfo{person}{Jong~Wook
+  Kim}, \bibinfo{person}{Chris Hallacy}, \bibinfo{person}{Aditya Ramesh},
+  \bibinfo{person}{Gabriel Goh}, \bibinfo{person}{Sandhini Agarwal},
+  \bibinfo{person}{Girish Sastry}, \bibinfo{person}{Amanda Askell},
+  \bibinfo{person}{Pamela Mishkin}, \bibinfo{person}{Jack Clark},
+  \bibinfo{person}{Gretchen Krueger}, {and} \bibinfo{person}{Ilya Sutskever}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Learning Transferable Visual Models From Natural
+  Language Supervision}. In \bibinfo{booktitle}{\emph{Proceedings of the 38th
+  International Conference on Machine Learning}}
+  \emph{(\bibinfo{series}{Proceedings of Machine Learning Research},
+  Vol.~\bibinfo{volume}{139})}. \bibinfo{publisher}{PMLR},
+  \bibinfo{pages}{8748--8763}.
+\newblock
+
+
+\bibitem[RangiLyu(2021)]%
+        {rangilyu2021nanodet}
+\bibfield{author}{\bibinfo{person}{RangiLyu}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \bibinfo{title}{{NanoDet-Plus}: Super Fast and High Accuracy
+  Lightweight Anchor-Free Object Detection Model}.
+\newblock \bibinfo{howpublished}{\url{https://github.com/RangiLyu/nanodet}}.
+\newblock
+
+
+\bibitem[Shan et~al\mbox{.}(2020)]%
+        {shan2020understanding}
+\bibfield{author}{\bibinfo{person}{Dandan Shan}, \bibinfo{person}{Jiaqi Geng},
+  \bibinfo{person}{Michelle Shu}, {and} \bibinfo{person}{David~F. Fouhey}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Understanding Human Hands in Contact at Internet
+  Scale}. In \bibinfo{booktitle}{\emph{Proceedings of the IEEE/CVF Conference
+  on Computer Vision and Pattern Recognition (CVPR)}}.
+  \bibinfo{pages}{9869--9878}.
+\newblock
+
+
+\bibitem[Smith and Topin(2019)]%
+        {smith2019super}
+\bibfield{author}{\bibinfo{person}{Leslie~N. Smith} {and}
+  \bibinfo{person}{Nicholay Topin}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Super-Convergence: Very Fast Training of Neural
+  Networks Using Large Learning Rates}. In \bibinfo{booktitle}{\emph{Artificial
+  Intelligence and Machine Learning for Multi-Domain Operations Applications}}
+  \emph{(\bibinfo{series}{Proceedings of SPIE}, Vol.~\bibinfo{volume}{11006})}.
+\newblock
+
+
+\bibitem[Sun et~al\mbox{.}(2018)]%
+        {sun2018integral}
+\bibfield{author}{\bibinfo{person}{Xiao Sun}, \bibinfo{person}{Bin Xiao},
+  \bibinfo{person}{Fangyin Wei}, \bibinfo{person}{Shuang Liang}, {and}
+  \bibinfo{person}{Yichen Wei}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Integral Human Pose Regression}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the European Conference on Computer
+  Vision (ECCV)}}. \bibinfo{pages}{529--545}.
+\newblock
+
+
+\bibitem[Tan et~al\mbox{.}(2020)]%
+        {tan2020efficientdet}
+\bibfield{author}{\bibinfo{person}{Mingxing Tan}, \bibinfo{person}{Ruoming
+  Pang}, {and} \bibinfo{person}{Quoc~V. Le}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{EfficientDet}: Scalable and Efficient Object
+  Detection}. In \bibinfo{booktitle}{\emph{Proceedings of the IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition (CVPR)}}.
+  \bibinfo{pages}{10781--10790}.
+\newblock
+
+
+\bibitem[Trockman and Kolter(2023)]%
+        {trockman2023patches}
+\bibfield{author}{\bibinfo{person}{Asher Trockman} {and}
+  \bibinfo{person}{J.~Zico Kolter}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Patches Are All You Need?}
+\newblock \bibinfo{journal}{\emph{Transactions on Machine Learning Research}}
+  (\bibinfo{year}{2023}).
+\newblock
+
+
+\bibitem[Ubrani and Llamas(2026)]%
+        {idc2026xr}
+\bibfield{author}{\bibinfo{person}{Jitesh Ubrani} {and}
+  \bibinfo{person}{Ramon~T. Llamas}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{{XR} Market Grew 44.4\% in 2025 as Smart Glasses
+  Redefine the Category}.
+\newblock \bibinfo{howpublished}{IDC press release, 23 March 2026}.
+\newblock
+\urldef\tempurl%
+\url{https://www.idc.com/resource-center/press-releases/xr-market-grew-44-4-in-2025-as-smart-glasses-redefine-the-category/}
+\showURL{%
+\tempurl}
+\newblock
+\shownote{Accessed October 2026}.
+
+
+\bibitem[Wilson(1927)]%
+        {wilson1927probable}
+\bibfield{author}{\bibinfo{person}{Edwin~B. Wilson}.}
+  \bibinfo{year}{1927}\natexlab{}.
+\newblock \showarticletitle{Probable Inference, the Law of Succession, and
+  Statistical Inference}.
+\newblock \bibinfo{journal}{\emph{J. Amer. Statist. Assoc.}}
+  \bibinfo{volume}{22}, \bibinfo{number}{158} (\bibinfo{year}{1927}),
+  \bibinfo{pages}{209--212}.
+\newblock
+
+
+\bibitem[Yang et~al\mbox{.}(2021)]%
+        {yang2021simam}
+\bibfield{author}{\bibinfo{person}{Lingxiao Yang}, \bibinfo{person}{Ru-Yuan
+  Zhang}, \bibinfo{person}{Lida Li}, {and} \bibinfo{person}{Xiaohua Xie}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{SimAM}: A Simple, Parameter-Free Attention Module
+  for Convolutional Neural Networks}. In \bibinfo{booktitle}{\emph{Proceedings
+  of the 38th International Conference on Machine Learning (ICML)}}
+  \emph{(\bibinfo{series}{Proceedings of Machine Learning Research},
+  Vol.~\bibinfo{volume}{139})}. \bibinfo{pages}{11863--11874}.
+\newblock
+
+
+\bibitem[You et~al\mbox{.}(2024)]%
+        {you2024ferret}
+\bibfield{author}{\bibinfo{person}{Haoxuan You}, \bibinfo{person}{Haotian
+  Zhang}, \bibinfo{person}{Zhe Gan}, \bibinfo{person}{Xianzhi Du},
+  \bibinfo{person}{Bowen Zhang}, \bibinfo{person}{Zirui Wang},
+  \bibinfo{person}{Liangliang Cao}, \bibinfo{person}{Shih-Fu Chang}, {and}
+  \bibinfo{person}{Yinfei Yang}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Ferret: Refer and Ground Anything Anywhere at Any
+  Granularity}. In \bibinfo{booktitle}{\emph{International Conference on
+  Learning Representations (ICLR)}}.
+\newblock
+
+
+\bibitem[Yu et~al\mbox{.}(2016)]%
+        {yu2016modeling}
+\bibfield{author}{\bibinfo{person}{Licheng Yu}, \bibinfo{person}{Patrick
+  Poirson}, \bibinfo{person}{Shan Yang}, \bibinfo{person}{Alexander~C. Berg},
+  {and} \bibinfo{person}{Tamara~L. Berg}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Modeling Context in Referring Expressions}. In
+  \bibinfo{booktitle}{\emph{Computer Vision -- ECCV 2016}}
+  \emph{(\bibinfo{series}{Lecture Notes in Computer Science},
+  Vol.~\bibinfo{volume}{9906})}. \bibinfo{publisher}{Springer},
+  \bibinfo{address}{Cham}, \bibinfo{pages}{69--85}.
+\newblock
+\href{https://doi.org/10.1007/978-3-319-46475-6_5}{doi:\nolinkurl{10.1007/978-3-319-46475-6_5}}
+
+
+\bibitem[Yuan et~al\mbox{.}(2026)]%
+        {yuan2026aiglasses}
+\bibfield{author}{\bibinfo{person}{Xu Yuan}, \bibinfo{person}{Yi Wang},
+  \bibinfo{person}{Zhuohao Jiang}, \bibinfo{person}{Haohao Qu},
+  \bibinfo{person}{Yujuan Ding}, \bibinfo{person}{Shanru Lin},
+  \bibinfo{person}{Guoliang Xing}, \bibinfo{person}{Hongxia Yang},
+  \bibinfo{person}{Jiannong Cao}, \bibinfo{person}{Qing Li}, {and}
+  \bibinfo{person}{Wenqi Fan}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{{AI} Smart Glasses for Wearable Intelligence: From
+  Egocentric Sensing to Agentic Personalization}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2609.19793}.
+\newblock
+
+
+\bibitem[Zhai et~al\mbox{.}(2023)]%
+        {zhai2023siglip}
+\bibfield{author}{\bibinfo{person}{Xiaohua Zhai}, \bibinfo{person}{Basil
+  Mustafa}, \bibinfo{person}{Alexander Kolesnikov}, {and}
+  \bibinfo{person}{Lucas Beyer}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Sigmoid Loss for Language Image Pre-Training}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the IEEE/CVF International
+  Conference on Computer Vision (ICCV)}}. \bibinfo{pages}{11975--11986}.
+\newblock
+\href{https://doi.org/10.1109/ICCV51070.2023.01100}{doi:\nolinkurl{10.1109/ICCV51070.2023.01100}}
+
+
+\bibitem[Zhang et~al\mbox{.}(2020)]%
+        {zhang2020mediapipe}
+\bibfield{author}{\bibinfo{person}{Fan Zhang}, \bibinfo{person}{Valentin
+  Bazarevsky}, \bibinfo{person}{Andrey Vakunov}, \bibinfo{person}{Andrei
+  Tkachenka}, \bibinfo{person}{George Sung}, \bibinfo{person}{Chuo-Ling Chang},
+  {and} \bibinfo{person}{Matthias Grundmann}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \bibinfo{title}{{MediaPipe Hands}: On-device Real-time Hand
+  Tracking}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:2006.10214}.
+\newblock
+
+
+\bibitem[Zhang et~al\mbox{.}(2018)]%
+        {zhang2018mixup}
+\bibfield{author}{\bibinfo{person}{Hongyi Zhang}, \bibinfo{person}{Moustapha
+  Cisse}, \bibinfo{person}{Yann~N. Dauphin}, {and} \bibinfo{person}{David
+  Lopez-Paz}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{mixup: Beyond Empirical Risk Minimization}. In
+  \bibinfo{booktitle}{\emph{International Conference on Learning
+  Representations (ICLR)}}.
+\newblock
+
+
+\bibitem[Zheng et~al\mbox{.}(2020)]%
+        {zheng2020distance}
+\bibfield{author}{\bibinfo{person}{Zhaohui Zheng}, \bibinfo{person}{Ping Wang},
+  \bibinfo{person}{Wei Liu}, \bibinfo{person}{Jinze Li},
+  \bibinfo{person}{Rongguang Ye}, {and} \bibinfo{person}{Dongwei Ren}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Distance-{IoU} Loss: Faster and Better Learning for
+  Bounding Box Regression}. In \bibinfo{booktitle}{\emph{Proceedings of the
+  AAAI Conference on Artificial Intelligence}}, Vol.~\bibinfo{volume}{34}.
+  \bibinfo{pages}{12993--13000}.
+\newblock
+
+
+\bibitem[Zhou et~al\mbox{.}(2019)]%
+        {zhou2019objects}
+\bibfield{author}{\bibinfo{person}{Xingyi Zhou}, \bibinfo{person}{Dequan Wang},
+  {and} \bibinfo{person}{Philipp Kr{\"a}henb{\"u}hl}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{title}{Objects as Points}.
+\newblock \bibinfo{howpublished}{arXiv preprint arXiv:1904.07850}.
+\newblock
+
+
+\end{thebibliography}

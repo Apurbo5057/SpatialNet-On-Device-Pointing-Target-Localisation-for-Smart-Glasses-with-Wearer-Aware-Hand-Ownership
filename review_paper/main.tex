@@ -1,0 +1,72 @@
+%% SpatialNet -- compact review version (for collaborator review; derived from revised_paper/).
+%% Build: pdflatex main && bibtex main && pdflatex main && pdflatex main   (see README.md)
+%% Red text marks what is still to be filled in: the device measurements, the real-frame check on the
+%% glasses (Section 5.5) and the training recipe of the benchmark detectors (Section 4.3).
+\documentclass[acmsmall,screen,review,anonymous]{acmart}
+\acmJournal{IMWUT}
+
+\usepackage{multirow}
+
+%% ---- Draft markers (delete once the device data, the real-frame check and the detector recipe are in) ----
+\newcommand{\tbd}[1]{\textcolor{red}{[#1]}}                 % text to write or confirm
+\newcommand{\xx}{\textcolor{red}{xx.x}}                      % numeric result to fill in
+\newcommand{\phfig}[3]{\fcolorbox{red}{white}{\parbox[c][#2][c]{\dimexpr#1-2\fboxsep-2\fboxrule\relax}{\centering\color{red}\footnotesize #3}}}
+
+%% ---- Notation ----
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\bH}{\vect{b}_h}
+\newcommand{\bT}{\vect{b}_t}
+\newcommand{\cH}{\vect{c}_h}
+\newcommand{\cT}{\vect{c}_t}
+\newcommand{\vH}{\vect{v}_h}
+\newcommand{\vP}{\vect{v}_p}
+\newcommand{\tip}{\vect{p}}
+\newcommand{\dir}{\vect{u}}
+\newcommand{\cell}{\vect{g}}
+
+\begin{document}
+
+\title[SpatialNet]{SpatialNet: Lightweight Pointing-Based Visual Grounding on Smart Glasses}
+
+\author{Anonymous Author(s)}
+\affiliation{%
+  \institution{Anonymous Institution}
+  \country{Anonymous Country}}
+
+\begin{abstract}
+Smart glasses let people ask an assistant about what they see, and pointing is the most natural way to say which object they mean (``what is \emph{that}?''). Resolving a pointing gesture to an object currently relies on vision--language models with hundreds of millions to billions of parameters. On glasses, using them means streaming camera frames off the device, which drains a small battery, adds latency and server cost, and sends images of bystanders to the cloud. We ask how much of this task a model small enough for the glasses can do on its own. We present SpatialNet, a 0.72M-parameter, image-only convolutional network that finds the wearer's hand, fingertip, pointing direction and pointed-at object in one forward pass. Its prediction heads form a chain, so that all outputs refer to the same hand, and training with pasted, unlabelled hands teaches it to follow the wearer's hand rather than other people's. SpatialNet is 300 to 10,000 times smaller than published pointing-grounding models and runs in 60--80\,ms per frame on a pre-production smart-glasses unit. On the EgoPoint benchmark, it places a correct box on the pointed-at object in 59\% of test images, against 64--94\% for large models trained on the same data. Compact detectors of the same compute draw tighter boxes, but SpatialNet picks the labelled object more often, and an off-the-shelf recogniser names the object from its crops as often as from theirs. Our analysis also shows that input resolution, rather than a larger backbone, is the main lever for accuracy at this scale.
+%% Real-frame check (Section 5.5): add one clause with the accuracy on frames from the glasses' camera.
+%% Power (device request, section D): if the repeated measurements support it, add a clause on power against streaming.
+\end{abstract}
+
+\ccsdesc[500]{Human-centered computing~Ubiquitous and mobile computing systems and tools}
+\ccsdesc[500]{Human-centered computing~Gestural input}
+\ccsdesc[300]{Computing methodologies~Object detection}
+
+\keywords{smart glasses, pointing gesture, deictic reference, egocentric vision, on-device inference, efficient neural networks}
+
+\begin{teaserfigure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/teaser_successes}
+  \caption{SpatialNet's predictions from a single frame: the wearer's hand (blue), the fingertip (orange) and the pointed-at object (green); white dashed: labelled object. The targets overlap the fingertip (a), lie next to it (b), or lie farther away (c, d). Boxes, points and IoUs are the saved predictions of the 160\,px model on EgoPoint test images. These are selected successes, not average accuracy; failures are shown in Figure~\ref{fig:failures}.}
+  \Description{Four egocentric photos with predicted boxes that match the labelled boxes: a banana touched by the finger (IoU 0.85), a truck near the fingertip (IoU 0.97), a traffic light far from the fingertip (IoU 0.86), and a small key on a wall (IoU 0.85).}
+  \label{fig:teaser}
+\end{teaserfigure}
+
+\maketitle
+
+\input{sections/01-introduction}
+\input{sections/02-related-work}
+\input{sections/03-method}
+\input{sections/04-setup}
+\input{sections/05-results}
+\input{sections/06-discussion}
+\input{sections/07-ethics-conclusion}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references,references-revision}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

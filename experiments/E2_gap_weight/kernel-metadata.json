@@ -1,0 +1,17 @@
+{
+  "id": "mosharafapurbo/spatialnet-exp-e2-gap-weight",
+  "title": "SpatialNet Exp E2 Gap Weight",
+  "code_file": "spatialnet_e2_gap_weight.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": [
+    "mosharafapurbo/egopoint-spatialnet",
+    "mosharafapurbo/spatialnet-code-exp"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

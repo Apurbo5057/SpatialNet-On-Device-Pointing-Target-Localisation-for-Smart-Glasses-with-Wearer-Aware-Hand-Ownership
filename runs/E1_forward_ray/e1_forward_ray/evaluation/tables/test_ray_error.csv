@@ -1,0 +1,4 @@
+Subset,n,Mean deg,Mean 95% CI,Median deg,P90 deg,<15 deg %,<30 deg %
+"Pointing, no target",0,-,-,-,-,-,-
+Pointing at target,2604,32.67,31.29-33.98,20.19,79.65,41.1,64.2
+All pointing,2604,32.67,31.29-33.98,20.19,79.65,41.1,64.2

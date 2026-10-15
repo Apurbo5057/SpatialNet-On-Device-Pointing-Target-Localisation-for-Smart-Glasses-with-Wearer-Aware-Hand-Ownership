@@ -27,7 +27,7 @@
 \definecolor{gate}{HTML}{474747}
 \definecolor{ink}{HTML}{2B2B2B}
 \definecolor{dim}{HTML}{5E5E5E}
-\definecolor{hmbase}{HTML}{30123B}   % turbo colormap at 0
+\definecolor{hmbase}{HTML}{2E3A8C}   % jet blue, as the heatmap overlays
 
 % ---------------------------------------------------------------- slab geometry
 % oblique extrusion per cm of depth (channel axis)
@@ -289,6 +289,7 @@
 \begin{scope}[shift={(0,0)}]
   \Stoken{hS}{0.3}{-4.55}
   \imgslab{hmh}{1.35}{-4.55}{2.0}{0.12}{hmbase}{hm_hand.png}
+  \facegrid{1.35}{-5.55}{2.0}{20}{white, opacity=.22, line width=.12pt}
   \draw[arr] (hS-e) -- (hmh-w);
   \node[lbl, anchor=south] at (2.35,-3.52) {$H^h$};
   \node[dims, below] at (2.35,-5.57) {$1\times20\times20$};
@@ -327,6 +328,7 @@
   \imgslab{pd1}{0.3}{-5.49}{0.72}{0.06}{gray}{off_dx.png}
   \node[op, anchor=north] at (0.7,-5.87) {$\mathbf g{-}\mathbf c_h$};
   \imgslab{hmp}{1.65}{-4.55}{2.0}{0.12}{hmbase}{hm_tip.png}
+  \facegrid{1.65}{-5.55}{2.0}{20}{white, opacity=.22, line width=.12pt}
   \node[lbl, anchor=south] at (2.65,-3.52) {$H^p\;\textcolor{hand!85!black}{+\,B(\mathbf b_h)}$};
   \draw[arr] (pS-e) -- (1.65,-3.95);
   \draw[arr] (pd2-e |- 0,-5.2) -- (1.65,-5.2);
@@ -366,6 +368,7 @@
   }
   \node[op, anchor=north west] at (0.14,-6.18) {$R(\mathbf p,\theta)\!: 6{\times}20{\times}20$};
   \imgslab{hmt}{2.2}{-4.55}{2.0}{0.12}{hmbase}{hm_target.png}
+  \facegrid{2.2}{-5.55}{2.0}{20}{white, opacity=.22, line width=.12pt}
   \draw[arr] (tS-e) -- (2.2,-3.95);
   \draw[arr] (r0-e |- 0,-5.2) -- (2.2,-5.2);
   \node[lbl, anchor=south] at (3.2,-3.52) {$H^t$};

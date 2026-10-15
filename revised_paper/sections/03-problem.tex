@@ -1,0 +1,17 @@
+\section{Problem Definition}\label{sec:problem}
+
+\paragraph{Outputs.} Given one RGB frame from a head-worn camera, SpatialNet predicts:
+\begin{enumerate}
+\item three presence flags $(H,P,T)$: the wearer's hand is visible, the hand is pointing, and something is pointed at;
+\item the box $\bH$ of the wearer's hand;
+\item the fingertip $\tip$;
+\item the pointing direction $\dir$ in the image plane;
+\item the box $\bT$ of the pointed-at object, which we call the \emph{target}.
+\end{enumerate}
+Boxes are $(c_x,c_y,w,h)$ and points $(x,y)$, both normalised to $[0,1]$. The flags combine into four scenes that an interface can act on: 000 \emph{no hand}, 100 \emph{hand, not pointing}, 110 \emph{pointing, no target} and 111 \emph{pointing at a target}. EgoPoint contains only scenes 000 and 111 (Section~\ref{sec:data}). We therefore train and evaluate SpatialNet as a two-scene model: the pointing and target gates are part of the interface design, but they receive no negative examples and are not evaluated.
+
+\paragraph{Fingertip--target gap.} We describe each target by its gap to the fingertip in the image: \emph{overlap} when the fingertip lies inside the target box, \emph{near} when the shortest fingertip--box distance is at most 0.08 of the image side, and \emph{large gap} otherwise. These are image-plane relations: an overlap does not imply that the finger touches the object, and a large gap does not imply that the object is far from the wearer.
+
+\paragraph{What separates this from generic detection.} \emph{Ownership}: when several hands are visible, $\bH$, $\tip$ and $\bT$ must refer to the wearer's hand, and a frame showing only other people's hands is \emph{no hand}. \emph{Budget}: the model must run on the glasses' own processor, without a second network or a server call, within the 100--200\,ms commonly targeted for interactive response~\cite{miller1968response,card1991information}.
+
+\paragraph{Scope.} We do not recognise \emph{what} the target is. $\bT$ is the region that a later step would take as input: an object recogniser, a visual question-answering model or an application. Localising the region first means that this step can run on a small crop instead of the full frame, and only when the wearer's hand is detected. The cost of that later step is outside the scope of this paper, but we test how well an off-the-shelf recogniser names the target from each model's crop (Section~\ref{sec:detectors}).

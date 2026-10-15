@@ -1,0 +1,106 @@
+[{"stream_name":"stdout","time":7.940856856,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 46.9/46.9 kB 1.0 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":8.631060354,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 23.1 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":8.691745271,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.1/58.1 kB 1.0 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":8.740031281,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 96.8/96.8 kB 2.5 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":23.08919627,"data":"Creating new Ultralytics Settings v0.0.8 file ✅ \n"}
+,{"stream_name":"stdout","time":23.089230679,"data":"View Ultralytics Settings with 'yolo settings' or at '/root/.config/Ultralytics/settings.json'\n"}
+,{"stream_name":"stdout","time":23.089236861,"data":"Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/usage/settings.\n"}
+,{"stream_name":"stdout","time":23.25159486,"data":"{'mode': 'imagenet_paste', 'quick': True, 'ultralytics': '8.4.177', 'torch': '2.11.0+cpu', 'device': 'cpu', 'data_dir': '/kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet'}\n"}
+,{"stream_name":"stdout","time":25.740564648,"data":"dataset {'train': 96, 'val': 48, 'test': 64}\n"}
+,{"stream_name":"stdout","time":27.378630926,"data":"\r\u001b[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n-cls.pt to 'yolo26n-cls.pt': 19% ━━────────── 1.1/5.5MB 10.7MB/s 0.1s\u003c0.4s\r\u001b[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n-cls.pt to 'yolo26n-cls.pt': 59% ━━━━━━━───── 3.3/5.5MB 21.5MB/s 0.2s\u003c0.1s\r\u001b[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n-cls.pt to 'yolo26n-cls.pt': 100% ━━━━━━━━━━━━ 5.5MB 21.0MB/s 0.3s\n"}
+,{"stream_name":"stdout","time":35.015719375,"data":"Transferred 192/708 items from pretrained weights\n"}
+,{"stream_name":"stdout","time":35.016186399,"data":"init: yolo26n-cls.pt (ImageNet): 192/708 tensors transferred, layers [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n"}
+,{"stream_name":"stdout","time":35.151994609,"data":"Ultralytics 8.4.177 🚀 Python-3.13.15 torch-2.11.0+cpu CPU (Intel Xeon CPU @ 2.20GHz)\n"}
+,{"stream_name":"stdout","time":35.17074094,"data":"\u001b[34m\u001b[1mengine/trainer: \u001b[0magnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=64, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=None, classes=None, close_mosaic=0, cls=0.5, cls_pw=0.0, cls_remap=True, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/tmp/yolo/data.yaml, degrees=0.0, deterministic=True, device=cpu, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=1, erasing=0.4, exist_ok=True, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=128, iou=0.7, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolo26n.yaml, momentum=0.937, mosaic=0.0, multi_scale=0.0, name=train, nbs=64, nms=None, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=50, perspective=0.0, plots=False, pose=12.0, pretrained=True, profile=False, project=/kaggle/working/yolo_imagenet_paste, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/kaggle/working/yolo_imagenet_paste/train, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=42, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=4, workspace=None\n"}
+,{"stream_name":"stdout","time":43.918147394,"data":"\r\u001b[KDownloading https://ultralytics.com/assets/Arial.ttf to '/root/.config/Ultralytics/Arial.ttf': 100% ━━━━━━━━━━━━ 755.1KB 9.4MB/s 0.1s\n"}
+,{"stream_name":"stdout","time":43.922969303,"data":"Overriding model.yaml nc=80 with nc=2\n"}
+,{"stream_name":"stdout","time":43.92360642,"data":"\n"}
+,{"stream_name":"stdout","time":43.923656101,"data":"                   from  n    params  module                                       arguments                     \n"}
+,{"stream_name":"stdout","time":43.925028762,"data":"  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 \n"}
+,{"stream_name":"stdout","time":43.925660335,"data":"  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                \n"}
+,{"stream_name":"stdout","time":43.927908563,"data":"  2                  -1  1      6640  ultralytics.nn.modules.block.C3k2            [32, 64, 1, False, 0.25]      \n"}
+,{"stream_name":"stdout","time":43.928655006,"data":"  3                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                \n"}
+,{"stream_name":"stdout","time":43.931470882,"data":"  4                  -1  1     26080  ultralytics.nn.modules.block.C3k2            [64, 128, 1, False, 0.25]     \n"}
+,{"stream_name":"stdout","time":43.933250735,"data":"  5                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              \n"}
+,{"stream_name":"stdout","time":43.939213953,"data":"  6                  -1  1     87040  ultralytics.nn.modules.block.C3k2            [128, 128, 1, True]           \n"}
+,{"stream_name":"stdout","time":43.942407089,"data":"  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              \n"}
+,{"stream_name":"stdout","time":43.953118381,"data":"  8                  -1  1    346112  ultralytics.nn.modules.block.C3k2            [256, 256, 1, True]           \n"}
+,{"stream_name":"stdout","time":43.955195566,"data":"  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5, 3, True]        \n"}
+,{"stream_name":"stdout","time":43.959884037,"data":" 10                  -1  1    249728  ultralytics.nn.modules.block.C2PSA           [256, 256, 1]                 \n"}
+,{"stream_name":"stdout","time":43.960293599,"data":" 11                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          \n"}
+,{"stream_name":"stdout","time":43.960357203,"data":" 12             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           \n"}
+,{"stream_name":"stdout","time":43.967846132,"data":" 13                  -1  1    119808  ultralytics.nn.modules.block.C3k2            [384, 128, 1, True]           \n"}
+,{"stream_name":"stdout","time":43.968093973,"data":" 14                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          \n"}
+,{"stream_name":"stdout","time":43.968262959,"data":" 15             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           \n"}
+,{"stream_name":"stdout","time":43.973503123,"data":" 16                  -1  1     34304  ultralytics.nn.modules.block.C3k2            [256, 64, 1, True]            \n"}
+,{"stream_name":"stdout","time":43.974458931,"data":" 17                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                \n"}
+,{"stream_name":"stdout","time":43.974483355,"data":" 18            [-1, 13]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           \n"}
+,{"stream_name":"stdout","time":43.980733464,"data":" 19                  -1  1     95232  ultralytics.nn.modules.block.C3k2            [192, 128, 1, True]           \n"}
+,{"stream_name":"stdout","time":43.983056099,"data":" 20                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              \n"}
+,{"stream_name":"stdout","time":43.98308264,"data":" 21            [-1, 10]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           \n"}
+,{"stream_name":"stdout","time":43.993334653,"data":" 22                  -1  1    463104  ultralytics.nn.modules.block.C3k2            [384, 256, 1, True, 0.5, True]\n"}
+,{"stream_name":"stdout","time":44.015436283,"data":" 23        [16, 19, 22]  1    241956  ultralytics.nn.modules.head.Detect           [2, 1, True, [64, 128, 256]]  \n"}
+,{"stream_name":"stdout","time":44.31787853,"data":"YOLO26n summary: 260 layers, 2,504,580 parameters, 2,504,580 gradients, 5.9 GFLOPs\n"}
+,{"stream_name":"stdout","time":44.318027223,"data":"\n"}
+,{"stream_name":"stdout","time":44.692219945,"data":"Transferred 696/708 items from pretrained weights\n"}
+,{"stream_name":"stdout","time":44.704869692,"data":"\u001b[34m\u001b[1mtrain: \u001b[0mFast image access ✅ (ping: 0.0±0.0 ms, read: 673.5±239.1 MB/s, size: 25.8 KB)\n"}
+,{"stream_name":"stdout","time":44.842515931,"data":"\r\u001b[K\u001b[34m\u001b[1mtrain: \u001b[0mScanning /tmp/yolo/labels/train... 75 images, 0 backgrounds, 0 corrupt: 78% ━━━━━━━━━─── 75/96 223.0it/s 0.1s\u003c0.1s\r\u001b[K\u001b[34m\u001b[1mtrain: \u001b[0mScanning /tmp/yolo/labels/train... 96 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 96/96 794.9it/s 0.1s\n"}
+,{"stream_name":"stdout","time":44.847354041,"data":"\u001b[34m\u001b[1mtrain: \u001b[0mNew cache created: /tmp/yolo/labels/train.cache\n"}
+,{"stream_name":"stdout","time":44.856761839,"data":"\u001b[34m\u001b[1malbumentations: \u001b[0mBlur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01, method='weighted_average', num_output_channels=3), CLAHE(p=0.01, clip_limit=(1.0, 4.0), tile_grid_size=(8, 8))\n"}
+,{"stream_name":"stdout","time":109.660229637,"data":"pasting on: PasteDataset, 96 images, examples in paste_examples/\n"}
+,{"stream_name":"stdout","time":109.662277776,"data":"\u001b[34m\u001b[1mval: \u001b[0mFast image access ✅ (ping: 0.0±0.0 ms, read: 686.7±183.1 MB/s, size: 27.1 KB)\n"}
+,{"stream_name":"stdout","time":109.715733714,"data":"\r\u001b[K\u001b[34m\u001b[1mval: \u001b[0mScanning /tmp/yolo/labels/val... 48 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 48/48 954.4it/s 0.1s\n"}
+,{"stream_name":"stdout","time":109.718111651,"data":"\u001b[34m\u001b[1mval: \u001b[0mNew cache created: /tmp/yolo/labels/val.cache\n"}
+,{"stream_name":"stdout","time":109.728720185,"data":"\u001b[34m\u001b[1moptimizer:\u001b[0m 'optimizer=auto' found, ignoring 'lr0=0.01' and determining best 'optimizer' and 'lr0' automatically... \n"}
+,{"stream_name":"stdout","time":109.732729193,"data":"\u001b[34m\u001b[1moptimizer:\u001b[0m AdamW(lr=0.001667, momentum=0.9) with parameter groups 114 weight(decay=0.0), 126 weight(decay=0.0005), 126 bias(decay=0.0)\n"}
+,{"stream_name":"stdout","time":109.860038886,"data":"Using 96 train, 48 val images for fraction=1.0 at imgsz=128\n"}
+,{"stream_name":"stdout","time":109.860124574,"data":"Using 0 dataloader workers\n"}
+,{"stream_name":"stdout","time":109.860132422,"data":"Logging results to \u001b[1m/kaggle/working/yolo_imagenet_paste/train\u001b[0m\n"}
+,{"stream_name":"stdout","time":109.860137444,"data":"Starting training for 1 epochs...\n"}
+,{"stream_name":"stdout","time":111.385712287,"data":"\n"}
+,{"stream_name":"stdout","time":111.38574733,"data":"      Epoch    GPU_mem   box_loss   cls_loss    l1_loss  Instances       Size\n"}
+,{"stream_name":"stdout","time":113.314473823,"data":"\r\u001b[K        1/1         0G      3.282      3.833    0.08111        128        128: 0% ──────────── 0/2  2.5s\r\u001b[K        1/1         0G      3.119      3.784    0.08084         64        128: 50% ━━━━━━────── 1/2 3.1s/it 3.4s\u003c3.1s\r\u001b[K        1/1         0G      3.119      3.784    0.08084         64        128: 100% ━━━━━━━━━━━━ 2/2 1.7s/it 3.4s\n"}
+,{"stream_name":"stdout","time":113.924121218,"data":"\r\u001b[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 1/1 1.7it/s 0.6s\n"}
+,{"stream_name":"stdout","time":113.940037543,"data":"                   all         48         96    0.00242      0.302    0.00441   0.000761\n"}
+,{"stream_name":"stderr","time":115.519438472,"data":"/usr/local/lib/python3.13/dist-packages/ray/train/_internal/session.py:683: UserWarning: `get_trial_id` is meant to only be called inside a function that is executed by a Tuner or Trainer. Returning `None`.\n"}
+,{"stream_name":"stderr","time":115.519484811,"data":"  warnings.warn(\n"}
+,{"stream_name":"stdout","time":115.519468134,"data":"\n"}
+,{"stream_name":"stdout","time":115.519609228,"data":"1 epochs completed in 0.002 hours.\n"}
+,{"stream_name":"stdout","time":115.707446174,"data":"Optimizer stripped from /kaggle/working/yolo_imagenet_paste/train/weights/last.pt, 5.4MB\n"}
+,{"stream_name":"stdout","time":115.900924082,"data":"Optimizer stripped from /kaggle/working/yolo_imagenet_paste/train/weights/best.pt, 5.4MB\n"}
+,{"stream_name":"stdout","time":115.903352816,"data":"\n"}
+,{"stream_name":"stdout","time":115.903377192,"data":"Validating /kaggle/working/yolo_imagenet_paste/train/weights/best.pt...\n"}
+,{"stream_name":"stdout","time":115.905043414,"data":"Ultralytics 8.4.177 🚀 Python-3.13.15 torch-2.11.0+cpu CPU (Intel Xeon CPU @ 2.20GHz)\n"}
+,{"stream_name":"stdout","time":116.134525638,"data":"YOLO26n summary (fused): 121 layers, 2,389,978 parameters, 0 gradients, 5.4 GFLOPs\n"}
+,{"stream_name":"stdout","time":116.634312371,"data":"\r\u001b[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 1/1 2.1it/s 0.5s\n"}
+,{"stream_name":"stdout","time":116.642512519,"data":"                   all         48         96    0.00242      0.302    0.00478   0.000809\n"}
+,{"stream_name":"stdout","time":116.642549911,"data":"                  hand         48         48    0.00117      0.146   0.000288   5.39e-05\n"}
+,{"stream_name":"stdout","time":116.64267578,"data":"                target         48         48    0.00367      0.458    0.00928    0.00156\n"}
+,{"stream_name":"stdout","time":116.642756351,"data":"Speed: 0.1ms preprocess, 7.4ms inference, 0.0ms loss, 0.7ms postprocess per image\n"}
+,{"stream_name":"stdout","time":142.608846504,"data":"{\n"}
+,{"stream_name":"stdout","time":142.608906816,"data":"  \"mode\": \"imagenet_paste\",\n"}
+,{"stream_name":"stdout","time":142.608914699,"data":"  \"quick\": true,\n"}
+,{"stream_name":"stdout","time":142.608920513,"data":"  \"ultralytics\": \"8.4.177\",\n"}
+,{"stream_name":"stdout","time":142.608960658,"data":"  \"torch\": \"2.11.0+cpu\",\n"}
+,{"stream_name":"stdout","time":142.608983708,"data":"  \"device\": \"cpu\",\n"}
+,{"stream_name":"stdout","time":142.608989344,"data":"  \"data_dir\": \"/kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet\",\n"}
+,{"stream_name":"stdout","time":142.608995034,"data":"  \"images\": {\n"}
+,{"stream_name":"stdout","time":142.609000125,"data":"    \"train\": 96,\n"}
+,{"stream_name":"stdout","time":142.609005387,"data":"    \"val\": 48,\n"}
+,{"stream_name":"stdout","time":142.609010649,"data":"    \"test\": 64\n"}
+,{"stream_name":"stdout","time":142.609015035,"data":"  },\n"}
+,{"stream_name":"stdout","time":142.609019418,"data":"  \"init\": \"yolo26n-cls.pt (ImageNet): 192/708 tensors transferred, layers [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\",\n"}
+,{"stream_name":"stdout","time":142.609024286,"data":"  \"paste_trainer\": \"PasteDataset, 96 images, examples in paste_examples/\",\n"}
+,{"stream_name":"stdout","time":142.609028734,"data":"  \"train_seconds\": 82,\n"}
+,{"stream_name":"stdout","time":142.609033124,"data":"  \"epochs_run\": 1,\n"}
+,{"stream_name":"stdout","time":142.609093734,"data":"  \"best_epoch\": 1,\n"}
+,{"stream_name":"stdout","time":142.60909959,"data":"  \"test_target_p50\": 10.94,\n"}
+,{"stream_name":"stdout","time":142.60910482,"data":"  \"test_pasted_target_p50\": 10.94\n"}
+,{"stream_name":"stdout","time":142.6091104,"data":"}\n"}
+,{"stream_name":"stderr","time":147.591263901,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":147.591312259,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":147.985327856,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":147.98535997,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":149.013309673,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":150.53339085,"data":"[NbConvertApp] Writing 349401 bytes to __results__.html\n"}
+]

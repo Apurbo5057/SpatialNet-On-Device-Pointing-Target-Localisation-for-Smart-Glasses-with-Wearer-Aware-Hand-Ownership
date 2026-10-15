@@ -401,12 +401,16 @@ class SpatialNet(nn.Module):
     Constructor flags disable individual mechanisms:
       use_bifpn, use_coordconv, mixer_depth, anchor_chain, local_softargmax,
       roi_geometry ('additive' | 'multiplicative' | 'none'), ft_box_prior
+    Experiment flags (defaults reproduce the paper's model):
+      roi_forward_only  zero the additive ray prior behind the fingertip (t < 0)
+      roi_size_step     spacing, in feature cells, of the 3x3 sample used for the target size
     """
 
     def __init__(self, input_size=None, load_pretrained=True, pretrained_path=None,
                  use_bifpn=True, use_coordconv=True, mixer_depth=None,
                  anchor_chain=True, local_softargmax=True,
-                 roi_geometry='additive', ft_box_prior=True):
+                 roi_geometry='additive', ft_box_prior=True,
+                 roi_forward_only=False, roi_size_step=1.0):
         super().__init__()
         self.input_size = input_size or cfg.IMG_SIZE
         self.grid = self.input_size // 8
@@ -418,6 +422,8 @@ class SpatialNet(nn.Module):
         self.local_sa = local_softargmax
         assert roi_geometry in ('additive', 'multiplicative', 'none')
         self.roi_geometry = roi_geometry
+        self.roi_forward_only = bool(roi_forward_only)
+        self.roi_size_step = float(roi_size_step)
         self.ft_box_prior = ft_box_prior and anchor_chain
         mixer_depth = cfg.CONV_MIXER_DEPTH if mixer_depth is None else mixer_depth
 
@@ -583,6 +589,11 @@ class SpatialNet(nn.Module):
             cond = torch.cat([dxf, dyf, t_along, s_perp, dir_x, dir_y], dim=1)
             if self.roi_geometry == 'additive':
                 roi_hm, roi_geo = self.roi_hm(S, cond)
+                if self.roi_forward_only:
+                    # the learned prior may only act in front of the fingertip
+                    fwd = (t_along >= 0).to(dt)
+                    roi_hm = roi_hm - roi_geo * (1.0 - fwd)
+                    roi_geo = roi_geo * fwd
             else:  # multiplicative sigmoid mask on signed logits
                 roi_hm, _ = self.roi_hm(S)
                 roi_geo = self.roi_mask(torch.cat([S, cond[:, :2], cond[:, 4:]], dim=1))
@@ -591,7 +602,7 @@ class SpatialNet(nn.Module):
             roi_hm, _ = self.roi_hm(S)
         roi_c, roi_prob, roi_peak = self._softargmax(roi_hm, 'roi')
         roi_c = self._force_anchor(roi_c, anchors, 'roi')
-        roi_wh = self.roi_size(self.roi_size_mix(sample_local_patch(S, roi_c, cfg.LOCAL_GRID, step)))
+        roi_wh = self.roi_size(self.roi_size_mix(sample_local_patch(S, roi_c, cfg.LOCAL_GRID, self.roi_size_step)))
         roi_box = torch.cat([roi_c, roi_wh], dim=1)
 
         if self.anchor_chain:

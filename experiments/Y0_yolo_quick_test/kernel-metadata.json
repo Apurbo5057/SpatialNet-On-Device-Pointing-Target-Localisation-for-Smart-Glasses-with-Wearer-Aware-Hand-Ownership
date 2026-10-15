@@ -1,0 +1,17 @@
+{
+  "id": "mosharafapurbo/spatialnet-exp-y0-yolo-quick-test",
+  "title": "SpatialNet Exp Y0 YOLO Quick Test",
+  "code_file": "yolo_imagenet_paste_quick.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "mosharafapurbo/egopoint-spatialnet",
+    "mosharafapurbo/spatialnet-code-exp"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

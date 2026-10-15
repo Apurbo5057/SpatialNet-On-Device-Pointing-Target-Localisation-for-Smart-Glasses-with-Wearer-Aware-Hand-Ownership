@@ -1,0 +1,147 @@
+{
+  "thresholds": {
+    "main_run": 0.613456,
+    "Y4_yolo_imagenet_seed1": 0.19868260622024536
+  },
+  "info": {
+    "main_run": {},
+    "Y4_yolo_imagenet_seed1": {
+      "mode": "imagenet",
+      "quick": false,
+      "seed": 1,
+      "ultralytics": "8.4.177",
+      "torch": "2.11.0+cu128",
+      "device": "0",
+      "data_dir": "/kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet",
+      "images": {
+        "train": 10669,
+        "val": 1524,
+        "test": 3029
+      },
+      "init": "yolo26n-cls.pt (ImageNet): 192/708 tensors transferred, layers [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]",
+      "train_seconds": 4179,
+      "epochs_run": 150,
+      "best_epoch": 150,
+      "test_target_p50": 63.56,
+      "test_pasted_target_p50": 59.45
+    }
+  },
+  "metrics": {
+    "main_run": {
+      "P@0.5": 58.91,
+      "P@0.7": 31.8,
+      "mIoU": 53.3,
+      "Large gap": 25.36,
+      "Hand mIoU": 73.65,
+      "Centre in": 84.83,
+      "P@0.5 pasted": 60.14,
+      "Pasted change": 1.23,
+      "No hand kept, clean": 96.47,
+      "No hand kept, pasted": 96.71,
+      "Ownership, pasted": 99.71,
+      "P@0.5, COCO-derived": 51.78,
+      "P@0.5, other": 62.32,
+      "n_pos": 2604
+    },
+    "Y4_yolo_imagenet_seed1": {
+      "P@0.5": 63.56,
+      "P@0.7": 43.28,
+      "mIoU": 56.86,
+      "Large gap": 38.28,
+      "Hand mIoU": 80.97,
+      "Centre in": 81.61,
+      "P@0.5 pasted": 59.45,
+      "Pasted change": -4.11,
+      "No hand kept, clean": 95.06,
+      "No hand kept, pasted": 88.71,
+      "Ownership, pasted": 98.86,
+      "P@0.5, COCO-derived": 54.87,
+      "P@0.5, other": 67.71,
+      "n_pos": 2604
+    }
+  },
+  "paired": {
+    "Y4_yolo_imagenet_seed1 - main_run": {
+      "P@0.5": {
+        "diff": 4.646697388632872,
+        "ci": [
+          2.6872119815668203,
+          6.606182795698924
+        ],
+        "n": 2604
+      },
+      "P@0.7": {
+        "diff": 11.482334869431643,
+        "ci": [
+          9.600614439324117,
+          13.28821044546851
+        ],
+        "n": 2604
+      },
+      "mIoU": {
+        "diff": 3.565822959082519,
+        "ci": [
+          2.672287572072308,
+          4.439041464614424
+        ],
+        "n": 2604
+      },
+      "Large gap": {
+        "diff": 12.91866028708134,
+        "ci": [
+          6.220095693779904,
+          19.629186602870803
+        ],
+        "n": 209
+      },
+      "Hand mIoU": {
+        "diff": 7.317899674838139,
+        "ci": [
+          6.747056566044717,
+          7.866129639132235
+        ],
+        "n": 2604
+      },
+      "Centre in": {
+        "diff": -3.225806451612903,
+        "ci": [
+          -4.609254992319508,
+          -1.8039554531490023
+        ],
+        "n": 2604
+      },
+      "Pasted change": {
+        "diff": -5.3379416282642085,
+        "ci": [
+          -6.912442396313364,
+          -3.7250384024577574
+        ],
+        "n": 2604
+      },
+      "No hand kept, pasted": {
+        "diff": -8.0,
+        "ci": [
+          -11.529411764705882,
+          -4.705882352941177
+        ],
+        "n": 425
+      },
+      "P@0.5, COCO-derived": {
+        "diff": 3.0878859857482186,
+        "ci": [
+          -0.24049881235154377,
+          6.65083135391924
+        ],
+        "n": 842
+      },
+      "P@0.5, other": {
+        "diff": 5.391600454029512,
+        "ci": [
+          3.348467650397276,
+          7.661748013620885
+        ],
+        "n": 1762
+      }
+    }
+  }
+}

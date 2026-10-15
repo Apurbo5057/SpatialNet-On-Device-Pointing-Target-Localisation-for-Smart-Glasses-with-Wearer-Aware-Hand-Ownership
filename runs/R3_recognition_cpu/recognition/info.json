@@ -1,0 +1,131 @@
+{
+ "transformers": "5.16.1",
+ "torch": "2.11.0+cpu",
+ "device": "cpu",
+ "images": 2603,
+ "categories": 348,
+ "sources": [
+  "gt",
+  "spatialnet_s42",
+  "spatialnet_s1",
+  "spatialnet_s2",
+  "yolo_imagenet",
+  "yolo_imagenet_paste",
+  "yolo_coco",
+  "yolo_imagenet_s1"
+ ],
+ "protocols": {
+  "tight": 1.0
+ },
+ "templates": [
+  "a photo of a {}.",
+  "a photo of the {}.",
+  "a cropped photo of a {}.",
+  "a close-up photo of a {}."
+ ],
+ "recognisers": {
+  "clip_vit_b16": "openai/clip-vit-base-patch16",
+  "siglip_b16": "google/siglip-base-patch16-224"
+ },
+ "seconds": {
+  "clip_vit_b16": 8588,
+  "siglip_b16": 9096
+ },
+ "preprocess_check": {
+  "clip_vit_b16": 0.0001,
+  "siglip_b16": 0.0
+ },
+ "errors": {},
+ "summary": {
+  "clip_vit_b16/whole/whole": {
+   "top1": 40.3,
+   "top5": 61.35,
+   "n": 2603
+  },
+  "clip_vit_b16/tight/gt": {
+   "top1": 53.86,
+   "top5": 80.06,
+   "n": 2603
+  },
+  "clip_vit_b16/tight/spatialnet_s42": {
+   "top1": 48.64,
+   "top5": 73.38,
+   "n": 2603
+  },
+  "clip_vit_b16/tight/spatialnet_s1": {
+   "top1": 48.33,
+   "top5": 73.61,
+   "n": 2603
+  },
+  "clip_vit_b16/tight/spatialnet_s2": {
+   "top1": 49.1,
+   "top5": 74.07,
+   "n": 2603
+  },
+  "clip_vit_b16/tight/yolo_imagenet": {
+   "top1": 48.75,
+   "top5": 74.22,
+   "n": 2603
+  },
+  "clip_vit_b16/tight/yolo_imagenet_paste": {
+   "top1": 49.94,
+   "top5": 74.72,
+   "n": 2603
+  },
+  "clip_vit_b16/tight/yolo_coco": {
+   "top1": 49.14,
+   "top5": 74.34,
+   "n": 2603
+  },
+  "clip_vit_b16/tight/yolo_imagenet_s1": {
+   "top1": 49.06,
+   "top5": 73.49,
+   "n": 2603
+  },
+  "siglip_b16/whole/whole": {
+   "top1": 46.22,
+   "top5": 69.23,
+   "n": 2603
+  },
+  "siglip_b16/tight/gt": {
+   "top1": 59.39,
+   "top5": 81.64,
+   "n": 2603
+  },
+  "siglip_b16/tight/spatialnet_s42": {
+   "top1": 52.29,
+   "top5": 75.95,
+   "n": 2603
+  },
+  "siglip_b16/tight/spatialnet_s1": {
+   "top1": 52.52,
+   "top5": 75.37,
+   "n": 2603
+  },
+  "siglip_b16/tight/spatialnet_s2": {
+   "top1": 52.55,
+   "top5": 76.07,
+   "n": 2603
+  },
+  "siglip_b16/tight/yolo_imagenet": {
+   "top1": 53.28,
+   "top5": 76.53,
+   "n": 2603
+  },
+  "siglip_b16/tight/yolo_imagenet_paste": {
+   "top1": 51.98,
+   "top5": 76.53,
+   "n": 2603
+  },
+  "siglip_b16/tight/yolo_coco": {
+   "top1": 53.21,
+   "top5": 76.76,
+   "n": 2603
+  },
+  "siglip_b16/tight/yolo_imagenet_s1": {
+   "top1": 53.4,
+   "top5": 75.99,
+   "n": 2603
+  }
+ }
+}

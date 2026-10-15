@@ -1,0 +1,591 @@
+{
+ "run": "R3_recognition_cpu",
+ "recognisers": {
+  "clip_vit_b16": {
+   "accuracy": {
+    "tight/gt": {
+     "top1": 53.86,
+     "top5": 80.06,
+     "n": 2603
+    },
+    "tight/spatialnet_s1": {
+     "top1": 48.33,
+     "top5": 73.61,
+     "n": 2603
+    },
+    "tight/spatialnet_s2": {
+     "top1": 49.1,
+     "top5": 74.07,
+     "n": 2603
+    },
+    "tight/spatialnet_s42": {
+     "top1": 48.64,
+     "top5": 73.38,
+     "n": 2603
+    },
+    "tight/yolo_coco": {
+     "top1": 49.14,
+     "top5": 74.34,
+     "n": 2603
+    },
+    "tight/yolo_imagenet": {
+     "top1": 48.75,
+     "top5": 74.22,
+     "n": 2603
+    },
+    "tight/yolo_imagenet_paste": {
+     "top1": 49.94,
+     "top5": 74.72,
+     "n": 2603
+    },
+    "tight/yolo_imagenet_s1": {
+     "top1": 49.06,
+     "top5": 73.49,
+     "n": 2603
+    },
+    "whole/whole": {
+     "top1": 40.3,
+     "top5": 61.35,
+     "n": 2603
+    }
+   },
+   "paired": {
+    "tight: spatialnet_s42 - yolo_imagenet": {
+     "top1": {
+      "diff": -0.12,
+      "ci": [
+       -1.5,
+       1.31
+      ],
+      "n": 2603
+     },
+     "top5": {
+      "diff": -0.85,
+      "ci": [
+       -2.27,
+       0.5
+      ],
+      "n": 2603
+     }
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_s1": {
+     "top1": {
+      "diff": -0.42,
+      "ci": [
+       -1.96,
+       1.0
+      ],
+      "n": 2603
+     },
+     "top5": {
+      "diff": -0.12,
+      "ci": [
+       -1.61,
+       1.19
+      ],
+      "n": 2603
+     }
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_paste": {
+     "top1": {
+      "diff": -1.31,
+      "ci": [
+       -2.77,
+       0.08
+      ],
+      "n": 2603
+     },
+     "top5": {
+      "diff": -1.34,
+      "ci": [
+       -2.65,
+       -0.04
+      ],
+      "n": 2603
+     }
+    },
+    "tight: spatialnet_s42 - yolo_coco": {
+     "top1": {
+      "diff": -0.5,
+      "ci": [
+       -1.92,
+       1.0
+      ],
+      "n": 2603
+     },
+     "top5": {
+      "diff": -0.96,
+      "ci": [
+       -2.34,
+       0.35
+      ],
+      "n": 2603
+     }
+    }
+   },
+   "by_gap": {
+    "tight: spatialnet_s42 - yolo_imagenet, overlap": {
+     "diff": 0.78,
+     "ci": [
+      -0.84,
+      2.62
+     ],
+     "n": 1795
+    },
+    "tight: spatialnet_s42 - yolo_imagenet, near": {
+     "diff": 0.0,
+     "ci": [
+      -3.01,
+      2.84
+     ],
+     "n": 599
+    },
+    "tight: spatialnet_s42 - yolo_imagenet, large": {
+     "diff": -8.13,
+     "ci": [
+      -13.4,
+      -2.39
+     ],
+     "n": 209
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_s1, overlap": {
+     "diff": 0.0,
+     "ci": [
+      -1.73,
+      1.67
+     ],
+     "n": 1795
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_s1, near": {
+     "diff": 0.33,
+     "ci": [
+      -2.67,
+      3.01
+     ],
+     "n": 599
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_s1, large": {
+     "diff": -6.22,
+     "ci": [
+      -11.96,
+      -0.48
+     ],
+     "n": 209
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_paste, overlap": {
+     "diff": -1.06,
+     "ci": [
+      -2.73,
+      0.61
+     ],
+     "n": 1795
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_paste, near": {
+     "diff": 0.33,
+     "ci": [
+      -2.68,
+      3.34
+     ],
+     "n": 599
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_paste, large": {
+     "diff": -8.13,
+     "ci": [
+      -13.4,
+      -2.87
+     ],
+     "n": 209
+    },
+    "tight: spatialnet_s42 - yolo_coco, overlap": {
+     "diff": -0.33,
+     "ci": [
+      -1.95,
+      1.39
+     ],
+     "n": 1795
+    },
+    "tight: spatialnet_s42 - yolo_coco, near": {
+     "diff": 1.34,
+     "ci": [
+      -1.67,
+      4.34
+     ],
+     "n": 599
+    },
+    "tight: spatialnet_s42 - yolo_coco, large": {
+     "diff": -7.18,
+     "ci": [
+      -12.44,
+      -1.91
+     ],
+     "n": 209
+    }
+   },
+   "by_box_quality": {
+    "tight/spatialnet_s42": {
+     "IoU>=0.5": {
+      "share": 58.9,
+      "top1": 54.1
+     },
+     "IoU<0.5, centre in": {
+      "share": 25.9,
+      "top1": 47.3
+     },
+     "centre out": {
+      "share": 15.2,
+      "top1": 29.9
+     }
+    },
+    "tight/yolo_imagenet": {
+     "IoU>=0.5": {
+      "share": 63.0,
+      "top1": 53.8
+     },
+     "IoU<0.5, centre in": {
+      "share": 19.1,
+      "top1": 45.4
+     },
+     "centre out": {
+      "share": 17.9,
+      "top1": 34.5
+     }
+    },
+    "tight/yolo_imagenet_s1": {
+     "IoU>=0.5": {
+      "share": 63.6,
+      "top1": 54.3
+     },
+     "IoU<0.5, centre in": {
+      "share": 18.0,
+      "top1": 45.4
+     },
+     "centre out": {
+      "share": 18.4,
+      "top1": 34.7
+     }
+    },
+    "tight/yolo_imagenet_paste": {
+     "IoU>=0.5": {
+      "share": 63.2,
+      "top1": 55.5
+     },
+     "IoU<0.5, centre in": {
+      "share": 18.6,
+      "top1": 44.5
+     },
+     "centre out": {
+      "share": 18.2,
+      "top1": 36.3
+     }
+    },
+    "tight/yolo_coco": {
+     "IoU>=0.5": {
+      "share": 64.4,
+      "top1": 54.1
+     },
+     "IoU<0.5, centre in": {
+      "share": 17.8,
+      "top1": 47.0
+     },
+     "centre out": {
+      "share": 17.8,
+      "top1": 33.3
+     }
+    }
+   }
+  },
+  "siglip_b16": {
+   "accuracy": {
+    "tight/gt": {
+     "top1": 59.39,
+     "top5": 81.64,
+     "n": 2603
+    },
+    "tight/spatialnet_s1": {
+     "top1": 52.52,
+     "top5": 75.37,
+     "n": 2603
+    },
+    "tight/spatialnet_s2": {
+     "top1": 52.55,
+     "top5": 76.07,
+     "n": 2603
+    },
+    "tight/spatialnet_s42": {
+     "top1": 52.29,
+     "top5": 75.95,
+     "n": 2603
+    },
+    "tight/yolo_coco": {
+     "top1": 53.21,
+     "top5": 76.76,
+     "n": 2603
+    },
+    "tight/yolo_imagenet": {
+     "top1": 53.28,
+     "top5": 76.53,
+     "n": 2603
+    },
+    "tight/yolo_imagenet_paste": {
+     "top1": 51.98,
+     "top5": 76.53,
+     "n": 2603
+    },
+    "tight/yolo_imagenet_s1": {
+     "top1": 53.4,
+     "top5": 75.99,
+     "n": 2603
+    },
+    "whole/whole": {
+     "top1": 46.22,
+     "top5": 69.23,
+     "n": 2603
+    }
+   },
+   "paired": {
+    "tight: spatialnet_s42 - yolo_imagenet": {
+     "top1": {
+      "diff": -1.0,
+      "ci": [
+       -2.42,
+       0.46
+      ],
+      "n": 2603
+     },
+     "top5": {
+      "diff": -0.58,
+      "ci": [
+       -1.88,
+       0.69
+      ],
+      "n": 2603
+     }
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_s1": {
+     "top1": {
+      "diff": -1.11,
+      "ci": [
+       -2.5,
+       0.27
+      ],
+      "n": 2603
+     },
+     "top5": {
+      "diff": -0.04,
+      "ci": [
+       -1.42,
+       1.31
+      ],
+      "n": 2603
+     }
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_paste": {
+     "top1": {
+      "diff": 0.31,
+      "ci": [
+       -1.15,
+       1.77
+      ],
+      "n": 2603
+     },
+     "top5": {
+      "diff": -0.58,
+      "ci": [
+       -1.77,
+       0.65
+      ],
+      "n": 2603
+     }
+    },
+    "tight: spatialnet_s42 - yolo_coco": {
+     "top1": {
+      "diff": -0.92,
+      "ci": [
+       -2.34,
+       0.54
+      ],
+      "n": 2603
+     },
+     "top5": {
+      "diff": -0.81,
+      "ci": [
+       -2.23,
+       0.46
+      ],
+      "n": 2603
+     }
+    }
+   },
+   "by_gap": {
+    "tight: spatialnet_s42 - yolo_imagenet, overlap": {
+     "diff": -0.72,
+     "ci": [
+      -2.45,
+      0.89
+     ],
+     "n": 1795
+    },
+    "tight: spatialnet_s42 - yolo_imagenet, near": {
+     "diff": -0.5,
+     "ci": [
+      -3.51,
+      2.67
+     ],
+     "n": 599
+    },
+    "tight: spatialnet_s42 - yolo_imagenet, large": {
+     "diff": -4.78,
+     "ci": [
+      -9.57,
+      0.48
+     ],
+     "n": 209
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_s1, overlap": {
+     "diff": -0.95,
+     "ci": [
+      -2.62,
+      0.61
+     ],
+     "n": 1795
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_s1, near": {
+     "diff": -0.5,
+     "ci": [
+      -3.67,
+      2.5
+     ],
+     "n": 599
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_s1, large": {
+     "diff": -4.31,
+     "ci": [
+      -9.58,
+      0.96
+     ],
+     "n": 209
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_paste, overlap": {
+     "diff": 1.0,
+     "ci": [
+      -0.78,
+      2.84
+     ],
+     "n": 1795
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_paste, near": {
+     "diff": 0.67,
+     "ci": [
+      -2.5,
+      3.51
+     ],
+     "n": 599
+    },
+    "tight: spatialnet_s42 - yolo_imagenet_paste, large": {
+     "diff": -6.7,
+     "ci": [
+      -11.96,
+      -1.44
+     ],
+     "n": 209
+    },
+    "tight: spatialnet_s42 - yolo_coco, overlap": {
+     "diff": -1.11,
+     "ci": [
+      -2.84,
+      0.56
+     ],
+     "n": 1795
+    },
+    "tight: spatialnet_s42 - yolo_coco, near": {
+     "diff": 1.17,
+     "ci": [
+      -1.84,
+      4.01
+     ],
+     "n": 599
+    },
+    "tight: spatialnet_s42 - yolo_coco, large": {
+     "diff": -5.26,
+     "ci": [
+      -10.53,
+      0.0
+     ],
+     "n": 209
+    }
+   },
+   "by_box_quality": {
+    "tight/spatialnet_s42": {
+     "IoU>=0.5": {
+      "share": 58.9,
+      "top1": 58.4
+     },
+     "IoU<0.5, centre in": {
+      "share": 25.9,
+      "top1": 51.3
+     },
+     "centre out": {
+      "share": 15.2,
+      "top1": 30.4
+     }
+    },
+    "tight/yolo_imagenet": {
+     "IoU>=0.5": {
+      "share": 63.0,
+      "top1": 60.0
+     },
+     "IoU<0.5, centre in": {
+      "share": 19.1,
+      "top1": 48.8
+     },
+     "centre out": {
+      "share": 17.9,
+      "top1": 34.5
+     }
+    },
+    "tight/yolo_imagenet_s1": {
+     "IoU>=0.5": {
+      "share": 63.6,
+      "top1": 58.9
+     },
+     "IoU<0.5, centre in": {
+      "share": 18.0,
+      "top1": 51.2
+     },
+     "centre out": {
+      "share": 18.4,
+      "top1": 36.7
+     }
+    },
+    "tight/yolo_imagenet_paste": {
+     "IoU>=0.5": {
+      "share": 63.2,
+      "top1": 58.6
+     },
+     "IoU<0.5, centre in": {
+      "share": 18.6,
+      "top1": 45.1
+     },
+     "centre out": {
+      "share": 18.2,
+      "top1": 35.9
+     }
+    },
+    "tight/yolo_coco": {
+     "IoU>=0.5": {
+      "share": 64.4,
+      "top1": 58.9
+     },
+     "IoU<0.5, centre in": {
+      "share": 17.8,
+      "top1": 51.1
+     },
+     "centre out": {
+      "share": 17.8,
+      "top1": 34.6
+     }
+    }
+   }
+  }
+ }
+}

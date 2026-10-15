@@ -1,0 +1,17 @@
+{
+  "id": "mosharafapurbo/spatialnet-exp-y1-yolo-imagenet",
+  "title": "SpatialNet Exp Y1 YOLO ImageNet",
+  "code_file": "yolo_imagenet.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "mosharafapurbo/egopoint-spatialnet",
+    "mosharafapurbo/spatialnet-code-exp"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

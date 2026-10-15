@@ -2,7 +2,8 @@
 
 Runs the paper checkpoint on ONE test image on the CPU and writes, into ./assets:
   input.png / output.png          the frame and the same frame with the predictions drawn on it
-  hm_hand / hm_tip / hm_target    sigmoid of the 20x20 heatmap logits H^h, H^p, H^t
+  hm_hand / hm_tip / hm_target    sigmoid of the 20x20 heatmap logits H^h, H^p, H^t, each scaled to its maximum,
+                                  coloured (jet) and blended over the input frame
   off_dx / off_dy                 fingertip-head offset channels alpha_p (g - c_h)
   ray_*.png                       the six target-head ray channels R(p, theta)
   coord_x / coord_y               the two CoordConv channels
@@ -15,6 +16,7 @@ import sys
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 from PIL import Image, ImageDraw
 import matplotlib
 
@@ -68,6 +70,17 @@ def colorize(a, cmap, lo, hi, px=400):
     a = np.clip((np.asarray(a, dtype=np.float32) - lo) / max(hi - lo, 1e-8), 0, 1)
     rgb = (colormaps[cmap](a)[..., :3] * 255).astype(np.uint8)
     return Image.fromarray(rgb).resize((px, px), Image.NEAREST)
+
+
+def overlay(img, a, px=400, alpha=0.45, cmap='jet'):
+    """20x20 heatmap over the input frame. Upsampled with the model's cell-centre convention
+    (cell k at k/(G-1), i.e. align_corners), scaled to its maximum, coloured and alpha-blended."""
+    t = torch.as_tensor(np.asarray(a, dtype=np.float32))[None, None]
+    up = F.interpolate(t, size=(px, px), mode='bicubic', align_corners=True)[0, 0].numpy()
+    up = np.clip(up / max(float(up.max()), 1e-8), 0, 1)
+    heat = colormaps[cmap](up)[..., :3]
+    base = np.asarray(Image.fromarray(img).resize((px, px), Image.LANCZOS), dtype=np.float32) / 255.0
+    return Image.fromarray((np.clip((1 - alpha) * base + alpha * heat, 0, 1) * 255).astype(np.uint8))
 
 
 def iou(a, b):
@@ -135,7 +148,9 @@ def export(name, m):
     draw_output(img, o, gt=parse_annotation(os.path.join(TEST, 'labels', name + '.txt'))).save(os.path.join(OUT, 'output.png'))
 
     for key, fn in (('hand_hm', 'hm_hand'), ('ft_hm', 'hm_tip'), ('roi_hm', 'hm_target')):
-        colorize(torch.sigmoid(o[key])[0, 0].numpy(), 'turbo', 0.0, 1.0).save(os.path.join(OUT, fn + '.png'))
+        h = torch.sigmoid(o[key])[0, 0].numpy()
+        overlay(img, h).save(os.path.join(OUT, fn + '.png'))
+        print(f'{fn}: sigmoid max {h.max():.3f}, min {h.min():.4f}')
 
     # fingertip offset channels (dx, dy): the last two channels entering G^p
     ft_in = o['ft_cond_in'][0]

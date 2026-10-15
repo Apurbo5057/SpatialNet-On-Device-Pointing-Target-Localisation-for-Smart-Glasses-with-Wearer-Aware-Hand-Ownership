@@ -1,0 +1,19 @@
+{
+  "mode": "coco",
+  "quick": false,
+  "ultralytics": "8.4.177",
+  "torch": "2.11.0+cu128",
+  "device": "0",
+  "data_dir": "/kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet",
+  "images": {
+    "train": 10669,
+    "val": 1524,
+    "test": 3029
+  },
+  "init": "yolo26n.pt (COCO)",
+  "train_seconds": 4316,
+  "epochs_run": 150,
+  "best_epoch": 125,
+  "test_target_p50": 64.36,
+  "test_pasted_target_p50": 61.98
+}

@@ -1,0 +1,17 @@
+{
+  "id": "mosharafapurbo/spatialnet-exp-r2-recognition",
+  "title": "SpatialNet Exp R2 Recognition",
+  "code_file": "recognition_test.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "mosharafapurbo/egopoint-spatialnet-320",
+    "mosharafapurbo/spatialnet-recognition-inputs"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

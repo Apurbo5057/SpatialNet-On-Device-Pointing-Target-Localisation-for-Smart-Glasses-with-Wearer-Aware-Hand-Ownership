@@ -1,0 +1,20 @@
+{
+  "mode": "imagenet_paste",
+  "quick": false,
+  "ultralytics": "8.4.177",
+  "torch": "2.11.0+cu128",
+  "device": "0",
+  "data_dir": "/kaggle/input/datasets/mosharafapurbo/egopoint-spatialnet",
+  "images": {
+    "train": 10669,
+    "val": 1524,
+    "test": 3029
+  },
+  "init": "yolo26n-cls.pt (ImageNet): 192/708 tensors transferred, layers [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]",
+  "paste_trainer": "PasteDataset, 10669 images, examples in paste_examples/",
+  "train_seconds": 4750,
+  "epochs_run": 150,
+  "best_epoch": 116,
+  "test_target_p50": 63.21,
+  "test_pasted_target_p50": 63.86
+}
